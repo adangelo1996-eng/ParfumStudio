@@ -7,330 +7,295 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
 
-/* ═══════════════════════════════════════
-   RESET & TOKENS
-═══════════════════════════════════════ */
+/* ══ RESET ══ */
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --black:#000;--white:#fff;--red:#e00;
-  --g50:#f9f9f9;--g100:#f2f2f2;--g200:#e8e8e8;--g300:#d0d0d0;
+  --black:#000;--white:#fff;--red:#d00;
+  --g50:#f9f9f9;--g100:#f2f2f2;--g200:#e4e4e4;--g300:#ccc;
   --g500:#777;--g700:#333;
-  --blue:#1d6ecf;--amber:#d97706;--purple:#6d28d9;
-  --green:#15803d;--danger:#b91c1c;
+  --blue:#1a5fb4;--amber:#c27d00;--purple:#6a0dad;
+  --green:#166534;--danger:#991b1b;
   --font:'Courier Prime','Courier New',monospace;
-  --radius:10px;--shadow:0 2px 16px rgba(0,0,0,.09);
+  --r:10px;--sh:0 2px 14px rgba(0,0,0,.08);
 }
 body{font-family:var(--font);background:var(--white);color:var(--black);line-height:1.6;-webkit-font-smoothing:antialiased;}
-
-/* ═══ UTILS ═══ */
 .hidden{display:none!important;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-@keyframes boom{0%{transform:scale(1)}55%{transform:scale(20);opacity:.5}100%{transform:scale(1);opacity:0}}
+@keyframes boom{0%{transform:scale(1)}55%{transform:scale(22);opacity:.4}100%{transform:scale(0);opacity:0}}
 
-/* ═══════════════════════════════════════
-   BUTTONS
-═══════════════════════════════════════ */
+/* ══ BUTTONS ══ */
 .btn{
   display:inline-flex;align-items:center;gap:.4rem;
-  padding:.85rem 2.2rem;background:var(--black);color:var(--white);
+  padding:.8rem 2rem;background:var(--black);color:var(--white);
   border:2px solid var(--black);border-radius:50px;
-  font-size:.95rem;font-weight:600;cursor:pointer;
-  transition:all .25s;letter-spacing:.03em;font-family:var(--font);
+  font-size:.9rem;font-weight:700;cursor:pointer;
+  transition:all .22s;letter-spacing:.03em;font-family:var(--font);
+  white-space:nowrap;
 }
 .btn:hover{background:var(--red);border-color:var(--red);transform:translateY(-2px);}
-.btn:disabled{opacity:.38;pointer-events:none;}
-.btn-outline{background:var(--white);color:var(--black);}
-.btn-outline:hover{background:var(--black);color:var(--white);}
-.btn-sm{padding:.55rem 1.4rem;font-size:.87rem;}
-.btn-danger{background:var(--danger);border-color:var(--danger);}
-.btn-danger:hover{background:#900;border-color:#900;}
+.btn:disabled{opacity:.35;pointer-events:none;}
+.btn-out{background:var(--white);color:var(--black);}
+.btn-out:hover{background:var(--black);color:var(--white);}
+.btn-sm{padding:.5rem 1.3rem;font-size:.83rem;}
+.btn-green{background:var(--green);border-color:var(--green);}
+.btn-green:hover{background:#14532d;border-color:#14532d;}
 
-/* ═══════════════════════════════════════
-   LANDING
-═══════════════════════════════════════ */
+/* ══ LANDING ══ */
 #landing{
   display:flex;flex-direction:column;align-items:center;
   justify-content:center;min-height:100vh;padding:2rem;text-align:center;
-  transition:opacity .45s;
+  transition:opacity .4s;
 }
 #landing.fade{opacity:0;pointer-events:none;}
-.dot{
-  width:70px;height:70px;background:var(--red);border-radius:50%;
-  margin-bottom:2.5rem;animation:pulse 2s ease-in-out infinite;
-}
-.dot.boom{animation:boom .7s ease-out forwards;}
-#landing h1{font-size:3.2rem;font-weight:400;letter-spacing:.02em;margin-bottom:.5rem;}
-.land-sub{font-size:1.05rem;color:var(--g500);margin-bottom:2.8rem;}
+.dot{width:68px;height:68px;background:var(--red);border-radius:50%;margin-bottom:2.5rem;animation:pulse 2s ease-in-out infinite;}
+.dot.boom{animation:boom .65s ease-out forwards;}
+#landing h1{font-size:3.1rem;font-weight:400;letter-spacing:.02em;margin-bottom:.5rem;}
+.land-sub{font-size:1rem;color:var(--g500);margin-bottom:2.6rem;}
 
-/* ═══════════════════════════════════════
-   HEADER
-═══════════════════════════════════════ */
+/* ══ HEADER ══ */
 #hdr{
   position:fixed;top:0;left:0;right:0;
   background:rgba(255,255,255,.96);backdrop-filter:blur(12px);
   border-bottom:1.5px solid var(--g200);z-index:900;
-  padding:1.1rem 2rem;display:none;
+  padding:1rem 2rem;display:none;
 }
-.hdr-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:1rem;}
-.logo{display:flex;align-items:center;gap:.5rem;font-size:1.25rem;font-weight:600;cursor:pointer;transition:opacity .2s;}
-.logo:hover{opacity:.6;}
-.logo-dot{width:10px;height:10px;background:var(--red);border-radius:50%;}
-.hdr-btns{display:flex;gap:.6rem;}
+.hdr-in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;}
+.logo{display:flex;align-items:center;gap:.45rem;font-size:1.2rem;font-weight:700;cursor:pointer;transition:opacity .2s;}
+.logo:hover{opacity:.55;}
+.logo-dot{width:9px;height:9px;background:var(--red);border-radius:50%;}
+.hdr-btns{display:flex;gap:.5rem;flex-wrap:wrap;}
 
-/* ═══════════════════════════════════════
-   MAIN APP SHELL
-═══════════════════════════════════════ */
-#app{
-  display:none;max-width:1100px;margin:0 auto;
-  padding:7rem 1.5rem 3rem;
-}
+/* ══ APP ══ */
+#app{display:none;max-width:1100px;margin:0 auto;padding:6.5rem 1.4rem 3rem;}
 #app.show{display:block;animation:fadeUp .5s ease;}
 
-/* ═══════════════════════════════════════
-   PROGRESS BAR
-═══════════════════════════════════════ */
-.prog-wrap{background:var(--g50);border:1px solid var(--g200);border-radius:var(--radius);padding:1.4rem 1.8rem;margin-bottom:2rem;}
+/* ══ PROGRESS ══ */
+.prog-wrap{background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:1.3rem 1.7rem;margin-bottom:2rem;}
 .prog-steps{display:flex;position:relative;}
-.prog-steps::before{content:'';position:absolute;top:18px;left:0;right:0;height:2px;background:var(--g200);z-index:0;}
-.prog-line{position:absolute;top:18px;left:0;height:2px;background:var(--red);z-index:1;transition:width .4s ease;width:0%;}
+.prog-steps::before{content:'';position:absolute;top:17px;left:0;right:0;height:2px;background:var(--g200);z-index:0;}
+.prog-line{position:absolute;top:17px;left:0;height:2px;background:var(--red);z-index:1;transition:width .4s ease;width:0%;}
 .ps{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:2;}
-.ps-num{
-  width:36px;height:36px;border-radius:50%;background:var(--white);
-  border:2px solid var(--g300);display:flex;align-items:center;
-  justify-content:center;font-weight:700;font-size:.9rem;
-  margin-bottom:.3rem;transition:all .3s;
-}
-.ps.active .ps-num{background:var(--black);border-color:var(--black);color:var(--white);}
-.ps.done .ps-num{background:var(--red);border-color:var(--red);color:var(--white);}
-.ps-lbl{font-size:.75rem;color:var(--g500);text-align:center;}
-.ps.active .ps-lbl{color:var(--black);font-weight:700;}
+.ps-n{width:34px;height:34px;border-radius:50%;background:var(--white);border:2px solid var(--g300);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;margin-bottom:.25rem;transition:all .3s;}
+.ps.active .ps-n{background:var(--black);border-color:var(--black);color:var(--white);}
+.ps.done .ps-n{background:var(--red);border-color:var(--red);color:var(--white);}
+.ps-l{font-size:.73rem;color:var(--g500);text-align:center;}
+.ps.active .ps-l{color:var(--black);font-weight:700;}
 
-/* ═══════════════════════════════════════
-   STEPS
-═══════════════════════════════════════ */
+/* ══ STEPS ══ */
 .step{display:none;}
 .step.on{display:block;animation:fadeUp .3s ease;}
-.step-h{font-size:2rem;font-weight:400;letter-spacing:.01em;margin-bottom:.5rem;}
-.step-sub{font-size:1rem;color:var(--g500);margin-bottom:1.8rem;}
+.step-h{font-size:1.9rem;font-weight:400;letter-spacing:.01em;margin-bottom:.4rem;}
+.step-sub{font-size:.97rem;color:var(--g500);margin-bottom:1.7rem;}
 
-/* ═══ OPTION CARDS ═══ */
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:1.8rem;}
-.opt-card{
-  background:var(--g50);border:2px solid var(--g200);border-radius:var(--radius);
-  padding:1.4rem 1rem;cursor:pointer;text-align:center;transition:all .25s;position:relative;
-}
-.opt-card:hover{border-color:var(--black);transform:translateY(-3px);box-shadow:var(--shadow);}
-.opt-card.sel{background:var(--black);color:var(--white);border-color:var(--black);}
-.opt-card.sel::after{
-  content:'✓';position:absolute;top:8px;right:10px;
-  font-size:.75rem;font-weight:700;background:var(--red);color:var(--white);
-  width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-}
-.oc-icon{font-size:2.2rem;margin-bottom:.7rem;display:block;}
-.oc-title{font-size:.95rem;font-weight:700;margin-bottom:.25rem;}
-.oc-desc{font-size:.82rem;opacity:.75;line-height:1.4;}
-.opt-card.sel .oc-desc{opacity:.8;}
+/* ══ CARDS ══ */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.9rem;margin-bottom:1.7rem;}
+.oc{background:var(--g50);border:2px solid var(--g200);border-radius:var(--r);padding:1.3rem 1rem;cursor:pointer;text-align:center;transition:all .22s;position:relative;}
+.oc:hover{border-color:var(--black);transform:translateY(-3px);box-shadow:var(--sh);}
+.oc.sel{background:var(--black);color:var(--white);border-color:var(--black);}
+.oc.sel::after{content:'✓';position:absolute;top:7px;right:9px;font-size:.7rem;font-weight:700;background:var(--red);color:var(--white);width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.oc-i{font-size:2rem;margin-bottom:.6rem;display:block;}
+.oc-t{font-size:.9rem;font-weight:700;margin-bottom:.2rem;}
+.oc-d{font-size:.79rem;opacity:.72;line-height:1.4;}
+.oc.sel .oc-d{opacity:.8;}
 
-/* ═══ TAGS ═══ */
-.tags{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:1.8rem;}
-.tag{
-  padding:.55rem 1.2rem;background:var(--g50);border:2px solid var(--g200);
-  border-radius:50px;cursor:pointer;font-weight:500;font-size:.88rem;transition:all .25s;
-}
+/* ══ TAGS ══ */
+.tags{display:flex;flex-wrap:wrap;gap:.65rem;margin-bottom:1.7rem;}
+.tag{padding:.5rem 1.1rem;background:var(--g50);border:2px solid var(--g200);border-radius:50px;cursor:pointer;font-weight:500;font-size:.86rem;transition:all .22s;}
 .tag:hover{border-color:var(--black);}
 .tag.sel{background:var(--black);color:var(--white);border-color:var(--black);}
 
-/* ═══ SLIDERS ═══ */
-.slider-wrap{margin-bottom:1.8rem;}
-.slider-row{display:flex;justify-content:space-between;margin-bottom:.5rem;font-weight:600;}
-.s-val{color:var(--red);}
-input[type=range]{
-  width:100%;height:6px;border-radius:3px;background:var(--g200);
-  -webkit-appearance:none;appearance:none;outline:none;cursor:pointer;
-}
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
-  background:var(--red);cursor:pointer;transition:transform .2s;
-}
+/* ══ SLIDERS ══ */
+.sl-wrap{margin-bottom:1.6rem;}
+.sl-row{display:flex;justify-content:space-between;margin-bottom:.45rem;font-weight:600;}
+.s-v{color:var(--red);}
+input[type=range]{width:100%;height:6px;border-radius:3px;background:var(--g200);-webkit-appearance:none;appearance:none;outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--red);cursor:pointer;transition:transform .18s;}
 input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.3);}
-input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--red);border:none;}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--red);border:none;}
 
-/* ═══ INPUTS ═══ */
-.field{margin-bottom:1.4rem;}
-.field label{display:block;font-weight:700;margin-bottom:.35rem;font-size:.92rem;}
-.inp{
-  width:100%;padding:.85rem 1rem;border:2px solid var(--g200);border-radius:var(--radius);
-  font-size:1rem;font-family:var(--font);transition:border-color .25s;background:var(--white);
-}
+/* ══ INPUTS ══ */
+.field{margin-bottom:1.3rem;}
+.field label{display:block;font-weight:700;margin-bottom:.3rem;font-size:.9rem;}
+.inp{width:100%;padding:.8rem 1rem;border:2px solid var(--g200);border-radius:var(--r);font-size:.97rem;font-family:var(--font);transition:border-color .22s;background:var(--white);}
 .inp:focus{outline:none;border-color:var(--black);}
 
-/* ═══ NAV BUTTONS ═══ */
-.nav-btns{display:flex;justify-content:space-between;gap:1rem;margin-top:2rem;}
+/* ══ NAV ══ */
+.nav{display:flex;justify-content:space-between;gap:.8rem;margin-top:1.8rem;}
 
-/* ═══════════════════════════════════════
-   PUBLIC PREVIEW (ingredienti)
-═══════════════════════════════════════ */
-#preview{margin-top:2rem;}
-.block{
-  background:var(--g50);border:1px solid var(--g200);border-radius:var(--radius);
-  padding:1.6rem;margin-bottom:1.5rem;box-shadow:var(--shadow);
-}
-.block-title{font-size:1.15rem;font-weight:700;margin-bottom:1.2rem;text-align:center;letter-spacing:.01em;}
+/* ══ PREVIEW ══ */
+#preview{margin-top:1.8rem;}
+.block{background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:1.5rem;margin-bottom:1.4rem;box-shadow:var(--sh);}
+.block-t{font-size:1.1rem;font-weight:700;margin-bottom:1.1rem;text-align:center;letter-spacing:.01em;}
 
-/* pyramid bars */
-.pyr-section{margin-bottom:1.1rem;}
-.pyr-head{display:flex;justify-content:space-between;font-weight:600;font-size:.9rem;margin-bottom:.35rem;}
-.pyr-track{height:38px;background:var(--g200);border-radius:6px;overflow:hidden;}
-.pyr-fill{
-  height:100%;display:flex;align-items:center;padding-left:.8rem;
-  color:var(--white);font-weight:700;font-size:.85rem;
-  transition:width 1s ease;min-width:2.5rem;
-}
-.pyr-t{background:var(--blue);}
-.pyr-c{background:var(--amber);}
-.pyr-f{background:var(--purple);}
+/* pyramid */
+.pyr-s{margin-bottom:.9rem;}
+.pyr-h{display:flex;justify-content:space-between;font-weight:600;font-size:.87rem;margin-bottom:.3rem;}
+.pyr-track{height:34px;background:var(--g200);border-radius:5px;overflow:hidden;}
+.pyr-fill{height:100%;display:flex;align-items:center;padding-left:.7rem;color:var(--white);font-weight:700;font-size:.82rem;transition:width .9s ease;min-width:2.2rem;}
+.pt{background:var(--blue);}
+.pc{background:var(--amber);}
+.pf{background:var(--purple);}
 
 /* ingredient rows */
 .ing-row{
-  display:grid;grid-template-columns:1fr auto auto auto;
-  align-items:center;gap:.8rem;
-  padding:.9rem 1rem;margin-bottom:.5rem;
-  background:var(--white);border:1px solid var(--g200);border-radius:8px;
-  transition:border-color .2s,transform .2s;
+  display:grid;grid-template-columns:1fr 70px 90px 85px;
+  align-items:center;gap:.7rem;
+  padding:.8rem .9rem;margin-bottom:.4rem;
+  background:var(--white);border:1px solid var(--g200);border-radius:7px;
+  transition:border-color .18s,transform .18s;
 }
 .ing-row:hover{border-color:var(--black);transform:translateX(3px);}
-.ing-name-wrap{display:flex;align-items:center;gap:.6rem;}
-.ing-name{font-weight:700;font-size:.95rem;}
-.badge{
-  padding:.2rem .6rem;border-radius:8px;font-size:.7rem;
-  font-weight:700;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;
-}
-.bt{background:rgba(29,110,207,.1);color:var(--blue);}
-.bc{background:rgba(217,119,6,.1);color:var(--amber);}
-.bf{background:rgba(109,40,217,.1);color:var(--purple);}
-.ing-pct{font-size:.85rem;color:var(--g500);font-weight:500;text-align:right;}
-.ing-drops{font-weight:700;color:var(--red);white-space:nowrap;font-size:.92rem;text-align:right;}
-.ing-grams{font-weight:600;color:var(--g700);white-space:nowrap;font-size:.92rem;text-align:right;}
+.ing-nw{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+.ing-n{font-weight:700;font-size:.92rem;}
+.badge{padding:.18rem .55rem;border-radius:7px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+.bt{background:rgba(26,95,180,.1);color:var(--blue);}
+.bc{background:rgba(194,125,0,.1);color:var(--amber);}
+.bf{background:rgba(106,13,173,.1);color:var(--purple);}
+.ifra-badge{background:rgba(153,27,27,.1);color:var(--danger);border:1px solid rgba(153,27,27,.25);}
+.adj-badge{background:rgba(21,128,61,.1);color:var(--green);border:1px solid rgba(21,128,61,.25);}
+.ing-pct{font-size:.83rem;color:var(--g500);font-weight:500;text-align:right;}
+.ing-dr{font-weight:700;color:var(--red);white-space:nowrap;font-size:.89rem;text-align:right;}
+.ing-gr{font-weight:600;color:var(--g700);white-space:nowrap;font-size:.89rem;text-align:right;}
 
 /* info box */
-.info-box{
-  background:#fff5f5;border-left:4px solid var(--red);
-  padding:1rem 1.3rem;border-radius:8px;
-  margin:1.2rem 0;font-size:.9rem;line-height:1.7;
-}
-.info-box.ok{background:#f0fdf4;border-left-color:var(--green);}
-.info-box.warn{background:#fefce8;border-left-color:var(--amber);}
+.ib{background:#fff5f5;border-left:4px solid var(--red);padding:.9rem 1.2rem;border-radius:7px;margin:.9rem 0;font-size:.88rem;line-height:1.7;}
+.ib.ok{background:#f0fdf4;border-left-color:#166534;}
+.ib.warn{background:#fefce8;border-left-color:var(--amber);}
+.ib.info{background:#eff6ff;border-left-color:var(--blue);}
+.acts{display:flex;gap:.7rem;justify-content:flex-end;flex-wrap:wrap;margin-top:1.1rem;}
 
-.actions{display:flex;gap:.8rem;justify-content:flex-end;flex-wrap:wrap;margin-top:1.2rem;}
+/* ══ MODAL ══ */
+#pass-ov{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px);}
+#pass-ov.show{display:flex;}
+.pass-box{background:var(--white);border-radius:13px;padding:1.9rem 2.1rem;max-width:370px;width:100%;box-shadow:0 18px 55px rgba(0,0,0,.32);animation:fadeUp .3s ease;}
+.pass-box h3{font-size:1.2rem;font-weight:700;margin-bottom:.25rem;}
+.pass-box p{font-size:.86rem;color:var(--g500);margin-bottom:1.1rem;}
+.pass-err{font-size:.83rem;color:var(--danger);margin-top:.4rem;min-height:1.1em;}
 
-/* ═══════════════════════════════════════
-   PASSWORD OVERLAY
-═══════════════════════════════════════ */
-#pass-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.6);
-  display:none;align-items:center;justify-content:center;z-index:1000;
-  backdrop-filter:blur(4px);
-}
-#pass-overlay.show{display:flex;}
-.pass-box{
-  background:var(--white);border-radius:14px;padding:2rem 2.2rem;
-  max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);
-  animation:fadeUp .3s ease;
-}
-.pass-box h3{font-size:1.3rem;font-weight:700;margin-bottom:.3rem;}
-.pass-box p{font-size:.88rem;color:var(--g500);margin-bottom:1.2rem;}
-.pass-err{font-size:.85rem;color:var(--danger);margin-top:.5rem;min-height:1.2em;}
-
-/* ═══════════════════════════════════════
-   FORMULA PAGE (protected)
-═══════════════════════════════════════ */
-#formula-page{
-  display:none;max-width:900px;margin:7rem auto 3rem;padding:0 1.5rem;
-}
-#formula-page.show{display:block;animation:fadeUp .4s ease;}
-
-.fp-hero{
-  background:var(--black);color:var(--white);
-  border-radius:var(--radius);padding:2rem 2.2rem;margin-bottom:1.5rem;
-}
-.fp-name{font-size:1.9rem;font-weight:700;margin-bottom:.3rem;}
-.fp-desc{font-size:.95rem;opacity:.7;line-height:1.6;}
-
-.fp-block{
-  background:var(--g50);border:1px solid var(--g200);
-  border-radius:var(--radius);padding:1.6rem;margin-bottom:1.5rem;
-  box-shadow:var(--shadow);
-}
-.fp-h{font-size:1.1rem;font-weight:700;margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--g200);}
-
-/* cost display */
-.cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-top:.8rem;}
-.cost-cell{background:var(--white);border:1px solid var(--g200);border-radius:8px;padding:1rem;text-align:center;}
-.cc-label{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--g500);margin-bottom:.3rem;}
-.cc-val{font-size:1.5rem;font-weight:700;}
-.cc-val.big{font-size:2rem;color:var(--red);}
-
-/* summary rows */
-.sum-row{display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--g200);font-size:.93rem;}
-.sum-row:last-child{border-bottom:none;}
-.sum-label{color:var(--g500);}
-.sum-val{font-weight:700;}
-
-/* instructions */
+/* ══ FORMULA PAGE ══ */
+#fp{display:none;max-width:900px;margin:6.5rem auto 3rem;padding:0 1.4rem;}
+#fp.show{display:block;animation:fadeUp .4s ease;}
+.fp-hero{background:var(--black);color:var(--white);border-radius:var(--r);padding:1.8rem 2rem;margin-bottom:1.4rem;}
+.fp-name{font-size:1.75rem;font-weight:700;margin-bottom:.25rem;}
+.fp-desc{font-size:.92rem;opacity:.68;line-height:1.6;}
+.fp-bl{background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:1.4rem;margin-bottom:1.4rem;box-shadow:var(--sh);}
+.fp-h{font-size:1.05rem;font-weight:700;margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:2px solid var(--g200);}
+.sum-r{display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--g200);font-size:.9rem;}
+.sum-r:last-child{border-bottom:none;}
+.sum-l{color:var(--g500);}
+.sum-v{font-weight:700;}
+.cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:.9rem;margin-top:.7rem;}
+.cc{background:var(--white);border:1px solid var(--g200);border-radius:7px;padding:.9rem;text-align:center;}
+.cc-l{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--g500);margin-bottom:.25rem;}
+.cc-v{font-size:1.35rem;font-weight:700;}
+.cc-v.big{font-size:1.85rem;color:var(--red);}
 .inst-list{list-style:none;counter-reset:inst;}
-.inst-list li{
-  counter-increment:inst;display:flex;gap:.9rem;align-items:flex-start;
-  padding:.8rem 0;border-bottom:1px solid var(--g200);font-size:.93rem;line-height:1.6;
-}
+.inst-list li{counter-increment:inst;display:flex;gap:.85rem;align-items:flex-start;padding:.75rem 0;border-bottom:1px solid var(--g200);font-size:.9rem;line-height:1.6;}
 .inst-list li:last-child{border-bottom:none;}
-.inst-list li::before{
-  content:counter(inst);flex-shrink:0;
-  width:28px;height:28px;background:var(--black);color:var(--white);
-  border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:.8rem;
-}
+.inst-list li::before{content:counter(inst);flex-shrink:0;width:26px;height:26px;background:var(--black);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;}
+.ifra-hdr{display:grid;grid-template-columns:1fr 100px 90px 70px;gap:.5rem;padding:.4rem .7rem;background:var(--g200);border-radius:5px;font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--g500);margin-bottom:.4rem;}
+.ifra-r{display:grid;grid-template-columns:1fr 100px 90px 70px;gap:.5rem;align-items:start;padding:.65rem .7rem;border-radius:6px;font-size:.86rem;margin-bottom:.35rem;}
+.ifra-ok-r{background:rgba(22,101,52,.07);}
+.ifra-warn-r{background:rgba(153,27,27,.07);}
+.ifra-ok{color:#166534;font-weight:700;}
+.ifra-warn{color:#991b1b;font-weight:700;}
+.ifra-note{font-size:.76rem;color:var(--g500);margin-top:.2rem;}
 
-/* IFRA table */
-.ifra-row{
-  display:grid;grid-template-columns:1fr 120px 120px 80px;
-  gap:.5rem;align-items:center;
-  padding:.7rem .8rem;border-radius:6px;font-size:.88rem;margin-bottom:.4rem;
-}
-.ifra-row.head{background:var(--g200);font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;}
-.ifra-row.ok-row{background:rgba(21,128,61,.07);}
-.ifra-row.warn-row{background:rgba(185,28,28,.07);}
-.ifra-ok-lbl{color:var(--green);font-weight:700;}
-.ifra-warn-lbl{color:var(--danger);font-weight:700;}
+/* ══ CERT PAGE ══ */
+#cert-page{display:none;max-width:820px;margin:6.5rem auto 3rem;padding:0 1.4rem;}
+#cert-page.show{display:block;animation:fadeUp .4s ease;}
 
-/* ═══════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════ */
-@media(max-width:700px){
-  #landing h1{font-size:2.2rem;}
-  .step-h{font-size:1.6rem;}
+/* ══ RESPONSIVE ══ */
+@media(max-width:680px){
+  #landing h1{font-size:2rem;}
+  .step-h{font-size:1.5rem;}
   .cards{grid-template-columns:1fr 1fr;}
-  .nav-btns{flex-direction:column;}
-  .actions{flex-direction:column;}
-  .ing-row{grid-template-columns:1fr auto auto;}
+  .nav{flex-direction:column;}
+  .acts{flex-direction:column;}
+  .ing-row{grid-template-columns:1fr 70px 80px;}
   .ing-pct{display:none;}
-  .ifra-row{grid-template-columns:1fr 80px 80px 60px;}
-  .cost-grid{grid-template-columns:1fr 1fr;}
+  .ifra-hdr,.ifra-r{grid-template-columns:1fr 90px 65px;}
+  .ifra-hdr span:nth-child(3),.ifra-r span:nth-child(3){display:none;}
 }
-@media(max-width:480px){
+@media(max-width:440px){
   .cards{grid-template-columns:1fr;}
-  .ifra-row{grid-template-columns:1fr 80px 60px;}
-  .ifra-row .ifra-limit{display:none;}
 }
+
+/* ══════════════════════════════════
+   CERTIFICATE PRINT STYLES
+══════════════════════════════════ */
 @media print{
-  #hdr,#app,.actions{display:none!important;}
-  #formula-page{margin-top:0;}
+  body *{visibility:hidden;}
+  #cert-print-area,#cert-print-area *{visibility:visible;}
+  #cert-print-area{
+    position:fixed;inset:0;
+    background:white;padding:30px 35px;
+    font-family:'Courier New',monospace;
+    color:#000;font-size:10pt;
+  }
+  .cert-no-print{display:none!important;}
 }
+
+/* certificate internal styles */
+#cert-print-area{
+  background:var(--white);
+  font-family:var(--font);
+}
+.cert-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding-bottom:1.2rem;border-bottom:3px solid var(--black);
+  margin-bottom:1.5rem;
+}
+.cert-logo{font-size:1.5rem;font-weight:700;display:flex;align-items:center;gap:.4rem;}
+.cert-logo-dot{width:10px;height:10px;background:var(--red);border-radius:50%;}
+.cert-title{font-size:1.6rem;font-weight:700;letter-spacing:.03em;margin-bottom:.3rem;}
+.cert-sub{font-size:.85rem;color:var(--g500);}
+.cert-meta{font-size:.82rem;color:var(--g700);text-align:right;}
+.cert-section{margin-bottom:1.4rem;}
+.cert-section-title{
+  font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--g500);padding-bottom:.3rem;border-bottom:1px solid var(--g200);
+  margin-bottom:.8rem;
+}
+.cert-grid2{display:grid;grid-template-columns:1fr 1fr;gap:.4rem .8rem;}
+.cert-pair{display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px dashed var(--g200);font-size:.87rem;}
+.cert-pair-l{color:var(--g500);}
+.cert-pair-v{font-weight:700;}
+.cert-ing-table{width:100%;border-collapse:collapse;font-size:.83rem;}
+.cert-ing-table th{background:var(--g100);padding:.4rem .6rem;text-align:left;font-size:.73rem;text-transform:uppercase;letter-spacing:.06em;border:1px solid var(--g200);}
+.cert-ing-table td{padding:.4rem .6rem;border:1px solid var(--g200);}
+.cert-ing-table tr:nth-child(even) td{background:var(--g50);}
+.cert-ifra-section{margin-top:1rem;}
+.cert-ifra-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:.4rem;padding:.4rem .6rem;font-size:.83rem;border-bottom:1px solid var(--g200);}
+.cert-ifra-row.head{background:var(--g100);font-weight:700;font-size:.73rem;text-transform:uppercase;}
+.cert-ok{color:var(--green);font-weight:700;}
+.cert-warn{color:var(--danger);font-weight:700;}
+.cert-footer{
+  margin-top:2rem;padding-top:1rem;border-top:2px solid var(--black);
+  display:flex;justify-content:space-between;align-items:flex-end;font-size:.8rem;
+  color:var(--g500);
+}
+.cert-sign{text-align:right;}
+.cert-sign-line{width:200px;height:1px;background:var(--black);margin:2rem 0 .3rem auto;}
+.cert-disclaimer{
+  background:var(--g50);border-left:3px solid var(--amber);
+  padding:.8rem 1rem;font-size:.78rem;line-height:1.6;margin-top:1rem;
+  color:var(--g700);
+}
+.cert-stamp{
+  width:100px;height:100px;border:3px solid var(--green);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--green);font-weight:700;font-size:.68rem;text-align:center;
+  text-transform:uppercase;letter-spacing:.05em;
+  margin-top:1rem;
+}
+.cert-stamp-warn{border-color:var(--danger);color:var(--danger);}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════ LANDING ═══════════════════ -->
+<!-- ═══ LANDING ═══ -->
 <div id="landing">
   <div class="dot" id="dot"></div>
   <h1>Parfum Studio</h1>
@@ -338,752 +303,864 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   <button class="btn" onclick="startApp()">Inizia la Creazione →</button>
 </div>
 
-<!-- ═══════════════════ HEADER ═══════════════════ -->
+<!-- ═══ HEADER ═══ -->
 <div id="hdr">
-  <div class="hdr-inner">
+  <div class="hdr-in">
     <div class="logo" onclick="location.reload()">
       <div class="logo-dot"></div>Parfum Studio
     </div>
     <div class="hdr-btns">
-      <button class="btn btn-outline btn-sm" onclick="location.reload()">↺ Reset</button>
-      <button class="btn btn-sm" onclick="openPassModal()">🔐 Area Formule</button>
+      <button class="btn btn-out btn-sm" onclick="location.reload()">↺ Reset</button>
+      <button class="btn btn-sm" onclick="openPass()">🔐 Area Formule</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════ APP (WIZARD) ═══════════════════ -->
+<!-- ═══ APP WIZARD ═══ -->
 <div id="app">
-
-  <!-- Progress -->
   <div class="prog-wrap">
-    <div class="prog-steps" id="progSteps">
-      <div class="prog-line" id="progLine"></div>
-      <div class="ps active" data-s="1"><div class="ps-num">1</div><div class="ps-lbl">Famiglia</div></div>
-      <div class="ps"        data-s="2"><div class="ps-num">2</div><div class="ps-lbl">Intensità</div></div>
-      <div class="ps"        data-s="3"><div class="ps-num">3</div><div class="ps-lbl">Occasione</div></div>
-      <div class="ps"        data-s="4"><div class="ps-num">4</div><div class="ps-lbl">Stile</div></div>
-      <div class="ps"        data-s="5"><div class="ps-num">5</div><div class="ps-lbl">Dettagli</div></div>
+    <div class="prog-steps" id="psteps">
+      <div class="prog-line" id="pline"></div>
+      <div class="ps active" data-s="1"><div class="ps-n">1</div><div class="ps-l">Famiglia</div></div>
+      <div class="ps"        data-s="2"><div class="ps-n">2</div><div class="ps-l">Intensità</div></div>
+      <div class="ps"        data-s="3"><div class="ps-n">3</div><div class="ps-l">Occasione</div></div>
+      <div class="ps"        data-s="4"><div class="ps-n">4</div><div class="ps-l">Stile</div></div>
+      <div class="ps"        data-s="5"><div class="ps-n">5</div><div class="ps-l">Dettagli</div></div>
     </div>
   </div>
 
-  <!-- STEP 1 — FAMIGLIA -->
+  <!-- S1 FAMIGLIA -->
   <div class="step on" data-step="1">
     <h2 class="step-h">Famiglia Olfattiva</h2>
-    <p class="step-sub">Scegli il carattere principale del profumo</p>
-    <div class="cards" id="famCards">
-      <div class="opt-card" data-v="fresco-agrumato"   onclick="pick(this,'family')"><span class="oc-icon">🍋</span><div class="oc-title">Fresco & Agrumato</div><p class="oc-desc">Limone, bergamotto, mandarino. Solare e luminoso.</p></div>
-      <div class="opt-card" data-v="floreale"          onclick="pick(this,'family')"><span class="oc-icon">🌸</span><div class="oc-title">Floreale & Romantico</div><p class="oc-desc">Rosa, gelsomino, mughetto. Elegante e femminile.</p></div>
-      <div class="opt-card" data-v="aromatico-fougere" onclick="pick(this,'family')"><span class="oc-icon">🌿</span><div class="oc-title">Aromatico & Fougère</div><p class="oc-desc">Lavanda, erbe, felce. Classico unisex.</p></div>
-      <div class="opt-card" data-v="legnoso-ambrato"   onclick="pick(this,'family')"><span class="oc-icon">🌳</span><div class="oc-title">Legnoso & Ambrato</div><p class="oc-desc">Cedro, vetiver, ambra. Caldo e avvolgente.</p></div>
-      <div class="opt-card" data-v="orientale-speziato"onclick="pick(this,'family')"><span class="oc-icon">🔥</span><div class="oc-title">Orientale & Speziato</div><p class="oc-desc">Spezie, resine, vaniglia. Sensuale e misterioso.</p></div>
-      <div class="opt-card" data-v="marino-fresco"     onclick="pick(this,'family')"><span class="oc-icon">🌊</span><div class="oc-title">Marino & Acquatico</div><p class="oc-desc">Ozono, note acquatiche. Pulito e moderno.</p></div>
-      <div class="opt-card" data-v="chypre-verde"      onclick="pick(this,'family')"><span class="oc-icon">🍃</span><div class="oc-title">Chypre & Verde</div><p class="oc-desc">Patchouly, muschio di quercia, foglie. Sofisticato.</p></div>
-      <div class="opt-card" data-v="gourmand-dolce"    onclick="pick(this,'family')"><span class="oc-icon">🍰</span><div class="oc-title">Gourmand & Dolce</div><p class="oc-desc">Vaniglia, cumarina, note zuccherine. Avvolgente.</p></div>
+    <p class="step-sub">Scegli il carattere principale</p>
+    <div class="cards">
+      <div class="oc" data-v="fresco-agrumato"    onclick="pick(this,'family')"><span class="oc-i">🍋</span><div class="oc-t">Fresco & Agrumato</div><p class="oc-d">Limone, bergamotto, mandarino.</p></div>
+      <div class="oc" data-v="floreale"           onclick="pick(this,'family')"><span class="oc-i">🌸</span><div class="oc-t">Floreale & Romantico</div><p class="oc-d">Rosa, gelsomino, mughetto.</p></div>
+      <div class="oc" data-v="aromatico-fougere"  onclick="pick(this,'family')"><span class="oc-i">🌿</span><div class="oc-t">Aromatico & Fougère</div><p class="oc-d">Lavanda, erbe, felce.</p></div>
+      <div class="oc" data-v="legnoso-ambrato"    onclick="pick(this,'family')"><span class="oc-i">🌳</span><div class="oc-t">Legnoso & Ambrato</div><p class="oc-d">Cedro, vetiver, ambra.</p></div>
+      <div class="oc" data-v="orientale-speziato" onclick="pick(this,'family')"><span class="oc-i">🔥</span><div class="oc-t">Orientale & Speziato</div><p class="oc-d">Spezie, resine, vaniglia.</p></div>
+      <div class="oc" data-v="marino-fresco"      onclick="pick(this,'family')"><span class="oc-i">🌊</span><div class="oc-t">Marino & Acquatico</div><p class="oc-d">Ozono, note acquatiche.</p></div>
+      <div class="oc" data-v="chypre-verde"       onclick="pick(this,'family')"><span class="oc-i">🍃</span><div class="oc-t">Chypre & Verde</div><p class="oc-d">Patchouly, muschio di quercia.</p></div>
+      <div class="oc" data-v="gourmand-dolce"     onclick="pick(this,'family')"><span class="oc-i">🍰</span><div class="oc-t">Gourmand & Dolce</div><p class="oc-d">Vaniglia, cumarina, miele.</p></div>
     </div>
-    <div class="nav-btns">
-      <button class="btn btn-outline" disabled>← Indietro</button>
-      <button class="btn" onclick="goNext()">Continua →</button>
-    </div>
+    <div class="nav"><button class="btn btn-out" disabled>← Indietro</button><button class="btn" onclick="goNext()">Continua →</button></div>
   </div>
 
-  <!-- STEP 2 — INTENSITÀ -->
+  <!-- S2 INTENSITÀ -->
   <div class="step" data-step="2">
     <h2 class="step-h">Intensità</h2>
-    <p class="step-sub">Scegli la concentrazione di essenze</p>
+    <p class="step-sub">Tipo di concentrazione</p>
     <div class="cards">
-      <div class="opt-card" data-v="edc" onclick="pick(this,'intensity')"><span class="oc-icon">☁️</span><div class="oc-title">Eau de Cologne</div><p class="oc-desc">~5% essenze<br>Durata 2–3 ore<br>Leggera, estiva.</p></div>
-      <div class="opt-card" data-v="edt" onclick="pick(this,'intensity')"><span class="oc-icon">💨</span><div class="oc-title">Eau de Toilette</div><p class="oc-desc">~10% essenze<br>Durata 4–6 ore<br>Quotidiana.</p></div>
-      <div class="opt-card" data-v="edp" onclick="pick(this,'intensity')"><span class="oc-icon">⚡</span><div class="oc-title">Eau de Parfum</div><p class="oc-desc">~17% essenze<br>Durata 6–8 ore<br>Intensa.</p></div>
+      <div class="oc" data-v="edc" onclick="pick(this,'intensity')"><span class="oc-i">☁️</span><div class="oc-t">Eau de Cologne</div><p class="oc-d">~5% essenze · 2–3h</p></div>
+      <div class="oc" data-v="edt" onclick="pick(this,'intensity')"><span class="oc-i">💨</span><div class="oc-t">Eau de Toilette</div><p class="oc-d">~10% essenze · 4–6h</p></div>
+      <div class="oc" data-v="edp" onclick="pick(this,'intensity')"><span class="oc-i">⚡</span><div class="oc-t">Eau de Parfum</div><p class="oc-d">~17% essenze · 6–8h</p></div>
     </div>
-    <div class="nav-btns">
-      <button class="btn btn-outline" onclick="goBack()">← Indietro</button>
-      <button class="btn" onclick="goNext()">Continua →</button>
-    </div>
+    <div class="nav"><button class="btn btn-out" onclick="goBack()">← Indietro</button><button class="btn" onclick="goNext()">Continua →</button></div>
   </div>
 
-  <!-- STEP 3 — OCCASIONE -->
+  <!-- S3 OCCASIONE -->
   <div class="step" data-step="3">
     <h2 class="step-h">Occasione d'Uso</h2>
-    <p class="step-sub">Scegli una o più occasioni (opzionale)</p>
+    <p class="step-sub">Opzionale — seleziona una o più</p>
     <div class="tags">
-      <div class="tag" data-v="quotidiano"  onclick="toggleTag(this)">Uso quotidiano</div>
-      <div class="tag" data-v="sera"        onclick="toggleTag(this)">Serata elegante</div>
-      <div class="tag" data-v="lavoro"      onclick="toggleTag(this)">Lavoro / Ufficio</div>
-      <div class="tag" data-v="sport"       onclick="toggleTag(this)">Sport</div>
-      <div class="tag" data-v="romantico"   onclick="toggleTag(this)">Appuntamento romantico</div>
-      <div class="tag" data-v="inverno"     onclick="toggleTag(this)">Inverno</div>
-      <div class="tag" data-v="estate"      onclick="toggleTag(this)">Estate</div>
-      <div class="tag" data-v="primavera"   onclick="toggleTag(this)">Primavera / Autunno</div>
+      <div class="tag" data-v="quotidiano" onclick="toggleTag(this)">Uso quotidiano</div>
+      <div class="tag" data-v="sera"       onclick="toggleTag(this)">Serata elegante</div>
+      <div class="tag" data-v="lavoro"     onclick="toggleTag(this)">Lavoro / Ufficio</div>
+      <div class="tag" data-v="sport"      onclick="toggleTag(this)">Sport</div>
+      <div class="tag" data-v="romantico"  onclick="toggleTag(this)">Romantico</div>
+      <div class="tag" data-v="inverno"    onclick="toggleTag(this)">Inverno</div>
+      <div class="tag" data-v="estate"     onclick="toggleTag(this)">Estate</div>
+      <div class="tag" data-v="primavera"  onclick="toggleTag(this)">Primavera / Autunno</div>
     </div>
-    <div class="nav-btns">
-      <button class="btn btn-outline" onclick="goBack()">← Indietro</button>
-      <button class="btn" onclick="goNext()">Continua →</button>
-    </div>
+    <div class="nav"><button class="btn btn-out" onclick="goBack()">← Indietro</button><button class="btn" onclick="goNext()">Continua →</button></div>
   </div>
 
-  <!-- STEP 4 — STILE -->
+  <!-- S4 STILE -->
   <div class="step" data-step="4">
     <h2 class="step-h">Personalizza lo Stile</h2>
     <p class="step-sub">Regola le caratteristiche sensoriali</p>
-    <div class="slider-wrap">
-      <div class="slider-row"><span>🍯 Dolcezza</span><span class="s-val" id="vSweet">50%</span></div>
-      <input type="range" id="sSweet" min="0" max="100" value="50" oninput="updSlider('sSweet','vSweet','sweet')">
-    </div>
-    <div class="slider-wrap">
-      <div class="slider-row"><span>💧 Freschezza</span><span class="s-val" id="vFresh">50%</span></div>
-      <input type="range" id="sFresh" min="0" max="100" value="50" oninput="updSlider('sFresh','vFresh','fresh')">
-    </div>
-    <div class="slider-wrap">
-      <div class="slider-row"><span>🌑 Profondità / Note scure</span><span class="s-val" id="vDepth">50%</span></div>
-      <input type="range" id="sDepth" min="0" max="100" value="50" oninput="updSlider('sDepth','vDepth','depth')">
-    </div>
-    <div class="nav-btns">
-      <button class="btn btn-outline" onclick="goBack()">← Indietro</button>
-      <button class="btn" onclick="goNext()">Continua →</button>
-    </div>
+    <div class="sl-wrap"><div class="sl-row"><span>🍯 Dolcezza</span><span class="s-v" id="vSw">50%</span></div><input type="range" id="sSw" min="0" max="100" value="50" oninput="usl('sSw','vSw','sweet')"></div>
+    <div class="sl-wrap"><div class="sl-row"><span>💧 Freschezza</span><span class="s-v" id="vFr">50%</span></div><input type="range" id="sFr" min="0" max="100" value="50" oninput="usl('sFr','vFr','fresh')"></div>
+    <div class="sl-wrap"><div class="sl-row"><span>🌑 Profondità</span><span class="s-v" id="vDp">50%</span></div><input type="range" id="sDp" min="0" max="100" value="50" oninput="usl('sDp','vDp','depth')"></div>
+    <div class="nav"><button class="btn btn-out" onclick="goBack()">← Indietro</button><button class="btn" onclick="goNext()">Continua →</button></div>
   </div>
 
-  <!-- STEP 5 — DETTAGLI -->
+  <!-- S5 DETTAGLI -->
   <div class="step" data-step="5">
     <h2 class="step-h">Ultimi Dettagli</h2>
-    <p class="step-sub">Nome e volume del tuo profumo</p>
-    <div style="max-width:480px;margin:0 auto;">
-      <div class="field">
-        <label>Nome del Profumo</label>
-        <input type="text" class="inp" id="perfName" placeholder="Es. Notte di Cedro">
-      </div>
-      <div class="field">
-        <label>Volume Finale (ml)</label>
-        <input type="number" class="inp" id="perfVol" value="50" min="10" max="1000">
-      </div>
+    <p class="step-sub">Nome e volume</p>
+    <div style="max-width:460px;margin:0 auto">
+      <div class="field"><label>Nome del Profumo</label><input type="text" class="inp" id="pName" placeholder="Es. Notte di Cedro"></div>
+      <div class="field"><label>Volume Finale (ml)</label><input type="number" class="inp" id="pVol" value="50" min="10" max="1000"></div>
     </div>
-    <div class="nav-btns">
-      <button class="btn btn-outline" onclick="goBack()">← Indietro</button>
-      <button class="btn" onclick="generate()">🔮 Genera Formula</button>
-    </div>
+    <div class="nav"><button class="btn btn-out" onclick="goBack()">← Indietro</button><button class="btn" onclick="generate()">🔮 Genera Formula</button></div>
   </div>
 
   <!-- ANTEPRIMA PUBBLICA -->
   <div id="preview" class="hidden">
     <div class="block">
-      <div class="block-title" id="prevTitle">Ingredienti Selezionati</div>
-
-      <!-- Piramide -->
-      <div style="margin-bottom:1.5rem;">
-        <div class="pyr-section">
-          <div class="pyr-head"><span>Note di Testa</span><span id="pTlbl">0%</span></div>
-          <div class="pyr-track"><div class="pyr-fill pyr-t" id="pTbar" style="width:0%"></div></div>
-        </div>
-        <div class="pyr-section">
-          <div class="pyr-head"><span>Note di Cuore</span><span id="pClbl">0%</span></div>
-          <div class="pyr-track"><div class="pyr-fill pyr-c" id="pCbar" style="width:0%"></div></div>
-        </div>
-        <div class="pyr-section">
-          <div class="pyr-head"><span>Note di Fondo</span><span id="pFlbl">0%</span></div>
-          <div class="pyr-track"><div class="pyr-fill pyr-f" id="pFbar" style="width:0%"></div></div>
-        </div>
+      <div class="block-t" id="prevTitle">Ingredienti</div>
+      <div style="margin-bottom:1.2rem;">
+        <div class="pyr-s"><div class="pyr-h"><span>Note di Testa</span><span id="pTl">0%</span></div><div class="pyr-track"><div class="pyr-fill pt" id="pTb" style="width:0%"></div></div></div>
+        <div class="pyr-s"><div class="pyr-h"><span>Note di Cuore</span><span id="pCl">0%</span></div><div class="pyr-track"><div class="pyr-fill pc" id="pCb" style="width:0%"></div></div></div>
+        <div class="pyr-s"><div class="pyr-h"><span>Note di Fondo</span><span id="pFl">0%</span></div><div class="pyr-track"><div class="pyr-fill pf" id="pFb" style="width:0%"></div></div></div>
       </div>
-
-      <!-- Lista ingredienti pubblica -->
+      <div style="display:grid;grid-template-columns:1fr 70px 90px 85px;gap:.5rem;padding:.3rem .9rem;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g500);">
+        <span>Ingrediente</span><span style="text-align:right">%</span><span style="text-align:right">Gocce</span><span style="text-align:right">Grammi</span>
+      </div>
       <div id="prevList"></div>
-
-      <div class="info-box">
-        <strong>📌 Vista pubblica</strong> — Mostra ingredienti, gocce e peso in grammi.<br>
-        Costi, istruzioni di preparazione e conformità IFRA sono disponibili nell'<strong>Area Formule</strong> (richiede password).
+      <div id="ifraTaraMsg"></div>
+      <div class="ib info">
+        <strong>👁 Vista pubblica</strong> — Ingredienti, gocce e peso in grammi. La formula è già tarata sui limiti IFRA.<br>
+        Costi, istruzioni, conformità IFRA e certificato sono nell'<strong>Area Formule</strong>.
       </div>
-      <div class="actions">
-        <button class="btn btn-outline" onclick="location.reload()">↺ Ricomincia</button>
-        <button class="btn" onclick="openPassModal()">🔐 Accedi all'Area Formule</button>
+      <div class="acts">
+        <button class="btn btn-out" onclick="location.reload()">↺ Ricomincia</button>
+        <button class="btn" onclick="openPass()">🔐 Area Formule</button>
       </div>
     </div>
   </div>
-
 </div><!-- /app -->
 
-<!-- ═══════════════════ MODAL PASSWORD ═══════════════════ -->
-<div id="pass-overlay">
+<!-- ═══ MODAL PASSWORD ═══ -->
+<div id="pass-ov">
   <div class="pass-box">
     <h3>🔐 Area Formule Riservata</h3>
-    <p>Inserisci la password per accedere a costi, istruzioni di preparazione e conformità IFRA.</p>
-    <div class="field">
-      <label>Password</label>
-      <input type="password" class="inp" id="passInput" placeholder="••••••••••••••••"
-             onkeydown="if(event.key==='Enter') checkPass()">
-    </div>
+    <p>Costi, istruzioni, IFRA e certificato PDF.</p>
+    <div class="field"><label>Password</label><input type="password" class="inp" id="passInp" placeholder="••••••••••••••••" onkeydown="if(event.key==='Enter')chkPass()"></div>
     <div class="pass-err" id="passErr"></div>
-    <div class="actions" style="margin-top:1rem;">
-      <button class="btn btn-outline btn-sm" onclick="closePassModal()">Annulla</button>
-      <button class="btn btn-sm" onclick="checkPass()">Entra →</button>
+    <div class="acts" style="margin-top:.9rem;">
+      <button class="btn btn-out btn-sm" onclick="closePass()">Annulla</button>
+      <button class="btn btn-sm" onclick="chkPass()">Entra →</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════ FORMULA PAGE (PROTETTA) ═══════════════════ -->
-<div id="formula-page">
-
-  <!-- Hero -->
+<!-- ═══ FORMULA PAGE (protetta) ═══ -->
+<div id="fp">
   <div class="fp-hero">
     <div class="fp-name" id="fpName">—</div>
     <div class="fp-desc" id="fpDesc">—</div>
   </div>
 
-  <!-- Riepilogo tecnico -->
-  <div class="fp-block">
+  <!-- Riepilogo -->
+  <div class="fp-bl">
     <div class="fp-h">📋 Riepilogo Formula</div>
-    <div class="sum-row"><span class="sum-label">Tipo concentrazione</span><span class="sum-val" id="fpType">—</span></div>
-    <div class="sum-row"><span class="sum-label">Volume finale</span><span class="sum-val" id="fpVol">—</span></div>
-    <div class="sum-row"><span class="sum-label">Concentrato (essenze)</span><span class="sum-val" id="fpConcMl">—</span></div>
-    <div class="sum-row"><span class="sum-label">Alcol diluente 96°</span><span class="sum-val" id="fpAlcMl">—</span></div>
-    <div class="sum-row"><span class="sum-label">Totale gocce concentrato</span><span class="sum-val" id="fpTotDrops">—</span></div>
-    <div class="sum-row"><span class="sum-label">Peso concentrato</span><span class="sum-val" id="fpTotGrams">—</span></div>
-    <div class="sum-row"><span class="sum-label">Numero ingredienti</span><span class="sum-val" id="fpNIng">—</span></div>
+    <div class="sum-r"><span class="sum-l">Tipo</span><span class="sum-v" id="fpType">—</span></div>
+    <div class="sum-r"><span class="sum-l">Volume finale</span><span class="sum-v" id="fpVol">—</span></div>
+    <div class="sum-r"><span class="sum-l">Concentrato (essenze)</span><span class="sum-v" id="fpCml">—</span></div>
+    <div class="sum-r"><span class="sum-l">Alcol diluente 96°</span><span class="sum-v" id="fpAml">—</span></div>
+    <div class="sum-r"><span class="sum-l">Gocce totali</span><span class="sum-v" id="fpDr">—</span></div>
+    <div class="sum-r"><span class="sum-l">Peso totale concentrato</span><span class="sum-v" id="fpGr">—</span></div>
+    <div class="sum-r"><span class="sum-l">N° ingredienti</span><span class="sum-v" id="fpNi">—</span></div>
   </div>
 
   <!-- Costi -->
-  <div class="fp-block">
+  <div class="fp-bl">
     <div class="fp-h">💶 Costi di Produzione</div>
     <div class="cost-grid">
-      <div class="cost-cell"><div class="cc-label">Costo Totale</div><div class="cc-val big" id="fpCostTot">€—</div></div>
-      <div class="cost-cell"><div class="cc-label">Concentrato</div><div class="cc-val" id="fpCostConc">€—</div></div>
-      <div class="cost-cell"><div class="cc-label">Alcol diluente</div><div class="cc-val" id="fpCostAlc">€—</div></div>
-      <div class="cost-cell"><div class="cc-label">Costo per ml</div><div class="cc-val" id="fpCostPerMl">€—</div></div>
+      <div class="cc"><div class="cc-l">Totale</div><div class="cc-v big" id="fpCtot">€—</div></div>
+      <div class="cc"><div class="cc-l">Concentrato</div><div class="cc-v" id="fpCconc">€—</div></div>
+      <div class="cc"><div class="cc-l">Alcol diluente</div><div class="cc-v" id="fpCalc">€—</div></div>
+      <div class="cc"><div class="cc-l">Costo / ml</div><div class="cc-v" id="fpCml2">€—</div></div>
     </div>
   </div>
 
-  <!-- Ingredienti tecnici (gocce + grammi) -->
-  <div class="fp-block">
-    <div class="fp-h">⚗️ Ingredienti — Dosaggi Tecnici</div>
-    <div style="display:grid;grid-template-columns:1fr 90px 90px 90px;gap:.5rem;padding:.5rem .8rem;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--g500);">
-      <span>Ingrediente</span><span style="text-align:right">% formula</span><span style="text-align:right">Gocce</span><span style="text-align:right">Grammi</span>
+  <!-- Ingredienti tecnici -->
+  <div class="fp-bl">
+    <div class="fp-h">⚗️ Dosaggi Tecnici</div>
+    <div style="display:grid;grid-template-columns:1fr 70px 90px 85px;gap:.5rem;padding:.3rem .7rem;font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g500);">
+      <span>Ingrediente</span><span style="text-align:right">%</span><span style="text-align:right">Gocce</span><span style="text-align:right">Grammi</span>
     </div>
     <div id="fpIngList"></div>
-    <div class="info-box warn" style="margin-top:1rem;">
-      <strong>ℹ️ Densità media:</strong> 1 goccia ≈ 0.05 ml ≈ 0.048–0.052 g (densità ~0.95–1.05 g/ml). Il valore in grammi è calcolato con densità media 1 g/ml. Per oli molto densi (patchouly, mirra) il peso reale è leggermente superiore.
+    <div class="ib warn" style="margin-top:.8rem;">
+      <strong>ℹ️ Densità media 1 g/ml</strong> (approssimazione). Per oli densi (patchouly, mirra, cannella) il peso reale è leggermente superiore. 1 goccia ≈ 0.05 ml.
     </div>
   </div>
 
-  <!-- IFRA Check -->
-  <div class="fp-block">
-    <div class="fp-h">🛡️ Conformità IFRA — Categoria 4 (Fine Fragrance leave-on)</div>
-    <p style="font-size:.9rem;color:var(--g500);margin-bottom:1rem;line-height:1.6;">
-      La tabella mostra la concentrazione stimata di ogni ingrediente IFRA-limitato nel <em>prodotto finito</em>, comparata con il limite massimo indicativo per fragranze fine (leave-on, applicazione diretta cute). Limiti basati su IFRA 50th Amendment. <strong>Verifica sempre il certificato IFRA ufficiale del fornitore prima dell'uso.</strong>
+  <!-- IFRA -->
+  <div class="fp-bl">
+    <div class="fp-h">🛡️ Conformità IFRA — Cat. 4 Fine Fragrance (leave-on)</div>
+    <p style="font-size:.87rem;color:var(--g500);margin-bottom:.9rem;line-height:1.6;">
+      La formula è già stata tarata automaticamente per rispettare i limiti IFRA 50th Amendment (Cat. 4 — applicazione diretta cute). Le gocce degli ingredienti limitati sono state ridotte all'occorrenza. Verifica sempre il certificato IFRA del fornitore per ogni lotto.
     </p>
-    <div id="ifraGlobalMsg" style="margin-bottom:1rem;"></div>
-    <div class="ifra-row head">
-      <span>Ingrediente</span>
-      <span>Conc. prodotto</span>
-      <span class="ifra-limit">Limite IFRA</span>
-      <span>Stato</span>
-    </div>
+    <div id="ifraGlobalMsg" style="margin-bottom:.8rem;"></div>
+    <div class="ifra-hdr"><span>Ingrediente</span><span>% prod. finito</span><span>Limite IFRA</span><span>Stato</span></div>
     <div id="ifraRows"></div>
-    <div id="ifraNoLimited" class="info-box ok hidden">✅ Nessun ingrediente IFRA-limitato presente in questa formula.</div>
+    <div id="ifraNoLim" class="ib ok hidden">✅ Nessun ingrediente IFRA-limitato presente in questa formula.</div>
   </div>
 
-  <!-- Istruzioni di preparazione -->
-  <div class="fp-block">
+  <!-- Istruzioni -->
+  <div class="fp-bl">
     <div class="fp-h">📖 Istruzioni di Preparazione</div>
     <ol class="inst-list">
-      <li>Prepara un'area di lavoro pulita, asciutta e ben illuminata. Raccogli bilancia di precisione (0.01 g), boccette in vetro scuro, pipette Pasteur separate per ogni ingrediente, becher da 100 ml, bastoncino di vetro.</li>
+      <li>Prepara area di lavoro pulita e asciutta. Occorrente: bilancia 0.01 g, boccetta in vetro scuro, pipette Pasteur separate per ogni ingrediente, becher 100 ml, bastoncino vetro, etichette.</li>
       <li>Versa nella boccetta <strong id="iAlc">—</strong> ml di alcol etilico 96° per profumeria.</li>
-      <li>Aggiungi per prime le <strong>note di fondo</strong> (le più pesanti e persistenti): seguendo l'ordine della tabella, conta le gocce con la pipetta dedicata.</li>
-      <li>Aggiungi le <strong>note di cuore</strong> (il corpo del profumo).</li>
-      <li>Aggiungi infine le <strong>note di testa</strong> (le più volatili).</li>
-      <li>Mescola delicatamente con il bastoncino di vetro per 30–40 secondi con movimenti circolari lenti.</li>
-      <li>Chiudi ermeticamente. Etichetta con: nome, data, tipo (<span id="iType">—</span>), volume (<span id="iVol">—</span> ml), lotto.</li>
-      <li><strong>Maturazione:</strong> riposa al buio a temperatura costante 18–22 °C. Minimo 2 settimane, ottimale 6 settimane. Agita delicatamente 1 volta a settimana.</li>
-      <li>Non aprire nei primi 7 giorni. Testa dopo 2 settimane su mouillette, poi su cute.</li>
+      <li>Aggiungi le <strong>note di fondo</strong> per prime (peso massimo, scia più lunga): conta le gocce con la pipetta dedicata a ogni ingrediente.</li>
+      <li>Aggiungi le <strong>note di cuore</strong> (corpo del profumo).</li>
+      <li>Aggiungi le <strong>note di testa</strong> (le più volatili, per ultime).</li>
+      <li>Mescola delicatamente con il bastoncino 30–40 sec, movimenti circolari lenti.</li>
+      <li>Chiudi ermeticamente. Etichetta: nome, data, tipo (<span id="iType">—</span>), volume (<span id="iVol">—</span> ml), lotto.</li>
+      <li><strong>Maturazione:</strong> 2–6 settimane al buio a 18–22 °C. Agita 1 volta/settimana. Non aprire i primi 7 giorni. Testa prima su mouillette.</li>
     </ol>
   </div>
 
-  <div class="actions">
-    <button class="btn btn-outline" onclick="closeFormulaPage()">← Chiudi</button>
-    <button class="btn btn-outline" onclick="window.print()">🖨️ Stampa</button>
-    <button class="btn" onclick="saveFormula()">💾 Salva Formula</button>
+  <div class="acts">
+    <button class="btn btn-out" onclick="closeFP()">← Chiudi</button>
+    <button class="btn btn-out" onclick="window.print()">🖨️ Stampa</button>
+    <button class="btn btn-green" onclick="showCert()">📄 Genera Certificato IFRA</button>
+    <button class="btn" onclick="saveF()">💾 Salva</button>
   </div>
-</div><!-- /formula-page -->
+</div><!-- /fp -->
 
-<!-- ═══════════════════════════════════════════════════
-   SCRIPT
-═══════════════════════════════════════════════════ -->
+<!-- ═══ CERTIFICATE PAGE ═══ -->
+<div id="cert-page">
+  <div class="acts cert-no-print" style="margin-bottom:1.2rem;">
+    <button class="btn btn-out" onclick="closeCert()">← Torna alla Formula</button>
+    <button class="btn btn-green" onclick="window.print()">⬇️ Scarica PDF</button>
+  </div>
+
+  <div id="cert-print-area">
+    <!-- Header certificato -->
+    <div class="cert-header">
+      <div>
+        <div class="cert-logo"><div class="cert-logo-dot"></div>Parfum Studio</div>
+        <div style="font-size:.78rem;color:var(--g500);margin-top:.2rem;">AI-Powered Fragrance Generator</div>
+      </div>
+      <div class="cert-meta">
+        <div><strong>CERTIFICATO DI CONFORMITÀ IFRA</strong></div>
+        <div id="certNum" style="margin:.2rem 0;"></div>
+        <div id="certDate"></div>
+      </div>
+    </div>
+
+    <div class="cert-title">Dichiarazione di Conformità IFRA</div>
+    <p class="cert-sub" style="margin-bottom:1.4rem;">
+      Il sottoscritto dichiara che la miscela profumante descritta in questo documento è stata formulata nel rispetto degli standard IFRA (International Fragrance Association) — <strong>50th Amendment (2023)</strong>, Categoria 4 — Fine Fragrance / Leave-on.
+    </p>
+
+    <!-- Info prodotto -->
+    <div class="cert-section">
+      <div class="cert-section-title">Informazioni Prodotto</div>
+      <div class="cert-grid2">
+        <div class="cert-pair"><span class="cert-pair-l">Nome profumo</span><span class="cert-pair-v" id="cProdName">—</span></div>
+        <div class="cert-pair"><span class="cert-pair-l">Tipo concentrazione</span><span class="cert-pair-v" id="cType">—</span></div>
+        <div class="cert-pair"><span class="cert-pair-l">Volume formulato</span><span class="cert-pair-v" id="cVol">—</span></div>
+        <div class="cert-pair"><span class="cert-pair-l">Famiglia olfattiva</span><span class="cert-pair-v" id="cFam">—</span></div>
+        <div class="cert-pair"><span class="cert-pair-l">N° ingredienti</span><span class="cert-pair-v" id="cNIng">—</span></div>
+        <div class="cert-pair"><span class="cert-pair-l">Conc. essenze</span><span class="cert-pair-v" id="cConcPct">—</span></div>
+        <div class="cert-pair"><span class="cert-pair-l">Data formulazione</span><span class="cert-pair-v" id="cDataForm">—</span></div>
+        <div class="cert-pair"><span class="cert-pair-l">Standard applicato</span><span class="cert-pair-v">IFRA 50th Amendment</span></div>
+      </div>
+    </div>
+
+    <!-- Piramide olfattiva -->
+    <div class="cert-section">
+      <div class="cert-section-title">Piramide Olfattiva</div>
+      <div class="cert-grid2">
+        <div class="cert-pair"><span class="cert-pair-l">Note di Testa</span><span class="cert-pair-v" id="cPyrT">—</span></div>
+        <div class="cert-pair"><span class="cert-pair-l">Note di Cuore</span><span class="cert-pair-v" id="cPyrC">—</span></div>
+        <div class="cert-pair"><span class="cert-pair-l">Note di Fondo</span><span class="cert-pair-v" id="cPyrF">—</span></div>
+        <div class="cert-pair"><span class="cert-pair-l">Gocce totali</span><span class="cert-pair-v" id="cTotDr">—</span></div>
+      </div>
+    </div>
+
+    <!-- Ingredienti -->
+    <div class="cert-section">
+      <div class="cert-section-title">Composizione Dettagliata</div>
+      <table class="cert-ing-table">
+        <thead>
+          <tr>
+            <th>Ingrediente</th>
+            <th>Nota</th>
+            <th>Gocce</th>
+            <th>Grammi</th>
+            <th>% Conc.</th>
+            <th>% Prod. Finito</th>
+            <th>IFRA</th>
+          </tr>
+        </thead>
+        <tbody id="cIngTbody"></tbody>
+      </table>
+    </div>
+
+    <!-- IFRA specifico -->
+    <div class="cert-section">
+      <div class="cert-section-title">Verifica Limiti IFRA — Ingredienti Limitati</div>
+      <p style="font-size:.8rem;color:var(--g500);margin-bottom:.7rem;">
+        Di seguito la verifica per ogni ingrediente soggetto a restrizioni IFRA (50th Amendment, Cat. 4 — Fine Fragrance). Le concentrazioni si riferiscono al prodotto finito pronto all'uso.
+      </p>
+      <div id="cIfraContent"></div>
+      <div id="cIfraOkMsg"></div>
+    </div>
+
+    <!-- Esito globale -->
+    <div class="cert-section" style="display:flex;gap:2rem;align-items:flex-start;">
+      <div style="flex:1;">
+        <div class="cert-section-title">Esito Certificazione</div>
+        <div id="cEsitoTxt" style="font-size:.9rem;line-height:1.7;"></div>
+        <div class="cert-disclaimer">
+          <strong>⚠️ Disclaimer:</strong> questo certificato è generato automaticamente da Parfum Studio a scopo orientativo. 
+          Non sostituisce una valutazione di sicurezza professionale ai sensi del Regolamento (CE) n. 1223/2009 né una certificazione IFRA 
+          emessa da un profumiere certificato. Per uso commerciale o cosmetico, è obbligatoria una PIF (Product Information File) 
+          e una valutazione della sicurezza da parte di un valutatore qualificato. I limiti IFRA riportati sono quelli del 50th Amendment (2023) 
+          per la Categoria 4 (leave-on, applicazione diretta cute). Verificare sempre i certificati IFRA dei fornitori per ogni lotto di materia prima.
+        </div>
+      </div>
+      <div class="cert-stamp" id="cStamp" style="flex-shrink:0;">
+        <div id="cStampText">CONFORME</div>
+        <div style="margin-top:.3rem;font-size:.6rem;">IFRA CAT.4</div>
+        <div style="font-size:.6rem;">50th Amendment</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="cert-footer">
+      <div>
+        <div>Parfum Studio — AI Fragrance Generator</div>
+        <div id="cFootDate"></div>
+        <div>Certificato n° <span id="cFootNum"></span></div>
+      </div>
+      <div class="cert-sign">
+        <div class="cert-sign-line"></div>
+        <div>Generato automaticamente</div>
+        <div style="font-size:.75rem;">Parfum Studio v2.0</div>
+      </div>
+    </div>
+  </div><!-- /cert-print-area -->
+
+  <div class="acts cert-no-print" style="margin-top:1.2rem;">
+    <button class="btn btn-out" onclick="closeCert()">← Torna alla Formula</button>
+    <button class="btn btn-green" onclick="window.print()">⬇️ Scarica PDF</button>
+  </div>
+</div><!-- /cert-page -->
+
+<!-- ═══════════════ SCRIPT ═══════════════ -->
 <script>
-/* ══════════════════════════════
+/* ════════════════════════════════════════
    DATABASE INGREDIENTI
-   ifraLimited: true = soggetto a limiti IFRA
-   ifraMaxPct: % max nel PRODOTTO FINITO (categoria 4 — fine fragrance leave-on)
-   Fonte: IFRA 50th Amendment (2023)
-══════════════════════════════ */
+   ifra: true = soggetto a restrizioni IFRA
+   ifraMax: % massima nel PRODOTTO FINITO
+             (Cat. 4 — Fine Fragrance leave-on, IFRA 50th Amendment 2023)
+════════════════════════════════════════ */
 const DB=[
-  // ── TESTA ──
-  {n:"BERGAMOTTO",          note:"testa",fam:"agrumato", price:18,w:12,
-   compat:["fresco-agrumato","floreale","aromatico-fougere","marino-fresco","chypre-verde"],
-   ifra:true,  ifraMax:0.4,  ifraNote:"Furocumarine-free ≤0.4% (fotosensibilizzante se FCF)"},
-  {n:"LIMONE ITALIA",       note:"testa",fam:"agrumato", price:12,w:12,
-   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"],
-   ifra:true,  ifraMax:2.0,  ifraNote:"Limonene — soglia 2% prodotto finito"},
-  {n:"MANDARINO GIALLO",    note:"testa",fam:"agrumato", price:15,w:10,
-   compat:["fresco-agrumato","gourmand-dolce","floreale"],
-   ifra:false},
-  {n:"AGRUMEX",             note:"testa",fam:"agrumato", price:10,w:10,
-   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"],
-   ifra:false},
-  {n:"VERTOCITRAL C",       note:"testa",fam:"agrumato", price:13,w:8,
-   compat:["fresco-agrumato","marino-fresco"],
-   ifra:false},
-  {n:"ACETATO LINALILE",    note:"testa",fam:"floreale",  price:11,w:12,
-   compat:["floreale","fresco-agrumato","aromatico-fougere"],
-   ifra:true,  ifraMax:5.0,  ifraNote:"Linalyl acetate — nessun limite IFRA ma limite UE cosmetici 5%"},
-  {n:"LINALOLO",            note:"testa",fam:"floreale",  price:10,w:12,
-   compat:["floreale","fresco-agrumato","aromatico-fougere","chypre-verde"],
-   ifra:true,  ifraMax:5.0,  ifraNote:"Linalool — limite UE cosmetici 5% (allergene da dichiarare)"},
-  {n:"ETIL LINALOLO",       note:"testa",fam:"floreale",  price:8,w:10,
-   compat:["floreale","aromatico-fougere"],
-   ifra:false},
-  {n:"ISORALDEINA",         note:"testa",fam:"fresco",    price:11,w:8,
-   compat:["marino-fresco","fresco-agrumato","chypre-verde"],
-   ifra:false},
-  {n:"DIIDROMIRCENOLO",     note:"testa",fam:"fresco",    price:9,w:10,
-   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"],
-   ifra:false},
-  {n:"CARDAMOMO",           note:"testa",fam:"speziato",  price:20,w:6,
-   compat:["orientale-speziato","aromatico-fougere","legnoso-ambrato"],
-   ifra:false},
-  {n:"PEPE NERO",           note:"testa",fam:"speziato",  price:16,w:4,
-   compat:["orientale-speziato","legnoso-ambrato","chypre-verde"],
-   ifra:false},
-  {n:"MANZANATE",           note:"testa",fam:"fruttato",  price:16,w:3,
-   compat:["fresco-agrumato","gourmand-dolce","floreale"],
-   ifra:true,  ifraMax:0.05, ifraNote:"Allyl amyl glycolate — max 0.05% prodotto finito (molto potente)"},
-  {n:"ALLIL AMIL GLICOLATE",note:"testa",fam:"fruttato",  price:14,w:3,
-   compat:["fresco-agrumato","gourmand-dolce"],
-   ifra:true,  ifraMax:0.05, ifraNote:"Max 0.05% prodotto finito (IFRA restricts)"},
-  {n:"ACETATO EXILE",       note:"testa",fam:"fruttato",  price:7,w:8,
-   compat:["fresco-agrumato","floreale","gourmand-dolce"],
-   ifra:false},
+  // ──── TESTA ────
+  {n:"BERGAMOTTO",             note:"testa",fam:"agrumato", price:18,w:12, ifra:true,  ifraMax:0.4,  ifraNote:"FCF-free richiesto; olio standard max 0.4% (fototossico)",
+   compat:["fresco-agrumato","floreale","aromatico-fougere","marino-fresco","chypre-verde"]},
+  {n:"LIMONE ITALIA",          note:"testa",fam:"agrumato", price:12,w:12, ifra:true,  ifraMax:2.0,  ifraNote:"Limonene libero ≤2% prod. finito",
+   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
+  {n:"MANDARINO GIALLO",       note:"testa",fam:"agrumato", price:15,w:10, ifra:false,
+   compat:["fresco-agrumato","gourmand-dolce","floreale"]},
+  {n:"AGRUMEX",                note:"testa",fam:"agrumato", price:10,w:10, ifra:false,
+   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
+  {n:"VERTOCITRAL C",          note:"testa",fam:"agrumato", price:13,w:8,  ifra:false,
+   compat:["fresco-agrumato","marino-fresco"]},
+  {n:"ACETATO LINALILE",       note:"testa",fam:"floreale",  price:11,w:12, ifra:true,  ifraMax:5.0,  ifraNote:"Linalyl acetate — limite UE allergeni 5% leave-on",
+   compat:["floreale","fresco-agrumato","aromatico-fougere"]},
+  {n:"LINALOLO",               note:"testa",fam:"floreale",  price:10,w:12, ifra:true,  ifraMax:5.0,  ifraNote:"Linalool — limite UE allergeni 5% (dichiarazione INCI obbligatoria)",
+   compat:["floreale","fresco-agrumato","aromatico-fougere","chypre-verde"]},
+  {n:"ETIL LINALOLO",          note:"testa",fam:"floreale",  price:8, w:10, ifra:false,
+   compat:["floreale","aromatico-fougere"]},
+  {n:"ISORALDEINA",            note:"testa",fam:"fresco",    price:11,w:8,  ifra:false,
+   compat:["marino-fresco","fresco-agrumato","chypre-verde"]},
+  {n:"DIIDROMIRCENOLO",        note:"testa",fam:"fresco",    price:9, w:10, ifra:false,
+   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
+  {n:"CARDAMOMO",              note:"testa",fam:"speziato",  price:20,w:6,  ifra:false,
+   compat:["orientale-speziato","aromatico-fougere","legnoso-ambrato"]},
+  {n:"PEPE NERO",              note:"testa",fam:"speziato",  price:16,w:4,  ifra:false,
+   compat:["orientale-speziato","legnoso-ambrato","chypre-verde"]},
+  {n:"MANZANATE",              note:"testa",fam:"fruttato",  price:16,w:3,  ifra:true,  ifraMax:0.05, ifraNote:"Allyl amyl glycolate — max 0.05% prod. finito",
+   compat:["fresco-agrumato","gourmand-dolce","floreale"]},
+  {n:"ALLIL AMIL GLICOLATE",   note:"testa",fam:"fruttato",  price:14,w:3,  ifra:true,  ifraMax:0.05, ifraNote:"Max 0.05% prod. finito (IFRA 50th restricted)",
+   compat:["fresco-agrumato","gourmand-dolce"]},
+  {n:"ACETATO EXILE",          note:"testa",fam:"fruttato",  price:7, w:8,  ifra:false,
+   compat:["fresco-agrumato","floreale","gourmand-dolce"]},
 
-  // ── CUORE ──
-  {n:"HEDIONE",             note:"cuore",fam:"floreale",  price:25,w:15,
-   compat:["floreale","fresco-agrumato","aromatico-fougere","marino-fresco","chypre-verde"],
-   ifra:false},
-  {n:"DAMASCENONE",         note:"cuore",fam:"floreale",  price:55,w:1,
-   compat:["floreale","orientale-speziato","gourmand-dolce","chypre-verde"],
-   ifra:true,  ifraMax:0.02, ifraNote:"Beta-Damascenone — max 0.02% (potentissimo, usare 1–2 gocce/50ml)"},
-  {n:"ALFA DAMASCONE",      note:"cuore",fam:"floreale",  price:45,w:2,
-   compat:["floreale","orientale-speziato","chypre-verde"],
-   ifra:true,  ifraMax:0.02, ifraNote:"Alfa-Damascone — max 0.02% prodotto finito"},
-  {n:"GERANIOLO",           note:"cuore",fam:"floreale",  price:12,w:10,
-   compat:["floreale","chypre-verde","aromatico-fougere"],
-   ifra:true,  ifraMax:6.0,  ifraNote:"Geraniol — limite UE cosmetici 6% (allergene)"},
-  {n:"ACETATO BENZILE",     note:"cuore",fam:"floreale",  price:8,w:10,
-   compat:["floreale","aromatico-fougere"],
-   ifra:false},
-  {n:"IDROSSICITRONELLALE", note:"cuore",fam:"floreale",  price:9,w:12,
-   compat:["floreale","fresco-agrumato","chypre-verde"],
-   ifra:true,  ifraMax:1.0,  ifraNote:"Hydroxycitronellal — max 1.0% leave-on (sensibilizzante)"},
-  {n:"SALICILATO BENZILE",  note:"cuore",fam:"floreale",  price:7,w:12,
-   compat:["floreale","chypre-verde","aromatico-fougere"],
-   ifra:true,  ifraMax:10.0, ifraNote:"Benzyl salicylate — limite UE cosmetici 10%"},
-  {n:"ACETATO GERANILE",    note:"cuore",fam:"floreale",  price:9,w:10,
-   compat:["floreale","chypre-verde"],
-   ifra:false},
-  {n:"ALDEIDE ALFA EXILCINNAMICA",note:"cuore",fam:"floreale",price:15,w:5,
-   compat:["floreale","orientale-speziato"],
-   ifra:true,  ifraMax:0.5,  ifraNote:"α-Hexylcinnamaldehyde — max 0.5% leave-on"},
-  {n:"ANTRANILATO METILE",  note:"cuore",fam:"floreale",  price:8,w:8,
-   compat:["floreale","gourmand-dolce"],
-   ifra:false},
-  {n:"LAVANDINO GROSSO",    note:"cuore",fam:"aromatico", price:12,w:12,
-   compat:["aromatico-fougere","fresco-agrumato","legnoso-ambrato","chypre-verde"],
-   ifra:false},
-  {n:"SALVIA SCLAREA",      note:"cuore",fam:"aromatico", price:14,w:10,
-   compat:["aromatico-fougere","legnoso-ambrato","orientale-speziato"],
-   ifra:false},
-  {n:"HELIONAL",            note:"cuore",fam:"marino",    price:22,w:10,
-   compat:["marino-fresco","fresco-agrumato"],
-   ifra:false},
-  {n:"ALDEIDE C14",         note:"cuore",fam:"fresco",    price:12,w:6,
-   compat:["marino-fresco","fresco-agrumato","chypre-verde"],
-   ifra:false},
-  {n:"OCTINE CARBONATO METILE",note:"cuore",fam:"verde",  price:12,w:8,
-   compat:["chypre-verde","floreale","aromatico-fougere"],
-   ifra:false},
-  {n:"CANNELLA CINA",       note:"cuore",fam:"speziato",  price:25,w:2,
-   compat:["orientale-speziato","gourmand-dolce"],
-   ifra:true,  ifraMax:0.1,  ifraNote:"Cinnamal/cinammic aldehyde — max 0.1% leave-on (forte allergene)"},
-  {n:"NOCE MOSCATA",        note:"cuore",fam:"speziato",  price:14,w:5,
-   compat:["orientale-speziato","legnoso-ambrato","gourmand-dolce"],
-   ifra:true,  ifraMax:1.0,  ifraNote:"Nutmeg oil — max 1% leave-on (safrol ridotto)"},
-  {n:"EUGENOLO PURO",       note:"cuore",fam:"speziato",  price:10,w:4,
-   compat:["orientale-speziato","chypre-verde"],
-   ifra:true,  ifraMax:0.5,  ifraNote:"Eugenol — max 0.5% leave-on (forte allergene IFRA)"},
+  // ──── CUORE ────
+  {n:"HEDIONE",                note:"cuore",fam:"floreale",  price:25,w:15, ifra:false,
+   compat:["floreale","fresco-agrumato","aromatico-fougere","marino-fresco","chypre-verde"]},
+  {n:"DAMASCENONE",            note:"cuore",fam:"floreale",  price:55,w:1,  ifra:true,  ifraMax:0.02, ifraNote:"Beta-Damascenone — max 0.02% prod. finito (potentissimo)",
+   compat:["floreale","orientale-speziato","gourmand-dolce","chypre-verde"]},
+  {n:"ALFA DAMASCONE",         note:"cuore",fam:"floreale",  price:45,w:2,  ifra:true,  ifraMax:0.02, ifraNote:"α-Damascone — max 0.02% prod. finito",
+   compat:["floreale","orientale-speziato","chypre-verde"]},
+  {n:"GERANIOLO",              note:"cuore",fam:"floreale",  price:12,w:10, ifra:true,  ifraMax:6.0,  ifraNote:"Geraniol — limite UE allergeni 6% leave-on",
+   compat:["floreale","chypre-verde","aromatico-fougere"]},
+  {n:"ACETATO BENZILE",        note:"cuore",fam:"floreale",  price:8, w:10, ifra:false,
+   compat:["floreale","aromatico-fougere"]},
+  {n:"IDROSSICITRONELLALE",    note:"cuore",fam:"floreale",  price:9, w:12, ifra:true,  ifraMax:1.0,  ifraNote:"Hydroxycitronellal — max 1.0% leave-on (sensibilizzante)",
+   compat:["floreale","fresco-agrumato","chypre-verde"]},
+  {n:"SALICILATO BENZILE",     note:"cuore",fam:"floreale",  price:7, w:12, ifra:true,  ifraMax:10.0, ifraNote:"Benzyl salicylate — limite UE 10% leave-on",
+   compat:["floreale","chypre-verde","aromatico-fougere"]},
+  {n:"ACETATO GERANILE",       note:"cuore",fam:"floreale",  price:9, w:10, ifra:false,
+   compat:["floreale","chypre-verde"]},
+  {n:"ALDEIDE ALFA EXILCINNAMICA",note:"cuore",fam:"floreale",price:15,w:5, ifra:true,  ifraMax:0.5,  ifraNote:"α-Hexylcinnamaldehyde — max 0.5% leave-on",
+   compat:["floreale","orientale-speziato"]},
+  {n:"ANTRANILATO METILE",     note:"cuore",fam:"floreale",  price:8, w:8,  ifra:false,
+   compat:["floreale","gourmand-dolce"]},
+  {n:"LAVANDINO GROSSO",       note:"cuore",fam:"aromatico", price:12,w:12, ifra:false,
+   compat:["aromatico-fougere","fresco-agrumato","legnoso-ambrato","chypre-verde"]},
+  {n:"SALVIA SCLAREA",         note:"cuore",fam:"aromatico", price:14,w:10, ifra:false,
+   compat:["aromatico-fougere","legnoso-ambrato","orientale-speziato"]},
+  {n:"HELIONAL",               note:"cuore",fam:"marino",    price:22,w:10, ifra:false,
+   compat:["marino-fresco","fresco-agrumato"]},
+  {n:"ALDEIDE C14",            note:"cuore",fam:"fresco",    price:12,w:6,  ifra:false,
+   compat:["marino-fresco","fresco-agrumato","chypre-verde"]},
+  {n:"OCTINE CARBONATO METILE",note:"cuore",fam:"verde",     price:12,w:8,  ifra:false,
+   compat:["chypre-verde","floreale","aromatico-fougere"]},
+  {n:"CANNELLA CINA",          note:"cuore",fam:"speziato",  price:25,w:2,  ifra:true,  ifraMax:0.1,  ifraNote:"Cinnamaldehyde — max 0.1% leave-on (forte allergene IFRA)",
+   compat:["orientale-speziato","gourmand-dolce"]},
+  {n:"NOCE MOSCATA",           note:"cuore",fam:"speziato",  price:14,w:5,  ifra:true,  ifraMax:1.0,  ifraNote:"Nutmeg oil (safrolo rid.) — max 1.0% leave-on",
+   compat:["orientale-speziato","legnoso-ambrato","gourmand-dolce"]},
+  {n:"EUGENOLO PURO",          note:"cuore",fam:"speziato",  price:10,w:4,  ifra:true,  ifraMax:0.5,  ifraNote:"Eugenol — max 0.5% leave-on (allergene IFRA)",
+   compat:["orientale-speziato","chypre-verde"]},
 
-  // ── FONDO ──
-  {n:"ISO E SUPER",         note:"fondo",fam:"legnoso",   price:18,w:15,
-   compat:["legnoso-ambrato","orientale-speziato","marino-fresco","aromatico-fougere","chypre-verde","floreale"],
-   ifra:false},
-  {n:"CEDRO VIRGINIA",      note:"fondo",fam:"legnoso",   price:16,w:10,
-   compat:["legnoso-ambrato","orientale-speziato","aromatico-fougere","chypre-verde"],
-   ifra:false},
-  {n:"PATCHOULY",           note:"fondo",fam:"legnoso",   price:20,w:8,
-   compat:["legnoso-ambrato","orientale-speziato","chypre-verde","gourmand-dolce"],
-   ifra:false},
-  {n:"VETIVER GIAVA",       note:"fondo",fam:"legnoso",   price:22,w:10,
-   compat:["legnoso-ambrato","fresco-agrumato","chypre-verde","aromatico-fougere"],
-   ifra:false},
-  {n:"SANDALORE",           note:"fondo",fam:"legnoso",   price:24,w:10,
-   compat:["legnoso-ambrato","floreale","orientale-speziato","gourmand-dolce"],
-   ifra:false},
-  {n:"VERTOFIX COEUR",      note:"fondo",fam:"legnoso",   price:20,w:10,
-   compat:["legnoso-ambrato","chypre-verde","aromatico-fougere"],
-   ifra:false},
-  {n:"MOUSSE DE METRE",     note:"fondo",fam:"legnoso",   price:28,w:5,
-   compat:["chypre-verde","aromatico-fougere","legnoso-ambrato"],
-   ifra:true,  ifraMax:0.03, ifraNote:"Oakmoss absolute — max 0.03% leave-on (IFRA strictly restricted)"},
-  {n:"AMBROX SUPER",        note:"fondo",fam:"ambrato",   price:35,w:6,
-   compat:["legnoso-ambrato","orientale-speziato","floreale","gourmand-dolce"],
-   ifra:false},
-  {n:"ALDEIDE C18",         note:"fondo",fam:"orientale", price:10,w:4,
-   compat:["orientale-speziato","gourmand-dolce","legnoso-ambrato"],
-   ifra:false},
-  {n:"CUMARINA",            note:"fondo",fam:"dolce",     price:10,w:8,
-   compat:["gourmand-dolce","orientale-speziato","aromatico-fougere"],
-   ifra:true,  ifraMax:1.0,  ifraNote:"Coumarin — max 1.0% leave-on (IFRA 50th)"},
-  {n:"VANILLA",             note:"fondo",fam:"dolce",     price:12,w:5,
-   compat:["gourmand-dolce","orientale-speziato","floreale"],
-   ifra:false},
-  {n:"GALAXOLIDE",          note:"fondo",fam:"muschiato", price:16,w:10,
-   compat:["floreale","legnoso-ambrato","marino-fresco","aromatico-fougere","chypre-verde"],
-   ifra:false},
-  {n:"HABANOLIDE",          note:"fondo",fam:"muschiato", price:25,w:6,
-   compat:["floreale","legnoso-ambrato","gourmand-dolce"],
-   ifra:false},
-  {n:"ETILENE BRASSILATE",  note:"fondo",fam:"muschiato", price:18,w:8,
-   compat:["floreale","marino-fresco","chypre-verde","aromatico-fougere"],
-   ifra:false},
-  {n:"INCENSO PURO",        note:"fondo",fam:"resinoso",  price:30,w:5,
-   compat:["orientale-speziato","legnoso-ambrato","chypre-verde"],
-   ifra:false},
-  {n:"MIRRA",               note:"fondo",fam:"resinoso",  price:22,w:6,
-   compat:["orientale-speziato","legnoso-ambrato"],
-   ifra:false},
-  {n:"BENZOATO BENZILE",    note:"fondo",fam:"balsamico", price:7,w:8,
-   compat:["floreale","orientale-speziato","gourmand-dolce"],
-   ifra:true,  ifraMax:8.0,  ifraNote:"Benzyl benzoate — limite UE cosmetici 8% leave-on"},
+  // ──── FONDO ────
+  {n:"ISO E SUPER",            note:"fondo",fam:"legnoso",   price:18,w:15, ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","marino-fresco","aromatico-fougere","chypre-verde","floreale"]},
+  {n:"CEDRO VIRGINIA",         note:"fondo",fam:"legnoso",   price:16,w:10, ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","aromatico-fougere","chypre-verde"]},
+  {n:"PATCHOULY",              note:"fondo",fam:"legnoso",   price:20,w:8,  ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","chypre-verde","gourmand-dolce"]},
+  {n:"VETIVER GIAVA",          note:"fondo",fam:"legnoso",   price:22,w:10, ifra:false,
+   compat:["legnoso-ambrato","fresco-agrumato","chypre-verde","aromatico-fougere"]},
+  {n:"SANDALORE",              note:"fondo",fam:"legnoso",   price:24,w:10, ifra:false,
+   compat:["legnoso-ambrato","floreale","orientale-speziato","gourmand-dolce"]},
+  {n:"VERTOFIX COEUR",         note:"fondo",fam:"legnoso",   price:20,w:10, ifra:false,
+   compat:["legnoso-ambrato","chypre-verde","aromatico-fougere"]},
+  {n:"MOUSSE DE METRE",        note:"fondo",fam:"legnoso",   price:28,w:5,  ifra:true,  ifraMax:0.03, ifraNote:"Oakmoss absolute — max 0.03% leave-on (IFRA strictly restricted)",
+   compat:["chypre-verde","aromatico-fougere","legnoso-ambrato"]},
+  {n:"AMBROX SUPER",           note:"fondo",fam:"ambrato",   price:35,w:6,  ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","floreale","gourmand-dolce"]},
+  {n:"ALDEIDE C18",            note:"fondo",fam:"orientale", price:10,w:4,  ifra:false,
+   compat:["orientale-speziato","gourmand-dolce","legnoso-ambrato"]},
+  {n:"CUMARINA",               note:"fondo",fam:"dolce",     price:10,w:8,  ifra:true,  ifraMax:1.0,  ifraNote:"Coumarin — max 1.0% leave-on (IFRA 50th)",
+   compat:["gourmand-dolce","orientale-speziato","aromatico-fougere"]},
+  {n:"VANILLA",                note:"fondo",fam:"dolce",     price:12,w:5,  ifra:false,
+   compat:["gourmand-dolce","orientale-speziato","floreale"]},
+  {n:"GALAXOLIDE",             note:"fondo",fam:"muschiato", price:16,w:10, ifra:false,
+   compat:["floreale","legnoso-ambrato","marino-fresco","aromatico-fougere","chypre-verde"]},
+  {n:"HABANOLIDE",             note:"fondo",fam:"muschiato", price:25,w:6,  ifra:false,
+   compat:["floreale","legnoso-ambrato","gourmand-dolce"]},
+  {n:"ETILENE BRASSILATE",     note:"fondo",fam:"muschiato", price:18,w:8,  ifra:false,
+   compat:["floreale","marino-fresco","chypre-verde","aromatico-fougere"]},
+  {n:"INCENSO PURO",           note:"fondo",fam:"resinoso",  price:30,w:5,  ifra:false,
+   compat:["orientale-speziato","legnoso-ambrato","chypre-verde"]},
+  {n:"MIRRA",                  note:"fondo",fam:"resinoso",  price:22,w:6,  ifra:false,
+   compat:["orientale-speziato","legnoso-ambrato"]},
+  {n:"BENZOATO BENZILE",       note:"fondo",fam:"balsamico", price:7, w:8,  ifra:true,  ifraMax:8.0,  ifraNote:"Benzyl benzoate — limite UE 8% leave-on",
+   compat:["floreale","orientale-speziato","gourmand-dolce"]},
 ];
 
-/* ══ Costanti ══ */
-const CONC_PCT = {edc:5, edt:10, edp:17};
-const ALC_COST = 0.015; // €/ml
-const DROP_ML  = 0.05;  // 1 goccia ≈ 0.05 ml
-const DENSITY  = 1.0;   // g/ml media (approssimazione)
-const PYR = {testa:25, cuore:40, fondo:35};
+/* costanti */
+const CONC  = {edc:5, edt:10, edp:17};
+const ALCML = 0.015; // €/ml alcol
+const DROML = 0.05;  // ml/goccia
+const DENS  = 1.0;   // g/ml media
 
-const DESCS = {
-  "fresco-agrumato":    "Profilo agrumato brillante — note di apertura vivaci su base leggera e raffinata.",
-  "floreale":           "Bouquet floreale elegante — cuore ricco di fiori sostenuto da base muschiata.",
-  "aromatico-fougere":  "Struttura fougère classica — lavanda, erbe aromatiche, base legnosa pulita.",
-  "legnoso-ambrato":    "Legni nobili e ambra calda — scia profonda e persistente da sera.",
-  "orientale-speziato": "Spezie esotiche e resine — composizione misteriosamente avvolgente.",
-  "marino-fresco":      "Brezze ozoniche e note acquatiche — freschezza moderna e urbana.",
-  "chypre-verde":       "Accordo chypre sofisticato — patchouly, muschio di quercia, foglie verdi.",
-  "gourmand-dolce":     "Note golose e avvolgenti — vaniglia, cumarina, gourmand morbido.",
+const PYR   = {testa:25, cuore:40, fondo:35};
+
+const FAMNAMES = {
+  "fresco-agrumato":"Fresco & Agrumato","floreale":"Floreale & Romantico",
+  "aromatico-fougere":"Aromatico & Fougère","legnoso-ambrato":"Legnoso & Ambrato",
+  "orientale-speziato":"Orientale & Speziato","marino-fresco":"Marino & Acquatico",
+  "chypre-verde":"Chypre & Verde","gourmand-dolce":"Gourmand & Dolce"
+};
+const FAMDESCS = {
+  "fresco-agrumato":"Profilo agrumato brillante — apertura vivace su base leggera e raffinata.",
+  "floreale":"Bouquet floreale elegante — cuore ricco di fiori sostenuto da base muschiata.",
+  "aromatico-fougere":"Struttura fougère classica — lavanda, erbe aromatiche, base legnosa pulita.",
+  "legnoso-ambrato":"Legni nobili e ambra calda — scia profonda e persistente da sera.",
+  "orientale-speziato":"Spezie esotiche e resine — composizione misteriosamente avvolgente.",
+  "marino-fresco":"Brezze ozoniche e note acquatiche — freschezza moderna e urbana.",
+  "chypre-verde":"Accordo chypre sofisticato — patchouly, muschio di quercia, foglie verdi.",
+  "gourmand-dolce":"Note golose — vaniglia, cumarina, gourmand morbido."
 };
 
-/* ══ State ══ */
-let curStep = 1;
-const sel = {family:null, intensity:null, occasions:[], sweet:50, fresh:50, depth:50};
-let curFormula = null;
+/* ══ STATE ══ */
+let curStep=1;
+const sel={family:null,intensity:null,occasions:[],sweet:50,fresh:50,depth:50};
+let F=null; // formula corrente
 
-/* ══ Landing → App ══ */
+/* ══ LANDING ══ */
 function startApp(){
-  const d = document.getElementById('dot');
+  const d=document.getElementById('dot');
   d.classList.add('boom');
-  setTimeout(()=>{ document.getElementById('landing').classList.add('fade'); }, 350);
+  setTimeout(()=>document.getElementById('landing').classList.add('fade'),350);
   setTimeout(()=>{
     document.getElementById('landing').style.display='none';
     document.getElementById('hdr').style.display='block';
     document.getElementById('app').classList.add('show');
-    updateProgress();
-  }, 900);
+    updProg();
+  },900);
 }
 
-/* ══ Picks / Tags / Sliders ══ */
-function pick(el, key){
-  el.closest('.cards').querySelectorAll('.opt-card').forEach(c=>c.classList.remove('sel'));
+/* ══ WIZARD helpers ══ */
+function pick(el,key){
+  el.closest('.cards').querySelectorAll('.oc').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');
-  sel[key] = el.dataset.v;
+  sel[key]=el.dataset.v;
 }
 function toggleTag(el){
   el.classList.toggle('sel');
-  const v = el.dataset.v, i = sel.occasions.indexOf(v);
-  if(i>-1) sel.occasions.splice(i,1); else sel.occasions.push(v);
+  const v=el.dataset.v,i=sel.occasions.indexOf(v);
+  if(i>-1)sel.occasions.splice(i,1);else sel.occasions.push(v);
 }
-function updSlider(id, valId, key){
-  const v = +document.getElementById(id).value;
-  document.getElementById(valId).textContent = v+'%';
-  sel[key] = v;
+function usl(id,vid,key){
+  const v=+document.getElementById(id).value;
+  document.getElementById(vid).textContent=v+'%';
+  sel[key]=v;
 }
-
-/* ══ Step navigation ══ */
 function goNext(){
-  if(curStep===1 && !sel.family){alert('⚠️ Seleziona una famiglia olfattiva.'); return;}
-  if(curStep===2 && !sel.intensity){alert('⚠️ Seleziona il tipo di concentrazione.'); return;}
+  if(curStep===1&&!sel.family){alert('⚠️ Seleziona una famiglia olfattiva.');return;}
+  if(curStep===2&&!sel.intensity){alert('⚠️ Seleziona il tipo di concentrazione.');return;}
   setStep(curStep+1);
 }
-function goBack(){ setStep(curStep-1); }
+function goBack(){setStep(curStep-1);}
 function setStep(n){
   document.querySelector(`.step[data-step="${curStep}"]`).classList.remove('on');
-  const prevPs = document.querySelector(`.ps[data-s="${curStep}"]`);
-  if(n>curStep) prevPs.classList.replace('active','done');
-  else { prevPs.classList.remove('done','active'); }
-  curStep = n;
+  const prev=document.querySelector(`.ps[data-s="${curStep}"]`);
+  if(n>curStep)prev.classList.replace('active','done');
+  else prev.classList.remove('done','active');
+  curStep=n;
   document.querySelector(`.step[data-step="${curStep}"]`).classList.add('on');
   document.querySelector(`.ps[data-s="${curStep}"]`).classList.add('active');
-  updateProgress();
+  updProg();
   window.scrollTo({top:0,behavior:'smooth'});
 }
-function updateProgress(){
-  document.getElementById('progLine').style.width = ((curStep-1)/4*100)+'%';
+function updProg(){
+  document.getElementById('pline').style.width=((curStep-1)/4*100)+'%';
 }
 
-/* ══════════════════════════════
-   GENERA FORMULA
-══════════════════════════════ */
+/* ══════════════════════════════════════════
+   GENERA FORMULA con TARA IFRA
+══════════════════════════════════════════ */
 function generate(){
-  const vol  = parseInt(document.getElementById('perfVol').value)||50;
-  const name = document.getElementById('perfName').value.trim()||'Il Mio Profumo';
-  const fam  = sel.family;
-  const type = sel.intensity;
-  const concPct = CONC_PCT[type];
+  const vol =parseInt(document.getElementById('pVol').value)||50;
+  const name=document.getElementById('pName').value.trim()||'Il Mio Profumo';
+  const fam =sel.family;
+  const type=sel.intensity;
+  const concPct=CONC[type];
 
-  /* Seleziona ingredienti per famiglia + stile */
-  function styleScore(x){
+  /* Score stile per ordinare ingredienti */
+  const styleScore=x=>{
     let s=0;
-    if(sel.sweet>60 && ['dolce','fruttato','gourmand'].includes(x.fam)) s+=2;
-    if(sel.fresh>60 && ['agrumato','fresco','marino'].includes(x.fam)) s+=2;
-    if(sel.depth>60 && ['resinoso','ambrato','legnoso','orientale'].includes(x.fam)) s+=2;
+    if(sel.sweet>60&&['dolce','fruttato','gourmand'].includes(x.fam))s+=2;
+    if(sel.fresh>60&&['agrumato','fresco','marino'].includes(x.fam))s+=2;
+    if(sel.depth>60&&['resinoso','ambrato','legnoso','orientale'].includes(x.fam))s+=2;
     return s;
-  }
-  const pool = note => DB.filter(x=>x.note===note && x.compat.includes(fam))
-                          .sort((a,b)=>styleScore(b)-styleScore(a));
+  };
+  const pool=note=>DB.filter(x=>x.note===note&&x.compat.includes(fam))
+                     .sort((a,b)=>styleScore(b)-styleScore(a));
 
-  const tPool = pool('testa'), cPool = pool('cuore'), fPool = pool('fondo');
-  const tPick = tPool.slice(0,3);
-  const cPick = cPool.slice(0,4);
-  const fPick = fPool.slice(0,3);
+  const tPick=pool('testa').slice(0,3);
+  const cPick=pool('cuore').slice(0,4);
+  const fPick=pool('fondo').slice(0,3);
 
-  /* Calcola ml necessari */
-  const concMl = vol * concPct / 100;
-  const alcMl  = vol - concMl;
-  const totalDropsTarget = concMl / DROP_ML;
+  const concMl=vol*concPct/100;
+  const alcMl =vol-concMl;
+  const totalDropsTarget=concMl/DROML;
 
-  /* Distribuisci gocce rispettando proporzioni piramide */
-  function assignDrops(group, pyrPct){
-    const gDrops = totalDropsTarget * pyrPct / 100;
-    const sumW   = group.reduce((s,x)=>s+x.w, 0)||1;
+  /* assegna gocce iniziali proporzionali al peso relativo */
+  const assignDrops=(group,pyrPct)=>{
+    const gDrops=totalDropsTarget*pyrPct/100;
+    const sumW=group.reduce((s,x)=>s+x.w,0)||1;
     return group.map(x=>({
       ...x,
-      drops: Math.max(1, Math.round(x.w/sumW * gDrops))
+      drops:Math.max(1,Math.round(x.w/sumW*gDrops)),
+      adjusted:false
     }));
-  }
-
-  const tF = assignDrops(tPick, PYR.testa);
-  const cF = assignDrops(cPick, PYR.cuore);
-  const fF = assignDrops(fPick, PYR.fondo);
-  const formula = [...tF, ...cF, ...fF];
-  const totalDrops = formula.reduce((s,x)=>s+x.drops,0);
-
-  /* Piramide reale */
-  const pyr = {
-    testa: (tF.reduce((s,x)=>s+x.drops,0)/totalDrops*100).toFixed(1),
-    cuore: (cF.reduce((s,x)=>s+x.drops,0)/totalDrops*100).toFixed(1),
-    fondo: (fF.reduce((s,x)=>s+x.drops,0)/totalDrops*100).toFixed(1),
   };
 
-  /* Costi */
-  const concCost = formula.reduce((s,x)=> s + (x.price/10)*(x.drops*DROP_ML), 0);
-  const alcCost  = alcMl * ALC_COST;
-  const totCost  = concCost + alcCost;
+  let tF=assignDrops(tPick,PYR.testa);
+  let cF=assignDrops(cPick,PYR.cuore);
+  let fF=assignDrops(fPick,PYR.fondo);
+  let formula=[...tF,...cF,...fF];
 
-  curFormula = {
-    name, fam, type, vol, concPct, concMl, alcMl,
-    formula, totalDrops, pyr, concCost, alcCost, totCost
+  /* ── TARA IFRA ──
+     Per ogni ingrediente IFRA-limitato, calcola la % nel prodotto finito
+     e riduce le gocce se supera il limite.
+     % prod.finito = (gocce × DROML) / vol × 100
+     gocce_max = (ifraMax/100 × vol) / DROML
+  */
+  const adjustments=[];
+  formula=formula.map(x=>{
+    if(!x.ifra)return x;
+    const maxDrops=Math.floor((x.ifraMax/100*vol)/DROML);
+    if(x.drops>maxDrops){
+      adjustments.push({
+        n:x.n,
+        orig:x.drops,
+        adj:Math.max(1,maxDrops),
+        ifraMax:x.ifraMax
+      });
+      return{...x,drops:Math.max(1,maxDrops),adjusted:true};
+    }
+    return x;
+  });
+
+  const totalDrops=formula.reduce((s,x)=>s+x.drops,0);
+
+  /* piramide reale */
+  const pyr={
+    testa:(formula.filter(x=>x.note==='testa').reduce((s,x)=>s+x.drops,0)/totalDrops*100).toFixed(1),
+    cuore:(formula.filter(x=>x.note==='cuore').reduce((s,x)=>s+x.drops,0)/totalDrops*100).toFixed(1),
+    fondo:(formula.filter(x=>x.note==='fondo').reduce((s,x)=>s+x.drops,0)/totalDrops*100).toFixed(1),
   };
 
-  renderPreview(curFormula);
+  /* costi */
+  const concCost=formula.reduce((s,x)=>s+(x.price/10)*(x.drops*DROML),0);
+  const alcCost =alcMl*ALCML;
+  const totCost =concCost+alcCost;
+
+  F={name,fam,type,vol,concPct,concMl,alcMl,formula,totalDrops,pyr,concCost,alcCost,totCost,adjustments};
+
+  renderPreview(F);
 }
 
-/* ══════════════════════════════
-   RENDER ANTEPRIMA (pubblica)
-══════════════════════════════ */
+/* ══ RENDER ANTEPRIMA ══ */
 function renderPreview(f){
-  document.getElementById('prevTitle').textContent =
-    `${f.name} — ${f.formula.length} ingredienti`;
-
-  /* Piramide */
+  document.getElementById('prevTitle').textContent=`${f.name} — ${f.formula.length} ingredienti`;
   setTimeout(()=>{
-    ['T','C','F'].forEach((k,i)=>{
-      const pct = [f.pyr.testa, f.pyr.cuore, f.pyr.fondo][i];
-      document.getElementById('p'+k+'lbl').textContent = pct+'%';
-      const bar = document.getElementById('p'+k+'bar');
-      bar.style.width = pct+'%';
-      bar.textContent = pct+'%';
+    [['T',f.pyr.testa],['C',f.pyr.cuore],['F',f.pyr.fondo]].forEach(([k,p])=>{
+      document.getElementById('p'+k+'l').textContent=p+'%';
+      const b=document.getElementById('p'+k+'b');
+      b.style.width=p+'%';b.textContent=p+'%';
     });
-  }, 200);
+  },200);
 
-  /* Lista */
-  const list = document.getElementById('prevList');
-  list.innerHTML = f.formula.map(x=>{
-    const pct   = (x.drops/f.totalDrops*100).toFixed(1);
-    const grams = (x.drops*DROP_ML*DENSITY).toFixed(3);
-    const bc    = x.note==='testa'?'bt':x.note==='cuore'?'bc':'bf';
-    return `
-    <div class="ing-row">
-      <div class="ing-name-wrap">
-        <span class="ing-name">${x.n}</span>
-        <span class="badge ${bc}">${x.note}</span>
-      </div>
+  document.getElementById('prevList').innerHTML=f.formula.map(x=>{
+    const pct=(x.drops/f.totalDrops*100).toFixed(1);
+    const gr =(x.drops*DROML*DENS).toFixed(3);
+    const bc =x.note==='testa'?'bt':x.note==='cuore'?'bc':'bf';
+    const adjBadge=x.adjusted?'<span class="badge adj-badge">IFRA tarato</span>':'';
+    return`<div class="ing-row">
+      <div class="ing-nw"><span class="ing-n">${x.n}</span><span class="badge ${bc}">${x.note}</span>${x.ifra?'<span class="badge ifra-badge">IFRA</span>':''}${adjBadge}</div>
       <span class="ing-pct">${pct}%</span>
-      <span class="ing-drops">${x.drops} gocce</span>
-      <span class="ing-grams">${grams} g</span>
+      <span class="ing-dr">${x.drops} gocce</span>
+      <span class="ing-gr">${gr} g</span>
     </div>`;
   }).join('');
+
+  /* messaggio tara */
+  const tm=document.getElementById('ifraTaraMsg');
+  if(f.adjustments.length>0){
+    tm.innerHTML=`<div class="ib warn"><strong>⚙️ Tara IFRA applicata</strong> — ${f.adjustments.length} ingrediente/i ridotti automaticamente per rispettare i limiti IFRA Cat.4:<br><ul style="margin:.5rem 0 0 1.2rem;">${
+      f.adjustments.map(a=>`<li><strong>${a.n}</strong>: ${a.orig} → ${a.adj} gocce (max IFRA ${a.ifraMax}% prod. finito)</li>`).join('')
+    }</ul></div>`;
+  } else {
+    tm.innerHTML=`<div class="ib ok"><strong>✅ Formula IFRA-conforme</strong> — Nessuna riduzione necessaria.</div>`;
+  }
 
   document.getElementById('preview').classList.remove('hidden');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ══════════════════════════════
-   MODAL PASSWORD
-══════════════════════════════ */
-function openPassModal(){
-  document.getElementById('passInput').value='';
+/* ══ MODAL PASSWORD ══ */
+function openPass(){
+  if(!F){alert('⚠️ Genera prima una formula con il wizard.');return;}
+  document.getElementById('passInp').value='';
   document.getElementById('passErr').textContent='';
-  document.getElementById('pass-overlay').classList.add('show');
-  setTimeout(()=>document.getElementById('passInput').focus(),200);
+  document.getElementById('pass-ov').classList.add('show');
+  setTimeout(()=>document.getElementById('passInp').focus(),180);
 }
-function closePassModal(){
-  document.getElementById('pass-overlay').classList.remove('show');
-}
-function checkPass(){
-  const pwd = document.getElementById('passInput').value;
-  if(pwd!=='FormularioProfumi'){
-    document.getElementById('passErr').textContent='❌ Password errata.';
-    document.getElementById('passInput').select();
+function closePass(){document.getElementById('pass-ov').classList.remove('show');}
+function chkPass(){
+  const pw=document.getElementById('passInp').value;
+  if(pw!=='FormularioProfumi'){
+    document.getElementById('passErr').textContent='❌ Password errata. Riprova.';
+    document.getElementById('passInp').select();
     return;
   }
-  if(!curFormula){
-    document.getElementById('passErr').textContent='⚠️ Genera prima una formula con il wizard.';
-    return;
-  }
-  closePassModal();
-  showFormulaPage();
+  closePass();
+  showFP();
 }
 
-/* ══════════════════════════════
-   PAGINA FORMULA (protetta)
-══════════════════════════════ */
-function showFormulaPage(){
-  const f = curFormula;
-  const fp = document.getElementById('formula-page');
+/* ══════════════════════════════════════════
+   FORMULA PAGE (protetta)
+══════════════════════════════════════════ */
+function showFP(){
+  const f=F;
+  const typeLabel={edc:'Eau de Cologne (EDC) ~5%',edt:'Eau de Toilette (EDT) ~10%',edp:'Eau de Parfum (EDP) ~17%'};
 
-  /* Hero */
-  document.getElementById('fpName').textContent = f.name;
-  document.getElementById('fpDesc').textContent = DESCS[f.fam]||'';
+  document.getElementById('fpName').textContent=f.name;
+  document.getElementById('fpDesc').textContent=FAMDESCS[f.fam]||'';
+  document.getElementById('fpType').textContent=typeLabel[f.type];
+  document.getElementById('fpVol').textContent=f.vol+' ml';
+  document.getElementById('fpCml').textContent=f.concMl.toFixed(2)+' ml';
+  document.getElementById('fpAml').textContent=f.alcMl.toFixed(2)+' ml';
+  document.getElementById('fpDr').textContent=f.totalDrops+' gocce';
+  document.getElementById('fpGr').textContent=(f.totalDrops*DROML*DENS).toFixed(2)+' g';
+  document.getElementById('fpNi').textContent=f.formula.length;
 
-  /* Riepilogo */
-  const typeLabel = {edc:'Eau de Cologne (EDC) ~5%', edt:'Eau de Toilette (EDT) ~10%', edp:'Eau de Parfum (EDP) ~17%'};
-  document.getElementById('fpType').textContent    = typeLabel[f.type];
-  document.getElementById('fpVol').textContent     = f.vol+' ml';
-  document.getElementById('fpConcMl').textContent  = f.concMl.toFixed(2)+' ml';
-  document.getElementById('fpAlcMl').textContent   = f.alcMl.toFixed(2)+' ml';
-  document.getElementById('fpTotDrops').textContent= f.totalDrops+' gocce';
-  document.getElementById('fpTotGrams').textContent= (f.totalDrops*DROP_ML*DENSITY).toFixed(2)+' g';
-  document.getElementById('fpNIng').textContent    = f.formula.length;
+  document.getElementById('fpCtot').textContent='€'+f.totCost.toFixed(2);
+  document.getElementById('fpCconc').textContent='€'+f.concCost.toFixed(2);
+  document.getElementById('fpCalc').textContent='€'+f.alcCost.toFixed(2);
+  document.getElementById('fpCml2').textContent='€'+(f.totCost/f.vol).toFixed(3);
 
-  /* Costi */
-  document.getElementById('fpCostTot').textContent   = '€'+f.totCost.toFixed(2);
-  document.getElementById('fpCostConc').textContent  = '€'+f.concCost.toFixed(2);
-  document.getElementById('fpCostAlc').textContent   = '€'+f.alcCost.toFixed(2);
-  document.getElementById('fpCostPerMl').textContent = '€'+(f.totCost/f.vol).toFixed(3);
-
-  /* Ingredienti tecnici */
-  const il = document.getElementById('fpIngList');
-  il.innerHTML = f.formula.map(x=>{
-    const pct   = (x.drops/f.totalDrops*100).toFixed(2);
-    const grams = (x.drops*DROP_ML*DENSITY).toFixed(3);
-    const bc    = x.note==='testa'?'bt':x.note==='cuore'?'bc':'bf';
-    return `
-    <div class="ing-row">
-      <div class="ing-name-wrap">
-        <span class="ing-name">${x.n}</span>
-        <span class="badge ${bc}">${x.note}</span>
-      </div>
+  /* ingredienti tecnici */
+  document.getElementById('fpIngList').innerHTML=f.formula.map(x=>{
+    const pct=(x.drops/f.totalDrops*100).toFixed(2);
+    const gr =(x.drops*DROML*DENS).toFixed(3);
+    const bc =x.note==='testa'?'bt':x.note==='cuore'?'bc':'bf';
+    return`<div class="ing-row">
+      <div class="ing-nw"><span class="ing-n">${x.n}</span><span class="badge ${bc}">${x.note}</span>${x.ifra?'<span class="badge ifra-badge">IFRA</span>':''}${x.adjusted?'<span class="badge adj-badge">tarato</span>':''}</div>
       <span class="ing-pct">${pct}%</span>
-      <span class="ing-drops">${x.drops} gocce</span>
-      <span class="ing-grams">${grams} g</span>
+      <span class="ing-dr">${x.drops} gocce</span>
+      <span class="ing-gr">${gr} g</span>
     </div>`;
   }).join('');
 
-  /* ── IFRA CHECK ── */
-  const limited = f.formula.filter(x=>x.ifra);
-  const noLimEl = document.getElementById('ifraNoLimited');
-  const rowsEl  = document.getElementById('ifraRows');
-  const msgEl   = document.getElementById('ifraGlobalMsg');
+  /* IFRA check */
+  const limited=f.formula.filter(x=>x.ifra);
+  const noLimEl=document.getElementById('ifraNoLim');
+  const rowsEl =document.getElementById('ifraRows');
+  const msgEl  =document.getElementById('ifraGlobalMsg');
 
   if(limited.length===0){
     noLimEl.classList.remove('hidden');
-    rowsEl.innerHTML='';
-    msgEl.innerHTML='';
+    rowsEl.innerHTML='';msgEl.innerHTML='';
   } else {
     noLimEl.classList.add('hidden');
-    let hasViolation = false;
-    rowsEl.innerHTML = limited.map(x=>{
-      /* % nel prodotto finito = ml ingrediente / ml prodotto × 100 */
-      const mlIng  = x.drops * DROP_ML;
-      const pctFin = (mlIng / f.vol * 100);
-      const ok     = pctFin <= x.ifraMax;
-      if(!ok) hasViolation=true;
-      const cls = ok ? 'ok-row' : 'warn-row';
-      const lbl = ok
-        ? `<span class="ifra-ok-lbl">✅ OK</span>`
-        : `<span class="ifra-warn-lbl">⚠️ Supera</span>`;
-      return `
-      <div class="ifra-row ${cls}">
-        <span><strong>${x.n}</strong><br><small style="color:var(--g500)">${x.ifraNote}</small></span>
-        <span>${pctFin.toFixed(3)}%</span>
-        <span class="ifra-limit">max ${x.ifraMax}%</span>
-        <span>${lbl}</span>
+    let anyWarn=false;
+    rowsEl.innerHTML=limited.map(x=>{
+      const pctFin=(x.drops*DROML/f.vol*100);
+      const ok=pctFin<=x.ifraMax;
+      if(!ok)anyWarn=true;
+      return`<div class="ifra-r ${ok?'ifra-ok-r':'ifra-warn-r'}">
+        <span><strong>${x.n}</strong><div class="ifra-note">${x.ifraNote}</div></span>
+        <span>${pctFin.toFixed(4)}%</span>
+        <span>max ${x.ifraMax}%</span>
+        <span class="${ok?'ifra-ok':'ifra-warn'}">${ok?'✅ OK':'⚠️ SUPERA'}</span>
       </div>`;
     }).join('');
-
-    msgEl.innerHTML = hasViolation
-      ? `<div class="info-box"><strong>⚠️ Attenzione:</strong> uno o più ingredienti IFRA-limitati superano il limite indicativo per il prodotto finito. Riduci le gocce degli ingredienti segnalati con ⚠️ o riformula.</div>`
-      : `<div class="info-box ok"><strong>✅ Tutti gli ingredienti IFRA-limitati</strong> rientrano nei limiti indicativi per fine fragrance leave-on.</div>`;
+    msgEl.innerHTML=anyWarn
+      ?`<div class="ib">⚠️ Attenzione: uno o più ingredienti superano ancora il limite. Riduci manualmente.</div>`
+      :`<div class="ib ok">✅ Tutti gli ingredienti IFRA-limitati sono nei limiti per Cat.4 Fine Fragrance.</div>`;
   }
 
-  /* Istruzioni */
-  document.getElementById('iAlc').textContent  = f.alcMl.toFixed(1);
-  document.getElementById('iType').textContent = ({edc:'EDC',edt:'EDT',edp:'EDP'})[f.type];
-  document.getElementById('iVol').textContent  = f.vol;
+  /* istruzioni */
+  document.getElementById('iAlc').textContent=f.alcMl.toFixed(1);
+  document.getElementById('iType').textContent=({edc:'EDC',edt:'EDT',edp:'EDP'})[f.type];
+  document.getElementById('iVol').textContent=f.vol;
 
-  /* Mostra pagina */
   document.getElementById('app').style.display='none';
+  const fp=document.getElementById('fp');
   fp.classList.add('show');
   window.scrollTo({top:0,behavior:'smooth'});
 }
-
-function closeFormulaPage(){
-  document.getElementById('formula-page').classList.remove('show');
+function closeFP(){
+  document.getElementById('fp').classList.remove('show');
   document.getElementById('app').style.display='block';
 }
 
-/* ══ Salvataggio localStorage ══ */
-function saveFormula(){
-  if(!curFormula) return;
-  const saved = JSON.parse(localStorage.getItem('ps_formulas')||'[]');
-  saved.unshift({...curFormula, savedAt:new Date().toISOString()});
-  localStorage.setItem('ps_formulas', JSON.stringify(saved));
-  alert('✅ Formula "'+curFormula.name+'" salvata!');
+/* ══════════════════════════════════════════
+   CERTIFICATO IFRA
+══════════════════════════════════════════ */
+function showCert(){
+  const f=F;
+  const now=new Date();
+  const dateStr=now.toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
+  const certNum='PS-'+now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(Math.floor(Math.random()*9000)+1000);
+
+  document.getElementById('certNum').textContent='Rif. '+certNum;
+  document.getElementById('certDate').textContent='Data: '+dateStr;
+  document.getElementById('cFootDate').textContent=dateStr;
+  document.getElementById('cFootNum').textContent=certNum;
+
+  const typeLabel={edc:'Eau de Cologne (EDC) ~5%',edt:'Eau de Toilette (EDT) ~10%',edp:'Eau de Parfum (EDP) ~17%'};
+  document.getElementById('cProdName').textContent=f.name;
+  document.getElementById('cType').textContent=typeLabel[f.type];
+  document.getElementById('cVol').textContent=f.vol+' ml';
+  document.getElementById('cFam').textContent=FAMNAMES[f.fam]||f.fam;
+  document.getElementById('cNIng').textContent=f.formula.length;
+  document.getElementById('cConcPct').textContent=f.concPct+'%';
+  document.getElementById('cDataForm').textContent=dateStr;
+  document.getElementById('cPyrT').textContent=f.pyr.testa+'%';
+  document.getElementById('cPyrC').textContent=f.pyr.cuore+'%';
+  document.getElementById('cPyrF').textContent=f.pyr.fondo+'%';
+  document.getElementById('cTotDr').textContent=f.totalDrops+' gocce';
+
+  /* tabella ingredienti */
+  document.getElementById('cIngTbody').innerHTML=f.formula.map(x=>{
+    const pctConc=(x.drops/f.totalDrops*100).toFixed(2);
+    const pctFin =(x.drops*DROML/f.vol*100).toFixed(4);
+    const gr     =(x.drops*DROML*DENS).toFixed(3);
+    const ifraCell=x.ifra?`<strong>≤${x.ifraMax}%</strong>`:'—';
+    return`<tr>
+      <td>${x.n}</td>
+      <td>${x.note}</td>
+      <td>${x.drops}</td>
+      <td>${gr} g</td>
+      <td>${pctConc}%</td>
+      <td>${pctFin}%</td>
+      <td>${ifraCell}</td>
+    </tr>`;
+  }).join('');
+
+  /* IFRA section certificato */
+  const limited=f.formula.filter(x=>x.ifra);
+  let allOk=true;
+  if(limited.length===0){
+    document.getElementById('cIfraContent').innerHTML='';
+    document.getElementById('cIfraOkMsg').innerHTML=
+      '<div style="background:#f0fdf4;border-left:3px solid #166534;padding:.7rem 1rem;font-size:.85rem;margin-top:.5rem;">✅ La formula non contiene ingredienti soggetti a restrizioni IFRA Cat.4.</div>';
+  } else {
+    document.getElementById('cIfraOkMsg').innerHTML='';
+    document.getElementById('cIfraContent').innerHTML=`
+      <div class="cert-ifra-row head"><span>Ingrediente</span><span>% prod. finito</span><span>Limite IFRA Cat.4</span><span>Stato</span></div>
+      ${limited.map(x=>{
+        const pctFin=(x.drops*DROML/f.vol*100);
+        const ok=pctFin<=x.ifraMax;
+        if(!ok)allOk=false;
+        return`<div class="cert-ifra-row">
+          <span><strong>${x.n}</strong><br><small style="color:#777">${x.ifraNote}</small></span>
+          <span>${pctFin.toFixed(4)}%</span>
+          <span>max ${x.ifraMax}%</span>
+          <span class="${ok?'cert-ok':'cert-warn'}">${ok?'✅ CONFORME':'⚠️ NON CONFORME'}</span>
+        </div>`;
+      }).join('')}`;
+  }
+
+  /* esito + timbro */
+  const stamp=document.getElementById('cStamp');
+  const stampTxt=document.getElementById('cStampText');
+  if(allOk){
+    stamp.classList.remove('cert-stamp-warn');
+    stampTxt.textContent='CONFORME';
+    document.getElementById('cEsitoTxt').innerHTML=
+      `<div style="background:#f0fdf4;border-left:4px solid #166534;padding:1rem 1.2rem;border-radius:6px;margin-bottom:1rem;">
+        <strong style="color:#166534;">✅ FORMULA CONFORME IFRA CAT. 4</strong><br>
+        La miscela profumante <strong>"${f.name}"</strong> è stata verificata e risulta conforme agli standard IFRA 50th Amendment (2023) per la Categoria 4 — Fine Fragrance / applicazione diretta cute.<br><br>
+        ${f.adjustments.length>0?`<em>Nota: ${f.adjustments.length} ingrediente/i sono stati automaticamente tarati per rientrare nei limiti IFRA.</em>`:'Tutti gli ingredienti sono nei limiti senza necessità di aggiustamenti.'}
+      </div>`;
+  } else {
+    stamp.classList.add('cert-stamp-warn');
+    stampTxt.textContent='NON CONFORME';
+    document.getElementById('cEsitoTxt').innerHTML=
+      `<div style="background:#fef2f2;border-left:4px solid #991b1b;padding:1rem 1.2rem;border-radius:6px;margin-bottom:1rem;">
+        <strong style="color:#991b1b;">⚠️ FORMULA NON COMPLETAMENTE CONFORME</strong><br>
+        Uno o più ingredienti superano i limiti IFRA Cat.4. Ridurre le gocce degli ingredienti segnalati prima dell'utilizzo.
+      </div>`;
+  }
+
+  /* mostra pagina certificato */
+  document.getElementById('fp').classList.remove('show');
+  document.getElementById('cert-page').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function closeCert(){
+  document.getElementById('cert-page').classList.remove('show');
+  document.getElementById('fp').classList.add('show');
+}
+
+/* ══ SALVA ══ */
+function saveF(){
+  if(!F)return;
+  const saved=JSON.parse(localStorage.getItem('ps_v2')||'[]');
+  saved.unshift({...F,savedAt:new Date().toISOString()});
+  localStorage.setItem('ps_v2',JSON.stringify(saved));
+  alert('✅ Formula "'+F.name+'" salvata!');
 }
 </script>
 </body>
