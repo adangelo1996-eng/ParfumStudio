@@ -7,7 +7,6 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
 
-/* ══ RESET & TOKENS ══ */
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --bk:#000;--wh:#fff;--rd:#cc0000;
@@ -24,7 +23,6 @@ body{font-family:var(--fn);background:var(--wh);color:var(--bk);line-height:1.6;
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 @keyframes boom{0%{transform:scale(1)}55%{transform:scale(22);opacity:.4}100%{transform:scale(0);opacity:0}}
 
-/* ══ BUTTONS ══ */
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.8rem 2rem;background:var(--bk);color:var(--wh);border:2px solid var(--bk);border-radius:50px;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .22s;letter-spacing:.03em;font-family:var(--fn);white-space:nowrap;}
 .btn:hover{background:var(--rd);border-color:var(--rd);transform:translateY(-2px);}
 .btn:disabled{opacity:.35;pointer-events:none;}
@@ -34,7 +32,6 @@ body{font-family:var(--fn);background:var(--wh);color:var(--bk);line-height:1.6;
 .btn-green{background:var(--green);border-color:var(--green);}
 .btn-green:hover{background:#14532d;border-color:#14532d;}
 
-/* ══ LANDING ══ */
 #landing{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem;text-align:center;transition:opacity .4s;}
 #landing.fade{opacity:0;pointer-events:none;}
 .dot{width:68px;height:68px;background:var(--rd);border-radius:50%;margin-bottom:2.5rem;animation:pulse 2s ease-in-out infinite;}
@@ -42,7 +39,6 @@ body{font-family:var(--fn);background:var(--wh);color:var(--bk);line-height:1.6;
 #landing h1{font-size:3.1rem;font-weight:400;letter-spacing:.02em;margin-bottom:.5rem;}
 .land-sub{font-size:1rem;color:var(--g500);margin-bottom:2.6rem;}
 
-/* ══ HEADER ══ */
 #hdr{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--g200);z-index:900;padding:1rem 2rem;display:none;}
 .hdr-in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;}
 .logo{display:flex;align-items:center;gap:.45rem;font-size:1.2rem;font-weight:700;cursor:pointer;transition:opacity .2s;}
@@ -50,11 +46,9 @@ body{font-family:var(--fn);background:var(--wh);color:var(--bk);line-height:1.6;
 .logo-dot{width:9px;height:9px;background:var(--rd);border-radius:50%;}
 .hdr-btns{display:flex;gap:.5rem;flex-wrap:wrap;}
 
-/* ══ APP ══ */
 #app{display:none;max-width:1100px;margin:0 auto;padding:6.5rem 1.4rem 3rem;}
 #app.show{display:block;animation:fadeUp .5s ease;}
 
-/* ══ PROGRESS ══ */
 .prog-wrap{background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:1.3rem 1.7rem;margin-bottom:2rem;}
 .prog-steps{display:flex;position:relative;}
 .prog-steps::before{content:'';position:absolute;top:17px;left:0;right:0;height:2px;background:var(--g200);z-index:0;}
@@ -66,13 +60,11 @@ body{font-family:var(--fn);background:var(--wh);color:var(--bk);line-height:1.6;
 .ps-l{font-size:.73rem;color:var(--g500);text-align:center;}
 .ps.active .ps-l{color:var(--bk);font-weight:700;}
 
-/* ══ STEPS ══ */
 .step{display:none;}
 .step.on{display:block;animation:fadeUp .3s ease;}
 .step-h{font-size:1.9rem;font-weight:400;letter-spacing:.01em;margin-bottom:.4rem;}
 .step-sub{font-size:.97rem;color:var(--g500);margin-bottom:1.7rem;}
 
-/* ══ OPTION CARDS ══ */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.9rem;margin-bottom:1.7rem;}
 .oc{background:var(--g50);border:2px solid var(--g200);border-radius:var(--r);padding:1.3rem 1rem;cursor:pointer;text-align:center;transition:all .22s;position:relative;}
 .oc:hover{border-color:var(--bk);transform:translateY(-3px);box-shadow:var(--sh);}
@@ -83,13 +75,11 @@ body{font-family:var(--fn);background:var(--wh);color:var(--bk);line-height:1.6;
 .oc-d{font-size:.79rem;opacity:.72;line-height:1.4;}
 .oc.sel .oc-d{opacity:.8;}
 
-/* ══ TAGS ══ */
 .tags{display:flex;flex-wrap:wrap;gap:.65rem;margin-bottom:1.7rem;}
 .tag{padding:.5rem 1.1rem;background:var(--g50);border:2px solid var(--g200);border-radius:50px;cursor:pointer;font-weight:500;font-size:.86rem;transition:all .22s;}
 .tag:hover{border-color:var(--bk);}
 .tag.sel{background:var(--bk);color:var(--wh);border-color:var(--bk);}
 
-/* ══ SLIDERS ══ */
 .sl-wrap{margin-bottom:1.6rem;}
 .sl-row{display:flex;justify-content:space-between;margin-bottom:.45rem;font-weight:600;}
 .s-v{color:var(--rd);}
@@ -98,16 +88,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.3);}
 input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--rd);border:none;}
 
-/* ══ INPUTS ══ */
 .field{margin-bottom:1.3rem;}
 .field label{display:block;font-weight:700;margin-bottom:.3rem;font-size:.9rem;}
 .inp{width:100%;padding:.8rem 1rem;border:2px solid var(--g200);border-radius:var(--r);font-size:.97rem;font-family:var(--fn);transition:border-color .22s;background:var(--wh);}
 .inp:focus{outline:none;border-color:var(--bk);}
 
-/* ══ NAV ══ */
 .nav{display:flex;justify-content:space-between;gap:.8rem;margin-top:1.8rem;}
 
-/* ══ PREVIEW pubblica ══ */
 #preview{margin-top:1.8rem;}
 .block{background:var(--g50);border:1px solid var(--g200);border-radius:var(--r);padding:1.5rem;margin-bottom:1.4rem;box-shadow:var(--sh);}
 .block-t{font-size:1.1rem;font-weight:700;margin-bottom:1.1rem;text-align:center;}
@@ -120,18 +107,19 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .pc{background:var(--amber);}
 .pf{background:var(--purple);}
 
-.ing-row{display:grid;grid-template-columns:1fr 70px 90px 85px;align-items:center;gap:.7rem;padding:.8rem .9rem;margin-bottom:.4rem;background:var(--wh);border:1px solid var(--g200);border-radius:7px;transition:border-color .18s,transform .18s;}
+.ing-row{display:grid;grid-template-columns:1fr 68px 90px 85px;align-items:center;gap:.6rem;padding:.8rem .9rem;margin-bottom:.4rem;background:var(--wh);border:1px solid var(--g200);border-radius:7px;transition:border-color .18s,transform .18s;}
 .ing-row:hover{border-color:var(--bk);transform:translateX(3px);}
-.ing-nw{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
-.ing-n{font-weight:700;font-size:.92rem;}
-.badge{padding:.18rem .55rem;border-radius:7px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+.ing-nw{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;}
+.ing-n{font-weight:700;font-size:.9rem;}
+.badge{padding:.17rem .5rem;border-radius:7px;font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
 .bt{background:rgba(26,95,180,.12);color:var(--blue);}
 .bc{background:rgba(180,83,9,.12);color:var(--amber);}
 .bf{background:rgba(109,40,217,.12);color:var(--purple);}
-.adj-b{background:rgba(21,128,61,.12);color:var(--green);font-size:.65rem;}
-.ing-pct{font-size:.83rem;color:var(--g500);text-align:right;}
-.ing-dr{font-weight:700;color:var(--rd);text-align:right;font-size:.89rem;}
-.ing-gr{font-weight:600;color:var(--g700);text-align:right;font-size:.89rem;}
+.bd{background:rgba(113,113,122,.15);color:#52525b;font-size:.62rem;}
+.adj-b{background:rgba(21,128,61,.12);color:var(--green);font-size:.63rem;}
+.ing-pct{font-size:.82rem;color:var(--g500);text-align:right;}
+.ing-dr{font-weight:700;color:var(--rd);text-align:right;font-size:.88rem;}
+.ing-gr{font-weight:600;color:var(--g700);text-align:right;font-size:.88rem;}
 
 .ib{background:#fff5f5;border-left:4px solid var(--rd);padding:.9rem 1.2rem;border-radius:7px;margin:.9rem 0;font-size:.88rem;line-height:1.7;}
 .ib.ok{background:#f0fdf4;border-left-color:var(--green);}
@@ -139,7 +127,6 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .ib.info{background:#eff6ff;border-left-color:var(--blue);}
 .acts{display:flex;gap:.7rem;justify-content:flex-end;flex-wrap:wrap;margin-top:1.1rem;}
 
-/* ══ MODAL PASSWORD ══ */
 #pass-ov{position:fixed;inset:0;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px);}
 #pass-ov.show{display:flex;}
 .pass-box{background:var(--wh);border-radius:13px;padding:1.9rem 2.1rem;max-width:370px;width:100%;box-shadow:0 18px 55px rgba(0,0,0,.32);animation:fadeUp .3s ease;}
@@ -147,7 +134,6 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .pass-box p{font-size:.86rem;color:var(--g500);margin-bottom:1.1rem;}
 .pass-err{font-size:.83rem;color:var(--danger);margin-top:.4rem;min-height:1.1em;}
 
-/* ══ FORMULA PAGE ══ */
 #fp{display:none;max-width:920px;margin:6.5rem auto 3rem;padding:0 1.4rem;}
 #fp.show{display:block;animation:fadeUp .4s ease;}
 .fp-hero{background:var(--bk);color:var(--wh);border-radius:var(--r);padding:1.8rem 2rem;margin-bottom:1.4rem;}
@@ -168,32 +154,29 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .inst-list li{counter-increment:inst;display:flex;gap:.85rem;align-items:flex-start;padding:.75rem 0;border-bottom:1px solid var(--g200);font-size:.9rem;line-height:1.6;}
 .inst-list li:last-child{border-bottom:none;}
 .inst-list li::before{content:counter(inst);flex-shrink:0;width:26px;height:26px;background:var(--bk);color:var(--wh);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem;}
-.ifra-hdr{display:grid;grid-template-columns:1fr 110px 90px 60px;gap:.4rem;padding:.4rem .7rem;background:var(--g200);border-radius:5px;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g500);margin-bottom:.4rem;}
-.ifra-r{display:grid;grid-template-columns:1fr 110px 90px 60px;gap:.4rem;align-items:start;padding:.65rem .7rem;border-radius:6px;font-size:.86rem;margin-bottom:.35rem;}
+.ifra-hdr{display:grid;grid-template-columns:1fr 120px 95px 60px;gap:.4rem;padding:.4rem .7rem;background:var(--g200);border-radius:5px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g500);margin-bottom:.4rem;}
+.ifra-r{display:grid;grid-template-columns:1fr 120px 95px 60px;gap:.4rem;align-items:start;padding:.65rem .7rem;border-radius:6px;font-size:.85rem;margin-bottom:.35rem;}
 .ifra-ok-r{background:rgba(21,128,61,.07);}
 .ifra-warn-r{background:rgba(153,27,27,.07);}
 .ifra-ok{color:var(--green);font-weight:700;}
 .ifra-warn{color:var(--danger);font-weight:700;}
-.ifra-note{font-size:.74rem;color:var(--g500);margin-top:.2rem;line-height:1.4;}
+.ifra-note{font-size:.73rem;color:var(--g500);margin-top:.2rem;line-height:1.4;}
 
-/* ══ RESPONSIVE ══ */
 @media(max-width:680px){
   #landing h1{font-size:2rem;}
   .step-h{font-size:1.5rem;}
   .cards{grid-template-columns:1fr 1fr;}
   .nav{flex-direction:column;}
   .acts{flex-direction:column;}
-  .ing-row{grid-template-columns:1fr 70px 80px;}
+  .ing-row{grid-template-columns:1fr 65px 78px;}
   .ing-pct{display:none;}
-  .ifra-hdr,.ifra-r{grid-template-columns:1fr 90px 55px;}
-  .ifra-hdr span:nth-child(3),.ifra-r>span:nth-child(3){display:none;}
 }
 @media(max-width:440px){.cards{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 
-<!-- ═══ LANDING ═══ -->
+<!-- LANDING -->
 <div id="landing">
   <div class="dot" id="dot"></div>
   <h1>Parfum Studio</h1>
@@ -201,7 +184,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   <button class="btn" onclick="startApp()">Inizia la Creazione →</button>
 </div>
 
-<!-- ═══ HEADER ═══ -->
+<!-- HEADER -->
 <div id="hdr">
   <div class="hdr-in">
     <div class="logo" onclick="location.reload()"><div class="logo-dot"></div>Parfum Studio</div>
@@ -212,9 +195,8 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   </div>
 </div>
 
-<!-- ═══ WIZARD ═══ -->
+<!-- WIZARD -->
 <div id="app">
-  <!-- Progress bar -->
   <div class="prog-wrap">
     <div class="prog-steps" id="psteps">
       <div class="prog-line" id="pline"></div>
@@ -226,7 +208,6 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
     </div>
   </div>
 
-  <!-- Step 1 -->
   <div class="step on" data-step="1">
     <h2 class="step-h">Famiglia Olfattiva</h2>
     <p class="step-sub">Scegli il carattere principale del profumo</p>
@@ -243,7 +224,6 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
     <div class="nav"><button class="btn btn-out" disabled>← Indietro</button><button class="btn" onclick="goNext()">Continua →</button></div>
   </div>
 
-  <!-- Step 2 -->
   <div class="step" data-step="2">
     <h2 class="step-h">Intensità</h2>
     <p class="step-sub">Tipo di concentrazione essenze</p>
@@ -255,7 +235,6 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
     <div class="nav"><button class="btn btn-out" onclick="goBack()">← Indietro</button><button class="btn" onclick="goNext()">Continua →</button></div>
   </div>
 
-  <!-- Step 3 -->
   <div class="step" data-step="3">
     <h2 class="step-h">Occasione d'Uso</h2>
     <p class="step-sub">Opzionale — seleziona una o più</p>
@@ -272,7 +251,6 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
     <div class="nav"><button class="btn btn-out" onclick="goBack()">← Indietro</button><button class="btn" onclick="goNext()">Continua →</button></div>
   </div>
 
-  <!-- Step 4 -->
   <div class="step" data-step="4">
     <h2 class="step-h">Personalizza lo Stile</h2>
     <p class="step-sub">Regola le caratteristiche sensoriali</p>
@@ -282,7 +260,6 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
     <div class="nav"><button class="btn btn-out" onclick="goBack()">← Indietro</button><button class="btn" onclick="goNext()">Continua →</button></div>
   </div>
 
-  <!-- Step 5 -->
   <div class="step" data-step="5">
     <h2 class="step-h">Ultimi Dettagli</h2>
     <p class="step-sub">Nome e volume finale</p>
@@ -296,18 +273,18 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   <!-- ANTEPRIMA PUBBLICA -->
   <div id="preview" class="hidden">
     <div class="block">
-      <div class="block-t" id="prevTitle">Ingredienti Selezionati</div>
+      <div class="block-t" id="prevTitle">Formula Generata</div>
       <div style="margin-bottom:1.2rem;">
         <div class="pyr-s"><div class="pyr-h"><span>Note di Testa</span><span id="pTl">0%</span></div><div class="pyr-track"><div class="pyr-fill pt" id="pTb" style="width:0%"></div></div></div>
         <div class="pyr-s"><div class="pyr-h"><span>Note di Cuore</span><span id="pCl">0%</span></div><div class="pyr-track"><div class="pyr-fill pc" id="pCb" style="width:0%"></div></div></div>
         <div class="pyr-s"><div class="pyr-h"><span>Note di Fondo</span><span id="pFl">0%</span></div><div class="pyr-track"><div class="pyr-fill pf" id="pFb" style="width:0%"></div></div></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 70px 90px 85px;gap:.5rem;padding:.3rem .9rem;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g500);">
-        <span>Ingrediente</span><span style="text-align:right">%</span><span style="text-align:right">Gocce</span><span style="text-align:right">Grammi</span>
+      <div style="display:grid;grid-template-columns:1fr 68px 90px 85px;gap:.5rem;padding:.3rem .9rem;font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g500);">
+        <span>Ingrediente</span><span style="text-align:right">% conc.</span><span style="text-align:right">Gocce</span><span style="text-align:right">Grammi</span>
       </div>
       <div id="prevList"></div>
       <div id="taraMsg"></div>
-      <div class="ib info"><strong>👁 Vista pubblica</strong> — Ingredienti, gocce, grammi. Formula già tarata IFRA.<br>Costi, istruzioni e certificato sono nell'<strong>Area Formule</strong>.</div>
+      <div class="ib info"><strong>👁 Vista pubblica</strong> — Ingredienti, gocce e grammi. Formula già tarata IFRA (con correzione diluizioni).<br>Costi, istruzioni e certificato nell'<strong>Area Formule</strong>.</div>
       <div class="acts">
         <button class="btn btn-out" onclick="location.reload()">↺ Ricomincia</button>
         <button class="btn" onclick="openPass()">🔐 Area Formule</button>
@@ -316,7 +293,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   </div>
 </div>
 
-<!-- ═══ MODAL PASSWORD ═══ -->
+<!-- MODAL PASSWORD -->
 <div id="pass-ov">
   <div class="pass-box">
     <h3>🔐 Area Formule Riservata</h3>
@@ -330,7 +307,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   </div>
 </div>
 
-<!-- ═══ FORMULA PAGE (protetta) ═══ -->
+<!-- FORMULA PAGE PROTETTA -->
 <div id="fp">
   <div class="fp-hero">
     <div class="fp-name" id="fpName">—</div>
@@ -360,18 +337,22 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 
   <div class="fp-bl">
     <div class="fp-h">⚗️ Dosaggi Tecnici</div>
-    <div style="display:grid;grid-template-columns:1fr 70px 90px 85px;gap:.5rem;padding:.3rem .7rem;font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g500);">
-      <span>Ingrediente</span><span style="text-align:right">%</span><span style="text-align:right">Gocce</span><span style="text-align:right">Grammi</span>
+    <div style="display:grid;grid-template-columns:1fr 68px 90px 85px;gap:.5rem;padding:.3rem .7rem;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g500);">
+      <span>Ingrediente</span><span style="text-align:right">% conc.</span><span style="text-align:right">Gocce</span><span style="text-align:right">Grammi</span>
     </div>
     <div id="fpIngList"></div>
-    <div class="ib warn" style="margin-top:.8rem;"><strong>ℹ️ Densità media 1 g/ml.</strong> 1 goccia ≈ 0.05 ml. Per oli densi (patchouly, mirra) il peso reale è leggermente superiore.</div>
+    <div class="ib warn" style="margin-top:.8rem;">
+      <strong>ℹ️ Note calcolo:</strong> Densità media 1 g/ml — 1 goccia ≈ 0.05 ml. Per gli ingredienti già pre-diluiti (es. Damascenone 1% TRI, Cumarina 10% TRI) la colonna <em>"% conc."</em> indica la percentuale della <strong>soluzione</strong> nel concentrato, mentre il limite IFRA è verificato sulla molecola attiva pura equivalente.
+    </div>
   </div>
 
   <div class="fp-bl">
     <div class="fp-h">🛡️ Conformità IFRA — Cat. 4 Fine Fragrance (leave-on)</div>
-    <p style="font-size:.87rem;color:var(--g500);margin-bottom:.9rem;line-height:1.6;">Formula tarata automaticamente per rispettare IFRA 50th Amendment Cat. 4. Verifica sempre il certificato IFRA del fornitore per ogni lotto.</p>
+    <p style="font-size:.86rem;color:var(--g500);margin-bottom:.9rem;line-height:1.6;">
+      I limiti IFRA sono verificati sulla <strong>molecola attiva pura</strong> equivalente nel prodotto finito, tenendo conto della diluizione di ogni pre-mix. Formula tarata automaticamente ove necessario.
+    </p>
     <div id="ifraMsg" style="margin-bottom:.8rem;"></div>
-    <div class="ifra-hdr"><span>Ingrediente</span><span>% prod. finito</span><span>Limite IFRA</span><span>Stato</span></div>
+    <div class="ifra-hdr"><span>Ingrediente (diluizione)</span><span>Pura % fin.</span><span>Limite IFRA</span><span>Stato</span></div>
     <div id="ifraRows"></div>
     <div id="ifraNoLim" class="ib ok hidden">✅ Nessun ingrediente IFRA-limitato presente.</div>
   </div>
@@ -379,105 +360,316 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   <div class="fp-bl">
     <div class="fp-h">📖 Istruzioni di Preparazione</div>
     <ol class="inst-list">
-      <li>Prepara area di lavoro pulita. Occorrente: bilancia 0.01 g, boccetta vetro scuro, pipette Pasteur separate per ogni ingrediente, becher 100 ml, bastoncino vetro, etichette.</li>
-      <li>Versa nella boccetta <strong id="iAlc">—</strong> ml di alcol etilico 96° per profumeria.</li>
-      <li>Aggiungi le <strong>note di fondo</strong> per prime (molecole più pesanti, scia più lunga).</li>
-      <li>Aggiungi le <strong>note di cuore</strong> (corpo centrale del profumo).</li>
+      <li>Prepara area di lavoro pulita e asciutta. Occorrente: bilancia 0.01 g, boccetta vetro scuro, pipette Pasteur separate per ogni ingrediente, becher 100 ml, bastoncino vetro, etichette.</li>
+      <li>Versa <strong id="iAlc">—</strong> ml di alcol etilico 96° per profumeria nella boccetta.</li>
+      <li>Aggiungi le <strong>note di fondo</strong> per prime (molecole più pesanti e persistenti).</li>
+      <li>Aggiungi le <strong>note di cuore</strong> (corpo centrale della fragranza).</li>
       <li>Aggiungi le <strong>note di testa</strong> (le più volatili, per ultime).</li>
       <li>Mescola delicatamente 30–40 secondi con movimenti circolari lenti.</li>
       <li>Chiudi ermeticamente. Etichetta: nome, data, tipo (<span id="iType">—</span>), volume (<span id="iVol">—</span> ml), lotto.</li>
-      <li><strong>Maturazione:</strong> 2–6 settimane al buio a 18–22 °C. Agita 1×/settimana. Non aprire i primi 7 giorni. Testa su mouillette prima che sulla cute.</li>
+      <li><strong>Maturazione:</strong> 2–6 settimane al buio a 18–22 °C. Agita 1×/settimana. Non aprire i primi 7 giorni. Testa sempre su mouillette prima della cute.</li>
     </ol>
   </div>
 
   <div class="acts">
     <button class="btn btn-out" onclick="closeFP()">← Chiudi</button>
-    <button class="btn btn-green" onclick="printCert()">📄 Genera Certificato IFRA PDF</button>
+    <button class="btn btn-green" onclick="printCert()">📄 Certificato IFRA PDF</button>
     <button class="btn" onclick="saveF()">💾 Salva</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════
-     SCRIPT
-═══════════════════════════════════════ -->
 <script>
-/* ═══════════════════════════════════════
-   DATABASE INGREDIENTI
-   ifraMax = % MAX nel PRODOTTO FINITO
-   (Cat.4 Fine Fragrance leave-on, IFRA 50th Amendment 2023)
-═══════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   DATABASE INGREDIENTI — Kit Pro
+   
+   dilution : frazione della molecola attiva pura nella soluzione
+              es. Damascenone 1% TRI → dilution: 0.01
+                  Cumarina 10% TRI   → dilution: 0.10
+                  Puro (100%)        → dilution: 1.0
+   
+   ifraMax  : % MAX della MOLECOLA PURA nel PRODOTTO FINITO
+              (IFRA 50th Amendment 2023 — Cat. 4 leave-on)
+   
+   price    : €/10ml della SOLUZIONE (come acquistata)
+   w        : peso relativo per distribuzione gocce
+═══════════════════════════════════════════════════════════════ */
 const DB=[
-  // ── TESTA ──
-  {n:"BERGAMOTTO",             note:"testa",fam:"agrumato",  price:18,w:12, ifra:true,  ifraMax:0.4,   ifraNote:"FCF richiesto; fototossico — max 0.4% prod.finito",    compat:["fresco-agrumato","floreale","aromatico-fougere","marino-fresco","chypre-verde"]},
-  {n:"LIMONE ITALIA",          note:"testa",fam:"agrumato",  price:12,w:12, ifra:true,  ifraMax:2.0,   ifraNote:"Limonene libero ≤2% prod.finito",                     compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
-  {n:"MANDARINO GIALLO",       note:"testa",fam:"agrumato",  price:15,w:10, ifra:false,                                                                                compat:["fresco-agrumato","gourmand-dolce","floreale"]},
-  {n:"AGRUMEX",                note:"testa",fam:"agrumato",  price:10,w:10, ifra:false,                                                                                compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
-  {n:"VERTOCITRAL C",          note:"testa",fam:"agrumato",  price:13,w:8,  ifra:false,                                                                                compat:["fresco-agrumato","marino-fresco"]},
-  {n:"ACETATO LINALILE",       note:"testa",fam:"floreale",  price:11,w:12, ifra:true,  ifraMax:5.0,   ifraNote:"Linalyl acetate — allergene UE, dichiarazione ≥0.01%",compat:["floreale","fresco-agrumato","aromatico-fougere"]},
-  {n:"LINALOLO",               note:"testa",fam:"floreale",  price:10,w:12, ifra:true,  ifraMax:5.0,   ifraNote:"Linalool — allergene UE, max 5% leave-on",            compat:["floreale","fresco-agrumato","aromatico-fougere","chypre-verde"]},
-  {n:"ETIL LINALOLO",          note:"testa",fam:"floreale",  price:8, w:10, ifra:false,                                                                                compat:["floreale","aromatico-fougere"]},
-  {n:"ISORALDEINA",            note:"testa",fam:"fresco",    price:11,w:8,  ifra:false,                                                                                compat:["marino-fresco","fresco-agrumato","chypre-verde"]},
-  {n:"DIIDROMIRCENOLO",        note:"testa",fam:"fresco",    price:9, w:10, ifra:false,                                                                                compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
-  {n:"CARDAMOMO",              note:"testa",fam:"speziato",  price:20,w:6,  ifra:false,                                                                                compat:["orientale-speziato","aromatico-fougere","legnoso-ambrato"]},
-  {n:"PEPE NERO",              note:"testa",fam:"speziato",  price:16,w:4,  ifra:false,                                                                                compat:["orientale-speziato","legnoso-ambrato","chypre-verde"]},
-  {n:"MANZANATE",              note:"testa",fam:"fruttato",  price:16,w:3,  ifra:true,  ifraMax:0.05,  ifraNote:"Allyl amyl glycolate — max 0.05% prod.finito",        compat:["fresco-agrumato","gourmand-dolce","floreale"]},
-  {n:"ALLIL AMIL GLICOLATE",   note:"testa",fam:"fruttato",  price:14,w:3,  ifra:true,  ifraMax:0.05,  ifraNote:"Max 0.05% prod.finito (IFRA restricted)",             compat:["fresco-agrumato","gourmand-dolce"]},
-  {n:"ACETATO EXILE",          note:"testa",fam:"fruttato",  price:7, w:8,  ifra:false,                                                                                compat:["fresco-agrumato","floreale","gourmand-dolce"]},
-  // ── CUORE ──
-  {n:"HEDIONE",                note:"cuore",fam:"floreale",  price:25,w:15, ifra:false,                                                                                compat:["floreale","fresco-agrumato","aromatico-fougere","marino-fresco","chypre-verde"]},
-  {n:"DAMASCENONE",            note:"cuore",fam:"floreale",  price:55,w:1,  ifra:true,  ifraMax:0.02,  ifraNote:"β-Damascenone — max 0.02% prod.finito (potentissimo)",compat:["floreale","orientale-speziato","gourmand-dolce","chypre-verde"]},
-  {n:"ALFA DAMASCONE",         note:"cuore",fam:"floreale",  price:45,w:2,  ifra:true,  ifraMax:0.02,  ifraNote:"α-Damascone — max 0.02% prod.finito",                 compat:["floreale","orientale-speziato","chypre-verde"]},
-  {n:"GERANIOLO",              note:"cuore",fam:"floreale",  price:12,w:10, ifra:true,  ifraMax:6.0,   ifraNote:"Geraniol — allergene UE, max 6% leave-on",            compat:["floreale","chypre-verde","aromatico-fougere"]},
-  {n:"ACETATO BENZILE",        note:"cuore",fam:"floreale",  price:8, w:10, ifra:false,                                                                                compat:["floreale","aromatico-fougere"]},
-  {n:"IDROSSICITRONELLALE",    note:"cuore",fam:"floreale",  price:9, w:12, ifra:true,  ifraMax:1.0,   ifraNote:"Hydroxycitronellal — max 1.0% leave-on",              compat:["floreale","fresco-agrumato","chypre-verde"]},
-  {n:"SALICILATO BENZILE",     note:"cuore",fam:"floreale",  price:7, w:12, ifra:true,  ifraMax:10.0,  ifraNote:"Benzyl salicylate — max 10% leave-on (UE)",           compat:["floreale","chypre-verde","aromatico-fougere"]},
-  {n:"ACETATO GERANILE",       note:"cuore",fam:"floreale",  price:9, w:10, ifra:false,                                                                                compat:["floreale","chypre-verde"]},
-  {n:"ALDEIDE ALFA EXILCINNAMICA",note:"cuore",fam:"floreale",price:15,w:5, ifra:true,  ifraMax:0.5,   ifraNote:"α-Hexylcinnamaldehyde — max 0.5% leave-on",           compat:["floreale","orientale-speziato"]},
-  {n:"ANTRANILATO METILE",     note:"cuore",fam:"floreale",  price:8, w:8,  ifra:false,                                                                                compat:["floreale","gourmand-dolce"]},
-  {n:"LAVANDINO GROSSO",       note:"cuore",fam:"aromatico", price:12,w:12, ifra:false,                                                                                compat:["aromatico-fougere","fresco-agrumato","legnoso-ambrato","chypre-verde"]},
-  {n:"SALVIA SCLAREA",         note:"cuore",fam:"aromatico", price:14,w:10, ifra:false,                                                                                compat:["aromatico-fougere","legnoso-ambrato","orientale-speziato"]},
-  {n:"HELIONAL",               note:"cuore",fam:"marino",    price:22,w:10, ifra:false,                                                                                compat:["marino-fresco","fresco-agrumato"]},
-  {n:"ALDEIDE C14",            note:"cuore",fam:"fresco",    price:12,w:6,  ifra:false,                                                                                compat:["marino-fresco","fresco-agrumato","chypre-verde"]},
-  {n:"OCTINE CARBONATO METILE",note:"cuore",fam:"verde",     price:12,w:8,  ifra:false,                                                                                compat:["chypre-verde","floreale","aromatico-fougere"]},
-  {n:"CANNELLA CINA",          note:"cuore",fam:"speziato",  price:25,w:2,  ifra:true,  ifraMax:0.1,   ifraNote:"Cinnamaldehyde — max 0.1% leave-on (forte allergene)",compat:["orientale-speziato","gourmand-dolce"]},
-  {n:"NOCE MOSCATA",           note:"cuore",fam:"speziato",  price:14,w:5,  ifra:true,  ifraMax:1.0,   ifraNote:"Nutmeg oil — max 1.0% leave-on",                     compat:["orientale-speziato","legnoso-ambrato","gourmand-dolce"]},
-  {n:"EUGENOLO PURO",          note:"cuore",fam:"speziato",  price:10,w:4,  ifra:true,  ifraMax:0.5,   ifraNote:"Eugenol — max 0.5% leave-on (allergene IFRA)",        compat:["orientale-speziato","chypre-verde"]},
-  // ── FONDO ──
-  {n:"ISO E SUPER",            note:"fondo",fam:"legnoso",   price:18,w:15, ifra:false,                                                                                compat:["legnoso-ambrato","orientale-speziato","marino-fresco","aromatico-fougere","chypre-verde","floreale"]},
-  {n:"CEDRO VIRGINIA",         note:"fondo",fam:"legnoso",   price:16,w:10, ifra:false,                                                                                compat:["legnoso-ambrato","orientale-speziato","aromatico-fougere","chypre-verde"]},
-  {n:"PATCHOULY",              note:"fondo",fam:"legnoso",   price:20,w:8,  ifra:false,                                                                                compat:["legnoso-ambrato","orientale-speziato","chypre-verde","gourmand-dolce"]},
-  {n:"VETIVER GIAVA",          note:"fondo",fam:"legnoso",   price:22,w:10, ifra:false,                                                                                compat:["legnoso-ambrato","fresco-agrumato","chypre-verde","aromatico-fougere"]},
-  {n:"SANDALORE",              note:"fondo",fam:"legnoso",   price:24,w:10, ifra:false,                                                                                compat:["legnoso-ambrato","floreale","orientale-speziato","gourmand-dolce"]},
-  {n:"VERTOFIX COEUR",         note:"fondo",fam:"legnoso",   price:20,w:10, ifra:false,                                                                                compat:["legnoso-ambrato","chypre-verde","aromatico-fougere"]},
-  {n:"MOUSSE DE METRE",        note:"fondo",fam:"legnoso",   price:28,w:5,  ifra:true,  ifraMax:0.03,  ifraNote:"Oakmoss absolute — max 0.03% leave-on (IFRA strict)", compat:["chypre-verde","aromatico-fougere","legnoso-ambrato"]},
-  {n:"AMBROX SUPER",           note:"fondo",fam:"ambrato",   price:35,w:6,  ifra:false,                                                                                compat:["legnoso-ambrato","orientale-speziato","floreale","gourmand-dolce"]},
-  {n:"ALDEIDE C18",            note:"fondo",fam:"orientale", price:10,w:4,  ifra:false,                                                                                compat:["orientale-speziato","gourmand-dolce","legnoso-ambrato"]},
-  {n:"CUMARINA",               note:"fondo",fam:"dolce",     price:10,w:8,  ifra:true,  ifraMax:1.0,   ifraNote:"Coumarin — max 1.0% leave-on (IFRA 50th)",            compat:["gourmand-dolce","orientale-speziato","aromatico-fougere"]},
-  {n:"VANILLA",                note:"fondo",fam:"dolce",     price:12,w:5,  ifra:false,                                                                                compat:["gourmand-dolce","orientale-speziato","floreale"]},
-  {n:"GALAXOLIDE",             note:"fondo",fam:"muschiato", price:16,w:10, ifra:false,                                                                                compat:["floreale","legnoso-ambrato","marino-fresco","aromatico-fougere","chypre-verde"]},
-  {n:"HABANOLIDE",             note:"fondo",fam:"muschiato", price:25,w:6,  ifra:false,                                                                                compat:["floreale","legnoso-ambrato","gourmand-dolce"]},
-  {n:"ETILENE BRASSILATE",     note:"fondo",fam:"muschiato", price:18,w:8,  ifra:false,                                                                                compat:["floreale","marino-fresco","chypre-verde","aromatico-fougere"]},
-  {n:"INCENSO PURO",           note:"fondo",fam:"resinoso",  price:30,w:5,  ifra:false,                                                                                compat:["orientale-speziato","legnoso-ambrato","chypre-verde"]},
-  {n:"MIRRA",                  note:"fondo",fam:"resinoso",  price:22,w:6,  ifra:false,                                                                                compat:["orientale-speziato","legnoso-ambrato"]},
-  {n:"BENZOATO BENZILE",       note:"fondo",fam:"balsamico", price:7, w:8,  ifra:true,  ifraMax:8.0,   ifraNote:"Benzyl benzoate — max 8% leave-on (UE)",              compat:["floreale","orientale-speziato","gourmand-dolce"]},
+  // ─── NOTE DI TESTA ───────────────────────────────────────────
+  {n:"BERGAMOTTO FCF",         note:"testa",fam:"agrumato",   dilution:1.0,  price:18, w:12,
+   ifra:true, ifraMax:0.4,
+   ifraNote:"Bergapten-free; fototossicità ridotta — max 0.4% molecola pura nel prod.finito",
+   compat:["fresco-agrumato","floreale","aromatico-fougere","marino-fresco","chypre-verde"]},
+
+  {n:"LIMONE ITALIA",          note:"testa",fam:"agrumato",   dilution:1.0,  price:12, w:12,
+   ifra:true, ifraMax:2.0,
+   ifraNote:"Limonene libero — max 2.0% nel prod.finito",
+   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
+
+  {n:"MANDARINO GIALLO",       note:"testa",fam:"agrumato",   dilution:1.0,  price:15, w:10,
+   ifra:false,
+   compat:["fresco-agrumato","gourmand-dolce","floreale"]},
+
+  {n:"AGRUMEX",                note:"testa",fam:"agrumato",   dilution:1.0,  price:10, w:10,
+   ifra:false,
+   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
+
+  {n:"VERTOCITRAL C 10% TRI",  note:"testa",fam:"agrumato",   dilution:0.10, price:13, w:8,
+   ifra:false,
+   compat:["fresco-agrumato","marino-fresco"]},
+
+  {n:"ACETATO LINALILE",       note:"testa",fam:"floreale",   dilution:1.0,  price:11, w:12,
+   ifra:true, ifraMax:5.0,
+   ifraNote:"Linalyl acetate — allergene UE, max 5% leave-on",
+   compat:["floreale","fresco-agrumato","aromatico-fougere"]},
+
+  {n:"LINALOLO",               note:"testa",fam:"floreale",   dilution:1.0,  price:10, w:12,
+   ifra:true, ifraMax:5.0,
+   ifraNote:"Linalool — allergene UE, max 5% leave-on",
+   compat:["floreale","fresco-agrumato","aromatico-fougere","chypre-verde"]},
+
+  {n:"ETIL LINALOLO",          note:"testa",fam:"floreale",   dilution:1.0,  price:8,  w:10,
+   ifra:false,
+   compat:["floreale","aromatico-fougere"]},
+
+  {n:"ISORALDEINA",            note:"testa",fam:"fresco",     dilution:1.0,  price:11, w:8,
+   ifra:false,
+   compat:["marino-fresco","fresco-agrumato","chypre-verde"]},
+
+  {n:"DIIDROMIRCENOLO",        note:"testa",fam:"fresco",     dilution:1.0,  price:9,  w:10,
+   ifra:false,
+   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
+
+  {n:"CARDAMOMO 10% TRI",      note:"testa",fam:"speziato",   dilution:0.10, price:20, w:6,
+   ifra:false,
+   compat:["orientale-speziato","aromatico-fougere","legnoso-ambrato"]},
+
+  {n:"PEPE NERO",              note:"testa",fam:"speziato",   dilution:1.0,  price:16, w:4,
+   ifra:false,
+   compat:["orientale-speziato","legnoso-ambrato","chypre-verde"]},
+
+  {n:"MANZANATE 1% TRI",       note:"testa",fam:"fruttato",   dilution:0.01, price:16, w:3,
+   ifra:true, ifraMax:0.05,
+   ifraNote:"Allyl amyl glycolate — max 0.05% molecola pura nel prod.finito",
+   compat:["fresco-agrumato","gourmand-dolce","floreale"]},
+
+  {n:"ALLIL AMIL GLICOLATE 1% TRI", note:"testa",fam:"fruttato", dilution:0.01, price:14, w:3,
+   ifra:true, ifraMax:0.05,
+   ifraNote:"Allyl amyl glycolate — max 0.05% molecola pura nel prod.finito",
+   compat:["fresco-agrumato","gourmand-dolce"]},
+
+  {n:"ACETATO EXILE",          note:"testa",fam:"fruttato",   dilution:1.0,  price:7,  w:8,
+   ifra:false,
+   compat:["fresco-agrumato","floreale","gourmand-dolce"]},
+
+  // ─── NOTE DI CUORE ───────────────────────────────────────────
+  {n:"HEDIONE",                note:"cuore",fam:"floreale",   dilution:1.0,  price:25, w:15,
+   ifra:false,
+   compat:["floreale","fresco-agrumato","aromatico-fougere","marino-fresco","chypre-verde"]},
+
+  {n:"DAMASCENONE 1% TRI",     note:"cuore",fam:"floreale",   dilution:0.01, price:55, w:3,
+   ifra:true, ifraMax:0.02,
+   ifraNote:"β-Damascenone puro — max 0.02% molecola pura nel prod.finito (già diluito 1% in TRI)",
+   compat:["floreale","orientale-speziato","gourmand-dolce","chypre-verde"]},
+
+  {n:"ALFA DAMASCONE 10% TRI", note:"cuore",fam:"floreale",   dilution:0.10, price:45, w:2,
+   ifra:true, ifraMax:0.02,
+   ifraNote:"α-Damascone puro — max 0.02% molecola pura nel prod.finito (già diluito 10% in TRI)",
+   compat:["floreale","orientale-speziato","chypre-verde"]},
+
+  {n:"GERANIOLO TA 50/20",     note:"cuore",fam:"floreale",   dilution:0.50, price:12, w:10,
+   ifra:true, ifraMax:6.0,
+   ifraNote:"Geraniol puro — max 6% molecola pura nel prod.finito (soluzione 50%)",
+   compat:["floreale","chypre-verde","aromatico-fougere"]},
+
+  {n:"ACETATO BENZILE",        note:"cuore",fam:"floreale",   dilution:1.0,  price:8,  w:10,
+   ifra:false,
+   compat:["floreale","aromatico-fougere"]},
+
+  {n:"IDROSSICITRONELLALE",    note:"cuore",fam:"floreale",   dilution:1.0,  price:9,  w:12,
+   ifra:true, ifraMax:1.0,
+   ifraNote:"Hydroxycitronellal — max 1.0% nel prod.finito",
+   compat:["floreale","fresco-agrumato","chypre-verde"]},
+
+  {n:"SALICILATO BENZILE",     note:"cuore",fam:"floreale",   dilution:1.0,  price:7,  w:12,
+   ifra:true, ifraMax:10.0,
+   ifraNote:"Benzyl salicylate — max 10% nel prod.finito (UE)",
+   compat:["floreale","chypre-verde","aromatico-fougere"]},
+
+  {n:"ACETATO GERANILE",       note:"cuore",fam:"floreale",   dilution:1.0,  price:9,  w:10,
+   ifra:false,
+   compat:["floreale","chypre-verde"]},
+
+  {n:"ALD. ALFA EXILCINNAMICA",note:"cuore",fam:"floreale",   dilution:1.0,  price:15, w:5,
+   ifra:true, ifraMax:0.5,
+   ifraNote:"α-Hexylcinnamaldehyde — max 0.5% nel prod.finito",
+   compat:["floreale","orientale-speziato"]},
+
+  {n:"ANTRANILATO METILE",     note:"cuore",fam:"floreale",   dilution:1.0,  price:8,  w:8,
+   ifra:false,
+   compat:["floreale","gourmand-dolce"]},
+
+  {n:"LAVANDINO GROSSO",       note:"cuore",fam:"aromatico",  dilution:1.0,  price:12, w:12,
+   ifra:false,
+   compat:["aromatico-fougere","fresco-agrumato","legnoso-ambrato","chypre-verde"]},
+
+  {n:"SALVIA SCLAREA 10% APV", note:"cuore",fam:"aromatico",  dilution:0.10, price:14, w:10,
+   ifra:false,
+   compat:["aromatico-fougere","legnoso-ambrato","orientale-speziato"]},
+
+  {n:"HELIONAL",               note:"cuore",fam:"marino",     dilution:1.0,  price:22, w:10,
+   ifra:false,
+   compat:["marino-fresco","fresco-agrumato"]},
+
+  {n:"ALDEIDE C14 10% TRI",    note:"cuore",fam:"fresco",     dilution:0.10, price:12, w:6,
+   ifra:false,
+   compat:["marino-fresco","fresco-agrumato","chypre-verde"]},
+
+  {n:"OCTINE CARBONATO METILE 10% TRI", note:"cuore",fam:"verde", dilution:0.10, price:12, w:8,
+   ifra:false,
+   compat:["chypre-verde","floreale","aromatico-fougere"]},
+
+  {n:"CANNELLA CINA 1% TRI",   note:"cuore",fam:"speziato",   dilution:0.01, price:25, w:3,
+   ifra:true, ifraMax:0.1,
+   ifraNote:"Cinnamaldehyde puro — max 0.1% molecola pura nel prod.finito (già diluito 1% in TRI)",
+   compat:["orientale-speziato","gourmand-dolce"]},
+
+  {n:"NOCE MOSCATA RID. SAFROLO", note:"cuore",fam:"speziato",dilution:1.0,  price:14, w:5,
+   ifra:true, ifraMax:1.0,
+   ifraNote:"Nutmeg oil (safrolo rid.) — max 1.0% nel prod.finito",
+   compat:["orientale-speziato","legnoso-ambrato","gourmand-dolce"]},
+
+  {n:"EUGENOLO PURO",          note:"cuore",fam:"speziato",   dilution:1.0,  price:10, w:4,
+   ifra:true, ifraMax:0.5,
+   ifraNote:"Eugenol — max 0.5% nel prod.finito (allergene IFRA)",
+   compat:["orientale-speziato","chypre-verde"]},
+
+  // ─── NOTE DI FONDO ───────────────────────────────────────────
+  {n:"ISO E SUPER",            note:"fondo",fam:"legnoso",    dilution:1.0,  price:18, w:15,
+   ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","marino-fresco","aromatico-fougere","chypre-verde","floreale"]},
+
+  {n:"CEDRO VIRGINIA",         note:"fondo",fam:"legnoso",    dilution:1.0,  price:16, w:10,
+   ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","aromatico-fougere","chypre-verde"]},
+
+  {n:"PATCHOULY",              note:"fondo",fam:"legnoso",    dilution:1.0,  price:20, w:8,
+   ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","chypre-verde","gourmand-dolce"]},
+
+  {n:"VETIVER GIAVA",          note:"fondo",fam:"legnoso",    dilution:1.0,  price:22, w:10,
+   ifra:false,
+   compat:["legnoso-ambrato","fresco-agrumato","chypre-verde","aromatico-fougere"]},
+
+  {n:"SANDALORE",              note:"fondo",fam:"legnoso",    dilution:1.0,  price:24, w:10,
+   ifra:false,
+   compat:["legnoso-ambrato","floreale","orientale-speziato","gourmand-dolce"]},
+
+  {n:"VERTOFIX COEUR",         note:"fondo",fam:"legnoso",    dilution:1.0,  price:20, w:10,
+   ifra:false,
+   compat:["legnoso-ambrato","chypre-verde","aromatico-fougere"]},
+
+  {n:"MOUSSE DE METRE 10% TRI",note:"fondo",fam:"legnoso",    dilution:0.10, price:28, w:5,
+   ifra:true, ifraMax:0.03,
+   ifraNote:"Oakmoss absolute puro — max 0.03% molecola pura nel prod.finito (già diluito 10% in TRI)",
+   compat:["chypre-verde","aromatico-fougere","legnoso-ambrato"]},
+
+  {n:"AMBROX SUPER 10% IPM",   note:"fondo",fam:"ambrato",    dilution:0.10, price:35, w:8,
+   ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","floreale","gourmand-dolce"]},
+
+  {n:"ALDEIDE C18",            note:"fondo",fam:"orientale",  dilution:1.0,  price:10, w:4,
+   ifra:false,
+   compat:["orientale-speziato","gourmand-dolce","legnoso-ambrato"]},
+
+  {n:"CUMARINA 10% TRI",       note:"fondo",fam:"dolce",      dilution:0.10, price:10, w:8,
+   ifra:true, ifraMax:1.0,
+   ifraNote:"Coumarin puro — max 1.0% molecola pura nel prod.finito (già diluito 10% in TRI)",
+   compat:["gourmand-dolce","orientale-speziato","aromatico-fougere"]},
+
+  {n:"VANILLA 10% TRI",        note:"fondo",fam:"dolce",      dilution:0.10, price:12, w:5,
+   ifra:false,
+   compat:["gourmand-dolce","orientale-speziato","floreale"]},
+
+  {n:"GALAXOLIDE 50% IPM",     note:"fondo",fam:"muschiato",  dilution:0.50, price:16, w:10,
+   ifra:false,
+   compat:["floreale","legnoso-ambrato","marino-fresco","aromatico-fougere","chypre-verde"]},
+
+  {n:"HABANOLIDE",             note:"fondo",fam:"muschiato",  dilution:1.0,  price:25, w:6,
+   ifra:false,
+   compat:["floreale","legnoso-ambrato","gourmand-dolce"]},
+
+  {n:"ETILENE BRASSILATE",     note:"fondo",fam:"muschiato",  dilution:1.0,  price:18, w:8,
+   ifra:false,
+   compat:["floreale","marino-fresco","chypre-verde","aromatico-fougere"]},
+
+  {n:"INCENSO PURO",           note:"fondo",fam:"resinoso",   dilution:1.0,  price:30, w:5,
+   ifra:false,
+   compat:["orientale-speziato","legnoso-ambrato","chypre-verde"]},
+
+  {n:"MIRRA 10% APV",          note:"fondo",fam:"resinoso",   dilution:0.10, price:22, w:6,
+   ifra:false,
+   compat:["orientale-speziato","legnoso-ambrato"]},
+
+  {n:"BENZOATO BENZILE",       note:"fondo",fam:"balsamico",  dilution:1.0,  price:7,  w:8,
+   ifra:true, ifraMax:8.0,
+   ifraNote:"Benzyl benzoate — max 8% nel prod.finito (UE)",
+   compat:["floreale","orientale-speziato","gourmand-dolce"]},
 ];
 
-/* ═══ COSTANTI ═══ */
-const CONC    = {edc:5, edt:10, edp:17};
-const ALC_ML  = 0.015; // €/ml alcol
-const DROML   = 0.05;  // ml/goccia
-const DENS    = 1.0;   // g/ml media
-const PYR     = {testa:25, cuore:40, fondo:35};
-const FAMNAMES= {"fresco-agrumato":"Fresco & Agrumato","floreale":"Floreale & Romantico","aromatico-fougere":"Aromatico & Fougère","legnoso-ambrato":"Legnoso & Ambrato","orientale-speziato":"Orientale & Speziato","marino-fresco":"Marino & Acquatico","chypre-verde":"Chypre & Verde","gourmand-dolce":"Gourmand & Dolce"};
-const FAMDESCS= {"fresco-agrumato":"Profilo agrumato brillante — apertura vivace su base leggera e raffinata.","floreale":"Bouquet floreale elegante — cuore ricco di fiori sostenuto da base muschiata.","aromatico-fougere":"Struttura fougère classica — lavanda, erbe aromatiche, base legnosa pulita.","legnoso-ambrato":"Legni nobili e ambra calda — scia profonda e persistente.","orientale-speziato":"Spezie esotiche e resine — composizione misteriosamente avvolgente.","marino-fresco":"Brezze ozoniche e note acquatiche — freschezza moderna e urbana.","chypre-verde":"Accordo chypre sofisticato — patchouly, muschio di quercia, foglie verdi.","gourmand-dolce":"Note golose e avvolgenti — vaniglia, cumarina, gourmand morbido."};
-const TYPELBL = {edc:"Eau de Cologne (EDC) ~5%", edt:"Eau de Toilette (EDT) ~10%", edp:"Eau de Parfum (EDP) ~17%"};
+/* ═══════════════════════════════════════════════════════════════
+   COSTANTI
+═══════════════════════════════════════════════════════════════ */
+const CONC     = {edc:5,  edt:10, edp:17};   // % essenze vol.finale
+const ALC_COST = 0.015;                        // €/ml alcol 96°
+const DROP_ML  = 0.05;                         // ml per goccia
+const DENS     = 1.0;                          // g/ml (densità media)
+const PYR      = {testa:25, cuore:40, fondo:35};
 
-/* ═══ STATE ═══ */
+const FAMNAMES={
+  "fresco-agrumato":"Fresco & Agrumato","floreale":"Floreale & Romantico",
+  "aromatico-fougere":"Aromatico & Fougère","legnoso-ambrato":"Legnoso & Ambrato",
+  "orientale-speziato":"Orientale & Speziato","marino-fresco":"Marino & Acquatico",
+  "chypre-verde":"Chypre & Verde","gourmand-dolce":"Gourmand & Dolce"
+};
+const FAMDESCS={
+  "fresco-agrumato":"Profilo agrumato brillante — apertura vivace su base leggera e raffinata.",
+  "floreale":"Bouquet floreale elegante — cuore ricco di fiori sostenuto da base muschiata.",
+  "aromatico-fougere":"Struttura fougère classica — lavanda, erbe aromatiche, base legnosa pulita.",
+  "legnoso-ambrato":"Legni nobili e ambra calda — scia profonda e persistente.",
+  "orientale-speziato":"Spezie esotiche e resine — composizione misteriosamente avvolgente.",
+  "marino-fresco":"Brezze ozoniche e note acquatiche — freschezza moderna e urbana.",
+  "chypre-verde":"Accordo chypre sofisticato — patchouly, muschio di quercia, foglie verdi.",
+  "gourmand-dolce":"Note golose e avvolgenti — vaniglia, cumarina, gourmand morbido."
+};
+const TYPELBL={edc:"Eau de Cologne (EDC) ~5%",edt:"Eau de Toilette (EDT) ~10%",edp:"Eau de Parfum (EDP) ~17%"};
+
+/* ═══ STATO ═══ */
 let curStep=1;
 const sel={family:null,intensity:null,occasions:[],sweet:50,fresh:50,depth:50};
 let F=null;
 
-/* ═══ LANDING ═══ */
+/* ════════════════════════════════
+   HELPERS CALCOLO IFRA
+   
+   pureActiveMlInFinal(x, drops, volFin):
+     ml di molecola PURA dell'ingrediente x nel prodotto finito
+     = gocce × DROP_ML × dilution
+     (il solvente non conta, la diluizione scala la molecola attiva)
+   
+   purePctInFinal(x, drops, volFin):
+     % molecola pura sul prodotto finito
+     = pureActiveMl / volFin × 100
+════════════════════════════════ */
+function pureActiveMl(x, drops){
+  return drops * DROP_ML * x.dilution;
+}
+function purePctInFinal(x, drops, volFin){
+  return pureActiveMl(x, drops) / volFin * 100;
+}
+
+/* ════════════════════════════════
+   LANDING
+════════════════════════════════ */
 function startApp(){
   const d=document.getElementById('dot');
   d.classList.add('boom');
@@ -490,7 +682,9 @@ function startApp(){
   },900);
 }
 
-/* ═══ WIZARD ═══ */
+/* ════════════════════════════════
+   WIZARD
+════════════════════════════════ */
 function pick(el,key){
   el.closest('.cards').querySelectorAll('.oc').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');
@@ -514,9 +708,9 @@ function goNext(){
 function goBack(){setStep(curStep-1);}
 function setStep(n){
   document.querySelector(`.step[data-step="${curStep}"]`).classList.remove('on');
-  const prev=document.querySelector(`.ps[data-s="${curStep}"]`);
-  if(n>curStep) prev.classList.replace('active','done');
-  else prev.classList.remove('done','active');
+  const ps=document.querySelector(`.ps[data-s="${curStep}"]`);
+  if(n>curStep) ps.classList.replace('active','done');
+  else{ps.classList.remove('done');ps.classList.remove('active');}
   curStep=n;
   document.querySelector(`.step[data-step="${curStep}"]`).classList.add('on');
   document.querySelector(`.ps[data-s="${curStep}"]`).classList.add('active');
@@ -527,81 +721,96 @@ function updProg(){
   document.getElementById('pline').style.width=((curStep-1)/4*100)+'%';
 }
 
-/* ═══════════════════════════════════════════════
-   GENERA FORMULA + TARA IFRA AUTOMATICA
-═══════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════
+   GENERA FORMULA + TARA IFRA CON CORREZIONE DILUIZIONI
+   
+   Il limite IFRA è espresso come % di MOLECOLA PURA nel
+   prodotto finito. Per un ingrediente pre-diluito:
+   
+     maxDrops = floor( ifraMax% × volFin / (100 × DROP_ML × dilution) )
+   
+   Esempio Damascenone 1% TRI, vol=50ml, ifraMax=0.02%:
+     maxDrops = floor( 0.02 × 50 / (100 × 0.05 × 0.01) )
+              = floor( 1 / 0.05 ) = floor(20) = 20 gocce
+   
+   Senza correzione diluizione si otterrebbe:
+     maxDrops = floor( 0.02 × 50 / (100 × 0.05 × 1.0) ) = floor(0.2) = 0
+   → sbagliato: tagliava tutto quando invece 20 gocce sono lecite!
+════════════════════════════════════════════════════════════ */
 function generate(){
-  const vol  = Math.max(10, parseInt(document.getElementById('pVol').value)||50);
-  const name = document.getElementById('pName').value.trim()||'Il Mio Profumo';
-  const type = sel.intensity;
-  const fam  = sel.family;
-  const concPct = CONC[type]; // % essenze sul volume finale
+  const vol    = Math.max(10, parseInt(document.getElementById('pVol').value)||50);
+  const name   = document.getElementById('pName').value.trim()||'Il Mio Profumo';
+  const type   = sel.intensity;
+  const fam    = sel.family;
+  const concPct= CONC[type];
+  const concMl = vol * concPct / 100;
+  const alcMl  = vol - concMl;
+  const totDropTgt = concMl / DROP_ML;
 
-  /* Stile score */
+  /* Stile score per selezione ingredienti */
   function styleScore(x){
     let s=0;
-    if(sel.sweet>60 && ['dolce','fruttato','orientale','balsamico'].includes(x.fam)) s+=2;
-    if(sel.fresh>60 && ['agrumato','fresco','marino'].includes(x.fam)) s+=2;
-    if(sel.depth>60 && ['resinoso','ambrato','legnoso','speziato'].includes(x.fam)) s+=2;
+    if(sel.sweet>60&&['dolce','fruttato','orientale','balsamico'].includes(x.fam)) s+=2;
+    if(sel.fresh>60&&['agrumato','fresco','marino'].includes(x.fam)) s+=2;
+    if(sel.depth>60&&['resinoso','ambrato','legnoso','speziato'].includes(x.fam)) s+=2;
     return s;
   }
 
-  /* Pool per nota */
-  const pool=note=>DB.filter(x=>x.note===note && x.compat.includes(fam))
+  const pool=note=>DB.filter(x=>x.note===note&&x.compat.includes(fam))
                      .sort((a,b)=>styleScore(b)-styleScore(a));
 
   const tPick=pool('testa').slice(0,3);
   const cPick=pool('cuore').slice(0,4);
   const fPick=pool('fondo').slice(0,3);
 
-  /* ml concentrato e ml totale gocce */
-  const concMl  = vol * concPct / 100;
-  const alcMl   = vol - concMl;
-  const totDropTgt = concMl / DROML; // gocce totali target
-
-  /* Distribuisce gocce secondo piramide */
   function assignDrops(group, pyrPct){
-    const gDrops = totDropTgt * pyrPct / 100;
-    const sumW   = group.reduce((s,x)=>s+x.w, 0)||1;
+    const gDrops=totDropTgt*pyrPct/100;
+    const sumW=group.reduce((s,x)=>s+x.w,0)||1;
     return group.map(x=>({
       ...x,
       drops: Math.max(1, Math.round(x.w/sumW*gDrops)),
-      adjusted: false
+      adjusted: false,
+      origDrops: null
     }));
   }
 
-  let tF=assignDrops(tPick, PYR.testa);
-  let cF=assignDrops(cPick, PYR.cuore);
-  let fF=assignDrops(fPick, PYR.fondo);
-  let formula=[...tF,...cF,...fF];
+  let formula=[
+    ...assignDrops(tPick, PYR.testa),
+    ...assignDrops(cPick, PYR.cuore),
+    ...assignDrops(fPick, PYR.fondo)
+  ];
 
-  /* ══ TARA IFRA ══
-     Per ogni ingrediente limitato, verifica che
-     (gocce * DROML / vol * 100) <= ifraMax.
-     Se supera, riduce le gocce al massimo consentito. */
+  /* ══ TARA IFRA con correzione diluizione ══
+   
+     maxDrops = ifraMax × vol / (100 × DROP_ML × dilution)
+   
+     Questo è il numero massimo di gocce della SOLUZIONE
+     (pre-diluita) che mantiene la molecola pura entro il limite. */
   const taraLog=[];
   formula.forEach(x=>{
     if(!x.ifra) return;
-    const maxMl = x.ifraMax * vol / 100;  // ml max consentiti
-    const maxDrops = Math.max(1, Math.floor(maxMl / DROML));
-    if(x.drops > maxDrops){
-      taraLog.push({n:x.n, orig:x.drops, cap:maxDrops, ifraMax:x.ifraMax});
-      x.drops = maxDrops;
-      x.adjusted = true;
+    const maxDrops=Math.max(1,
+      Math.floor((x.ifraMax * vol) / (100 * DROP_ML * x.dilution))
+    );
+    if(x.drops>maxDrops){
+      taraLog.push({n:x.n, orig:x.drops, cap:maxDrops,
+                    ifraMax:x.ifraMax, dilution:x.dilution,
+                    pureOrig:purePctInFinal(x,x.drops,vol).toFixed(4),
+                    pureCap: purePctInFinal(x,maxDrops,vol).toFixed(4)});
+      x.origDrops=x.drops;
+      x.drops=maxDrops;
+      x.adjusted=true;
     }
   });
 
-  const totalDrops = formula.reduce((s,x)=>s+x.drops,0);
-
-  /* Piramide reale */
+  const totalDrops=formula.reduce((s,x)=>s+x.drops,0);
   const pyrT=(formula.filter(x=>x.note==='testa').reduce((s,x)=>s+x.drops,0)/totalDrops*100).toFixed(1);
   const pyrC=(formula.filter(x=>x.note==='cuore').reduce((s,x)=>s+x.drops,0)/totalDrops*100).toFixed(1);
   const pyrF=(formula.filter(x=>x.note==='fondo').reduce((s,x)=>s+x.drops,0)/totalDrops*100).toFixed(1);
 
-  /* Costi */
-  const concCost = formula.reduce((s,x)=>s+(x.price/10)*(x.drops*DROML),0);
-  const alcCost  = alcMl * ALC_ML;
-  const totCost  = concCost + alcCost;
+  const concCost=formula.reduce((s,x)=>s+(x.price/10)*(x.drops*DROP_ML),0);
+  const alcCost =alcMl*ALC_COST;
+  const totCost =concCost+alcCost;
 
   F={name,fam,type,vol,concPct,concMl,alcMl,formula,totalDrops,
      pyrT,pyrC,pyrF,concCost,alcCost,totCost,taraLog,
@@ -621,23 +830,32 @@ function renderPreview(){
     });
   },150);
 
-  const badgeCls=n=>n==='testa'?'bt':n==='cuore'?'bc':'bf';
+  const bc=n=>n==='testa'?'bt':n==='cuore'?'bc':'bf';
+  const dilBadge=x=>x.dilution<1?`<span class="badge bd">${Math.round(x.dilution*100)}% dil.</span>`:'';
+
   document.getElementById('prevList').innerHTML=F.formula.map(x=>{
-    const pct=(x.drops/F.totalDrops*100).toFixed(1);
-    const gr=(x.drops*DROML*DENS).toFixed(3);
+    const pctConc=(x.drops/F.totalDrops*100).toFixed(1);
+    const gr=(x.drops*DROP_ML*DENS).toFixed(3);
     return `<div class="ing-row">
-      <div class="ing-nw"><span class="ing-n">${x.n}</span><span class="badge ${badgeCls(x.note)}">${x.note}</span>${x.adjusted?'<span class="badge adj-b">tarato IFRA</span>':''}</div>
-      <span class="ing-pct">${pct}%</span>
+      <div class="ing-nw">
+        <span class="ing-n">${x.n}</span>
+        <span class="badge ${bc(x.note)}">${x.note}</span>
+        ${dilBadge(x)}
+        ${x.adjusted?'<span class="badge adj-b">⚠ tarato IFRA</span>':''}
+      </div>
+      <span class="ing-pct">${pctConc}%</span>
       <span class="ing-dr">${x.drops} gocce</span>
       <span class="ing-gr">${gr} g</span>
     </div>`;
   }).join('');
 
-  /* messaggio tara */
   const tm=document.getElementById('taraMsg');
   if(F.taraLog.length>0){
-    tm.innerHTML=`<div class="ib warn"><strong>⚠️ Tara IFRA applicata</strong> — le gocce di ${F.taraLog.length} ingrediente/i sono state ridotte automaticamente per rispettare i limiti IFRA:<br>`+
-      F.taraLog.map(t=>`<strong>${t.n}</strong>: ${t.orig} → ${t.cap} gocce (limite ${t.ifraMax}%)`).join('<br>')+`</div>`;
+    tm.innerHTML=`<div class="ib warn"><strong>⚠️ Tara IFRA applicata</strong> (${F.taraLog.length} ingrediente/i):<br>`+
+      F.taraLog.map(t=>{
+        const dilPct=Math.round(t.dilution*100);
+        return `<strong>${t.n}</strong> (diluito al ${dilPct}%): ${t.orig}→${t.cap} gocce | pura nel fin.: ${t.pureOrig}%→${t.pureCap}% (limite: ${t.ifraMax}%)`;
+      }).join('<br>')+`</div>`;
   } else {
     tm.innerHTML=`<div class="ib ok">✅ Nessuna tara IFRA necessaria — tutti gli ingredienti rientrano nei limiti.</div>`;
   }
@@ -646,27 +864,27 @@ function renderPreview(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ═══ MODAL PASSWORD ═══ */
+/* ═══ PASSWORD MODAL ═══ */
 function openPass(){
   document.getElementById('passInp').value='';
   document.getElementById('passErr').textContent='';
   document.getElementById('pass-ov').classList.add('show');
   setTimeout(()=>document.getElementById('passInp').focus(),180);
 }
-function closePass(){ document.getElementById('pass-ov').classList.remove('show'); }
+function closePass(){document.getElementById('pass-ov').classList.remove('show');}
 function chkPass(){
   if(document.getElementById('passInp').value!=='FormularioProfumi'){
     document.getElementById('passErr').textContent='❌ Password errata.';
     document.getElementById('passInp').select(); return;
   }
-  if(!F){ document.getElementById('passErr').textContent='⚠️ Genera prima una formula.'; return; }
-  closePass();
-  showFP();
+  if(!F){document.getElementById('passErr').textContent='⚠️ Genera prima una formula.';return;}
+  closePass(); showFP();
 }
 
 /* ═══ FORMULA PAGE ═══ */
 function showFP(){
-  const badgeCls=n=>n==='testa'?'bt':n==='cuore'?'bc':'bf';
+  const bc=n=>n==='testa'?'bt':n==='cuore'?'bc':'bf';
+  const dilBadge=x=>x.dilution<1?`<span class="badge bd">${Math.round(x.dilution*100)}% dil.</span>`:'';
 
   document.getElementById('fpName').textContent=F.name;
   document.getElementById('fpDesc').textContent=FAMDESCS[F.fam]||'';
@@ -675,7 +893,7 @@ function showFP(){
   document.getElementById('fpCml').textContent=F.concMl.toFixed(2)+' ml';
   document.getElementById('fpAml').textContent=F.alcMl.toFixed(2)+' ml';
   document.getElementById('fpDr').textContent=F.totalDrops+' gocce';
-  document.getElementById('fpGr').textContent=(F.totalDrops*DROML*DENS).toFixed(2)+' g';
+  document.getElementById('fpGr').textContent=(F.totalDrops*DROP_ML*DENS).toFixed(2)+' g';
   document.getElementById('fpNi').textContent=F.formula.length;
   document.getElementById('fpCtot').textContent='€'+F.totCost.toFixed(2);
   document.getElementById('fpCconc').textContent='€'+F.concCost.toFixed(2);
@@ -685,13 +903,18 @@ function showFP(){
   document.getElementById('iType').textContent=F.type.toUpperCase();
   document.getElementById('iVol').textContent=F.vol;
 
-  /* Ingredienti tecnici */
   document.getElementById('fpIngList').innerHTML=F.formula.map(x=>{
-    const pct=(x.drops/F.totalDrops*100).toFixed(2);
-    const gr=(x.drops*DROML*DENS).toFixed(3);
+    const pctConc=(x.drops/F.totalDrops*100).toFixed(2);
+    const gr=(x.drops*DROP_ML*DENS).toFixed(3);
+    const purePct=purePctInFinal(x,x.drops,F.vol).toFixed(4);
     return `<div class="ing-row">
-      <div class="ing-nw"><span class="ing-n">${x.n}</span><span class="badge ${badgeCls(x.note)}">${x.note}</span>${x.adjusted?'<span class="badge adj-b">tarato IFRA</span>':''}</div>
-      <span class="ing-pct">${pct}%</span>
+      <div class="ing-nw">
+        <span class="ing-n">${x.n}</span>
+        <span class="badge ${bc(x.note)}">${x.note}</span>
+        ${dilBadge(x)}
+        ${x.adjusted?'<span class="badge adj-b">⚠ tarato IFRA</span>':''}
+      </div>
+      <span class="ing-pct" title="Pura nel fin.: ${purePct}%">${pctConc}%</span>
       <span class="ing-dr">${x.drops} gocce</span>
       <span class="ing-gr">${gr} g</span>
     </div>`;
@@ -702,31 +925,31 @@ function showFP(){
   const noLimEl=document.getElementById('ifraNoLim');
   const rowsEl=document.getElementById('ifraRows');
   const msgEl=document.getElementById('ifraMsg');
+
   if(limited.length===0){
-    noLimEl.classList.remove('hidden');
-    rowsEl.innerHTML=''; msgEl.innerHTML='';
+    noLimEl.classList.remove('hidden'); rowsEl.innerHTML=''; msgEl.innerHTML='';
   } else {
     noLimEl.classList.add('hidden');
     let hasViol=false;
     rowsEl.innerHTML=limited.map(x=>{
-      const pctFin=(x.drops*DROML/F.vol*100);
-      const ok=pctFin<=x.ifraMax;
+      const purePct=purePctInFinal(x,x.drops,F.vol);
+      const ok=purePct<=x.ifraMax;
       if(!ok) hasViol=true;
+      const dilStr=x.dilution<1?` (${Math.round(x.dilution*100)}% dil.)`:'';
       return `<div class="ifra-r ${ok?'ifra-ok-r':'ifra-warn-r'}">
-        <span><strong>${x.n}</strong><div class="ifra-note">${x.ifraNote}</div></span>
-        <span>${pctFin.toFixed(3)}%</span>
+        <span><strong>${x.n}</strong>${dilStr}<div class="ifra-note">${x.ifraNote}</div></span>
+        <span>${purePct.toFixed(4)}%</span>
         <span>max ${x.ifraMax}%</span>
         <span class="${ok?'ifra-ok':'ifra-warn'}">${ok?'✅ OK':'⚠️ Supera'}</span>
       </div>`;
     }).join('');
     msgEl.innerHTML=hasViol
-      ?`<div class="ib">⚠️ Attenzione: uno o più ingredienti superano il limite (anomalia di calcolo — segnalare).</div>`
-      :`<div class="ib ok">✅ Tutti gli ingredienti IFRA-limitati rientrano nei limiti per fine fragrance leave-on.</div>`;
+      ?`<div class="ib">⚠️ Anomalia di calcolo: un ingrediente supera il limite nonostante la tara — segnalare.</div>`
+      :`<div class="ib ok">✅ Tutti gli ingredienti IFRA-limitati (molecola pura) rientrano nei limiti Cat.4 leave-on.</div>`;
   }
 
   document.getElementById('app').style.display='none';
-  const fp=document.getElementById('fp');
-  fp.classList.add('show');
+  document.getElementById('fp').classList.add('show');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -734,24 +957,24 @@ function closeFP(){
   document.getElementById('fp').classList.remove('show');
   document.getElementById('app').style.display='block';
 }
-
 function saveF(){
   if(!F) return;
   const saved=JSON.parse(localStorage.getItem('ps_formulas')||'[]');
-  saved.unshift({...F, savedAt:new Date().toISOString()});
+  saved.unshift({...F,savedAt:new Date().toISOString()});
   localStorage.setItem('ps_formulas',JSON.stringify(saved));
   alert('✅ Formula "'+F.name+'" salvata!');
 }
 
-/* ═══════════════════════════════════════════════════════════
-   STAMPA CERTIFICATO IN FINESTRA SEPARATA
-   — Genera HTML completo e autosufficiente, poi apre
-     window.print() sulla nuova finestra.
-   — Nessun visibility:hidden sul body principale.
-   — @page con margini espliciti garantisce multi-pagina.
-═══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   STAMPA CERTIFICATO IFRA — FINESTRA SEPARATA MULTI-PAGINA
+   
+   Calcoli nel certificato:
+   - "% nel conc." = gocce/totalDrops×100 (% della soluzione nel concentrato)
+   - "Pura nel fin." = gocce×DROP_ML×dilution/vol×100 (molecola attiva pura)
+   - Verifica IFRA sempre su "Pura nel fin."
+══════════════════════════════════════════════════════════════ */
 function printCert(){
-  if(!F){ alert('Nessuna formula caricata.'); return; }
+  if(!F){alert('Nessuna formula caricata.');return;}
 
   const certNum='PS-'+Date.now().toString(36).toUpperCase();
   const now=new Date();
@@ -759,245 +982,224 @@ function printCert(){
   const timeStr=now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
 
   const limited=F.formula.filter(x=>x.ifra);
-  const allOk=limited.every(x=>(x.drops*DROML/F.vol*100)<=x.ifraMax);
+  const allOk=limited.every(x=>purePctInFinal(x,x.drops,F.vol)<=x.ifraMax);
 
-  /* ── Righe tabella ingredienti ── */
+  /* Righe ingredienti */
   const ingRows=F.formula.map((x,i)=>{
     const pctConc=(x.drops/F.totalDrops*100).toFixed(2);
-    const pctFin=(x.drops*DROML/F.vol*100).toFixed(3);
-    const gr=(x.drops*DROML*DENS).toFixed(3);
+    const pctFin=purePctInFinal(x,x.drops,F.vol).toFixed(4);
+    const gr=(x.drops*DROP_ML*DENS).toFixed(3);
     const noteLbl={'testa':'Testa','cuore':'Cuore','fondo':'Fondo'}[x.note]||x.note;
+    const dilStr=x.dilution<1?`${Math.round(x.dilution*100)}% dil.`:'Puro';
+    const adjMark=x.adjusted?` <em style="color:#b45309">(tarato IFRA)</em>`:'';
     const ifraMark=x.ifra?'⚠ IFRA':'-';
     const bg=i%2===0?'#fff':'#f9f9f9';
     return `<tr style="background:${bg}">
-      <td>${x.n}${x.adjusted?' <em style="color:#b45309;font-size:9pt">(tarato IFRA)</em>':''}</td>
+      <td>${x.n}${adjMark}</td>
       <td style="text-align:center">${noteLbl}</td>
+      <td style="text-align:center">${dilStr}</td>
       <td style="text-align:center">${x.drops}</td>
-      <td style="text-align:center">${gr}</td>
+      <td style="text-align:center">${gr} g</td>
       <td style="text-align:center">${pctConc}%</td>
-      <td style="text-align:center">${pctFin}%</td>
+      <td style="text-align:center"><strong>${pctFin}%</strong></td>
       <td style="text-align:center">${ifraMark}</td>
     </tr>`;
   }).join('');
 
-  /* ── Righe IFRA ── */
+  /* Sezione IFRA */
   let ifraSection='';
   if(limited.length===0){
-    ifraSection=`<p style="padding:.6rem;background:#f0fdf4;border-left:3px solid #166534;font-size:9pt;color:#14532d;margin:0">
-      ✅ Nessun ingrediente soggetto a restrizioni IFRA presente in questa formula.
+    ifraSection=`<p style="padding:.6rem;background:#f0fdf4;border-left:3px solid #166534;font-size:9pt;color:#14532d">
+      ✅ Nessun ingrediente soggetto a restrizioni IFRA in questa formula.
     </p>`;
   } else {
     const rows=limited.map(x=>{
-      const pctFin=(x.drops*DROML/F.vol*100);
-      const ok=pctFin<=x.ifraMax;
-      return `<tr style="background:${ok?'rgba(21,128,61,.06)':'rgba(153,27,27,.06)'}">
+      const purePct=purePctInFinal(x,x.drops,F.vol);
+      const ok=purePct<=x.ifraMax;
+      const dilStr=x.dilution<1?`${Math.round(x.dilution*100)}%`:'100%';
+      return `<tr style="background:${ok?'rgba(21,128,61,.05)':'rgba(153,27,27,.05)'}">
         <td><strong>${x.n}</strong><br><span style="font-size:8pt;color:#666">${x.ifraNote}</span></td>
-        <td style="text-align:center">${pctFin.toFixed(3)}%</td>
+        <td style="text-align:center">${dilStr}</td>
+        <td style="text-align:center"><strong>${purePct.toFixed(4)}%</strong></td>
         <td style="text-align:center">${x.ifraMax}%</td>
-        <td style="text-align:center;font-weight:700;color:${ok?'#166534':'#991b1b'}">${ok?'✅ CONFORME':'⚠ SUPERA'}</td>
+        <td style="text-align:center;font-weight:700;color:${ok?'#166534':'#991b1b'}">${ok?'✅ OK':'⚠ SUPERA'}</td>
       </tr>`;
     }).join('');
     ifraSection=`<table style="width:100%;border-collapse:collapse;font-size:9pt">
       <thead><tr style="background:#e4e4e4">
-        <th style="padding:.4rem .5rem;text-align:left;font-size:8pt;text-transform:uppercase;letter-spacing:.05em">Ingrediente</th>
-        <th style="padding:.4rem .5rem;text-align:center">% Prod. Finito</th>
+        <th style="padding:.4rem .5rem;text-align:left">Ingrediente</th>
+        <th style="padding:.4rem .5rem;text-align:center">Diluizione</th>
+        <th style="padding:.4rem .5rem;text-align:center">Pura nel Fin.</th>
         <th style="padding:.4rem .5rem;text-align:center">Limite IFRA Cat.4</th>
         <th style="padding:.4rem .5rem;text-align:center">Stato</th>
       </tr></thead><tbody>${rows}</tbody>
     </table>`;
   }
 
-  /* ── Tara log ── */
+  /* Tara log */
   let taraSection='';
   if(F.taraLog.length>0){
     taraSection=`<div style="background:#fefce8;border-left:3px solid #b45309;padding:.6rem .8rem;margin-top:.8rem;font-size:9pt">
-      <strong>Tara IFRA applicata automaticamente:</strong><br>
-      ${F.taraLog.map(t=>`${t.n}: ridotto da ${t.orig} a ${t.cap} gocce (limite ${t.ifraMax}% nel prodotto finito)`).join('<br>')}
+      <strong>Tara IFRA applicata automaticamente (con correzione diluizioni):</strong><br>
+      ${F.taraLog.map(t=>{
+        const dilPct=Math.round(t.dilution*100);
+        return `• ${t.n} (dil. ${dilPct}%): ${t.orig}→${t.cap} gocce | molecola pura: ${t.pureOrig}%→${t.pureCap}% nel prodotto finito (limite: ${t.ifraMax}%)`;
+      }).join('<br>')}
     </div>`;
   }
 
-  /* ── Esito box ── */
-  const esitoColor=allOk?'#166534':'#991b1b';
-  const esitoTxt=allOk
-    ?`La presente miscela profumante è stata verificata e risulta <strong>conforme</strong> ai limiti IFRA 50th Amendment (2023) per la Categoria 4 — Fine Fragrance / Leave-on (applicazione diretta sulla cute). Tutti gli ingredienti soggetti a restrizioni IFRA sono presenti entro i rispettivi limiti massimi.`
-    :`⚠ La presente miscela profumante presenta una o più non conformità ai limiti IFRA 50th Amendment (2023) per la Categoria 4. Si raccomanda di riformulare riducendo le quantità degli ingredienti segnalati prima dell'uso.`;
-  const stampaTxt=allOk?'CONFORME':'NON\nCONFORME';
   const stampaColor=allOk?'#166534':'#991b1b';
+  const stampaTxt=allOk?'CONFORME':'NON\nCONFORME';
+  const esitoTxt=allOk
+    ?`La miscela profumante è <strong>conforme</strong> ai limiti IFRA 50th Amendment (2023), Categoria 4 — Fine Fragrance / Leave-on. La verifica è stata condotta sulla <strong>molecola attiva pura equivalente</strong> nel prodotto finito, tenendo conto della pre-diluizione di ciascun ingrediente. Tutti gli ingredienti soggetti a restrizioni IFRA risultano nei rispettivi limiti massimi.`
+    :`⚠ La formula presenta non conformità ai limiti IFRA. Si raccomanda di riformulare.`;
 
-  /* ═══ HTML DEL CERTIFICATO ═══
-       Autosufficiente — nessuna dipendenza esterna
-  ═══════════════════════════════════════════════ */
   const html=`<!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
 <title>Certificato IFRA — ${F.name}</title>
 <style>
-@page{
-  size: A4;
-  margin: 18mm 16mm 20mm 16mm;
-}
+@page{size:A4;margin:16mm 15mm 18mm 15mm;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:'Courier New',Courier,monospace;
-  font-size:10pt;
-  color:#000;
-  background:#fff;
-  line-height:1.5;
-}
-h2{font-size:16pt;font-weight:700;margin-bottom:4pt;}
-h3{font-size:10pt;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#555;
-   border-bottom:1px solid #ccc;padding-bottom:3pt;margin:14pt 0 7pt;}
-table{width:100%;border-collapse:collapse;font-size:9pt;}
-th,td{padding:4pt 5pt;border:1px solid #ddd;vertical-align:top;}
-thead th{background:#eee;font-size:8pt;text-transform:uppercase;letter-spacing:.05em;}
-.cert-hdr{display:flex;justify-content:space-between;align-items:flex-start;
-  border-bottom:2.5pt solid #000;padding-bottom:10pt;margin-bottom:12pt;}
-.logo{font-size:13pt;font-weight:700;display:flex;align-items:center;gap:5pt;}
-.logo-dot{width:9pt;height:9pt;background:#cc0000;border-radius:50%;display:inline-block;}
-.meta{text-align:right;font-size:8.5pt;color:#444;}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:3pt 16pt;margin-top:4pt;}
-.pair{display:flex;justify-content:space-between;padding:3pt 0;border-bottom:1px dashed #ddd;font-size:9pt;}
+body{font-family:'Courier New',Courier,monospace;font-size:10pt;color:#000;background:#fff;line-height:1.5;}
+h2{font-size:15pt;font-weight:700;margin-bottom:4pt;}
+h3{font-size:9.5pt;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#555;
+   border-bottom:1px solid #ccc;padding-bottom:3pt;margin:13pt 0 7pt;}
+table{width:100%;border-collapse:collapse;font-size:8.5pt;}
+th,td{padding:3.5pt 5pt;border:1px solid #ddd;vertical-align:top;}
+thead th{background:#eee;font-size:7.5pt;text-transform:uppercase;letter-spacing:.05em;}
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;
+  border-bottom:2.5pt solid #000;padding-bottom:9pt;margin-bottom:11pt;}
+.logo{font-size:13pt;font-weight:700;}
+.logo-dot{display:inline-block;width:9pt;height:9pt;background:#cc0000;border-radius:50%;margin-right:4pt;vertical-align:middle;}
+.meta{text-align:right;font-size:8pt;color:#444;line-height:1.6;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:2pt 14pt;margin-top:4pt;}
+.pair{display:flex;justify-content:space-between;padding:2.5pt 0;border-bottom:1px dashed #ddd;font-size:8.5pt;}
 .pair-l{color:#666;}
 .pair-v{font-weight:700;}
-.esito-box{display:flex;gap:16pt;align-items:flex-start;margin-top:8pt;}
+.esito-box{display:flex;gap:14pt;align-items:flex-start;margin-top:7pt;}
 .esito-text{flex:1;font-size:9pt;line-height:1.6;color:#222;}
-.stamp{
-  flex-shrink:0;width:72pt;height:72pt;
-  border:2.5pt solid ${stampaColor};border-radius:50%;
+.stamp{flex-shrink:0;width:70pt;height:70pt;border:2.5pt solid ${stampaColor};border-radius:50%;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  color:${stampaColor};font-weight:700;font-size:7pt;text-align:center;
-  text-transform:uppercase;letter-spacing:.04em;line-height:1.3;
-  white-space:pre-line;
-}
-.disclaimer{
-  background:#f9f9f9;border-left:2.5pt solid #b45309;
-  padding:7pt 9pt;font-size:7.5pt;line-height:1.5;color:#555;margin-top:10pt;
-}
-.footer{
-  border-top:2pt solid #000;padding-top:8pt;margin-top:14pt;
-  display:flex;justify-content:space-between;align-items:flex-end;font-size:7.5pt;color:#555;
-}
-.sign-line{width:150pt;height:.8pt;background:#000;margin:20pt auto 3pt;}
+  color:${stampaColor};font-weight:700;font-size:6.5pt;text-align:center;
+  text-transform:uppercase;letter-spacing:.04em;line-height:1.3;white-space:pre-line;}
+.box-note{background:#fffbeb;border-left:2.5pt solid #b45309;padding:6pt 8pt;font-size:8pt;
+  line-height:1.5;color:#555;margin-top:8pt;}
+.footer{border-top:2pt solid #000;padding-top:7pt;margin-top:13pt;
+  display:flex;justify-content:space-between;align-items:flex-end;font-size:7.5pt;color:#666;}
+.sign-line{width:140pt;height:.7pt;background:#000;margin:18pt auto 3pt;}
 .sign-box{text-align:right;}
-/* Evita interruzioni in sezioni critiche */
 h3{page-break-after:avoid;}
-table{page-break-inside:auto;}
 tr{page-break-inside:avoid;}
-.cert-hdr,.esito-box,.disclaimer,.footer{page-break-inside:avoid;}
-@media print{
-  body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-}
+.hdr,.esito-box,.box-note,.footer{page-break-inside:avoid;}
+@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
 </style>
 </head>
 <body>
-<!-- HEADER -->
-<div class="cert-hdr">
+
+<div class="hdr">
   <div>
     <div class="logo"><span class="logo-dot"></span>Parfum Studio</div>
-    <div style="font-size:7.5pt;color:#777;margin-top:3pt">AI-Powered Fragrance Generator · v2.0</div>
+    <div style="font-size:7.5pt;color:#777;margin-top:3pt">AI-Powered Fragrance Generator · v2.1</div>
   </div>
   <div class="meta">
     <div><strong>CERTIFICATO DI CONFORMITÀ IFRA</strong></div>
-    <div style="margin:2pt 0">N° ${certNum}</div>
-    <div>${dateStr} ore ${timeStr}</div>
+    <div>N° ${certNum}</div>
+    <div>${dateStr} — ${timeStr}</div>
   </div>
 </div>
 
 <h2>Dichiarazione di Conformità IFRA</h2>
-<p style="font-size:9pt;color:#444;margin-bottom:12pt;line-height:1.6">
-  La miscela profumante descritta in questo documento è stata formulata e verificata nel rispetto degli standard
-  <strong>IFRA — International Fragrance Association, 50th Amendment (2023)</strong>,
-  <strong>Categoria 4 — Fine Fragrance / Leave-on</strong> (applicazione diretta sulla cute).
+<p style="font-size:9pt;color:#444;margin-bottom:11pt;line-height:1.6">
+  La miscela profumante è stata formulata e verificata nel rispetto dell'
+  <strong>IFRA 50th Amendment (2023) — Categoria 4 — Fine Fragrance / Leave-on</strong>
+  (applicazione diretta cute). La verifica dei limiti è condotta sulla 
+  <strong>molecola attiva pura equivalente</strong> nel prodotto finito, 
+  con correzione della pre-diluizione di ogni ingrediente.
 </p>
 
-<!-- INFO PRODOTTO -->
 <h3>Informazioni Prodotto</h3>
 <div class="grid2">
   <div class="pair"><span class="pair-l">Nome profumo</span><span class="pair-v">${F.name}</span></div>
   <div class="pair"><span class="pair-l">Tipo concentrazione</span><span class="pair-v">${TYPELBL[F.type]}</span></div>
   <div class="pair"><span class="pair-l">Volume formulato</span><span class="pair-v">${F.vol} ml</span></div>
   <div class="pair"><span class="pair-l">Famiglia olfattiva</span><span class="pair-v">${FAMNAMES[F.fam]||F.fam}</span></div>
-  <div class="pair"><span class="pair-l">N° ingredienti</span><span class="pair-v">${F.formula.length}</span></div>
   <div class="pair"><span class="pair-l">Concentrato essenze</span><span class="pair-v">${F.concMl.toFixed(2)} ml (${F.concPct}%)</span></div>
   <div class="pair"><span class="pair-l">Alcol diluente 96°</span><span class="pair-v">${F.alcMl.toFixed(2)} ml</span></div>
+  <div class="pair"><span class="pair-l">N° ingredienti</span><span class="pair-v">${F.formula.length}</span></div>
+  <div class="pair"><span class="pair-l">Gocce totali conc.</span><span class="pair-v">${F.totalDrops}</span></div>
   <div class="pair"><span class="pair-l">Data formulazione</span><span class="pair-v">${dateStr}</span></div>
-  <div class="pair"><span class="pair-l">Standard applicato</span><span class="pair-v">IFRA 50th Amendment</span></div>
-  <div class="pair"><span class="pair-l">Categoria IFRA</span><span class="pair-v">Categoria 4 — Fine Fragrance</span></div>
+  <div class="pair"><span class="pair-l">Standard applicato</span><span class="pair-v">IFRA 50th Amendment (2023)</span></div>
 </div>
 
-<!-- PIRAMIDE -->
 <h3>Piramide Olfattiva</h3>
 <div class="grid2">
   <div class="pair"><span class="pair-l">Note di Testa</span><span class="pair-v">${F.pyrT}%</span></div>
   <div class="pair"><span class="pair-l">Note di Cuore</span><span class="pair-v">${F.pyrC}%</span></div>
   <div class="pair"><span class="pair-l">Note di Fondo</span><span class="pair-v">${F.pyrF}%</span></div>
-  <div class="pair"><span class="pair-l">Gocce totali concentrato</span><span class="pair-v">${F.totalDrops}</span></div>
+  <div class="pair"><span class="pair-l">Totale gocce concentrato</span><span class="pair-v">${F.totalDrops} gocce</span></div>
 </div>
 
-<!-- COMPOSIZIONE -->
 <h3>Composizione Dettagliata</h3>
+<p style="font-size:7.5pt;color:#666;margin-bottom:5pt">
+  "% Conc." = % della soluzione nel concentrato. "Pura nel Fin." = % molecola attiva pura nel prodotto finito (dopo correzione diluizione). 1 goccia = 0.05 ml; densità media 1 g/ml.
+</p>
 <table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Ingrediente</th>
-      <th>Nota</th>
-      <th>Gocce</th>
-      <th>Grammi</th>
-      <th>% Conc.</th>
-      <th>% Prod.Finito</th>
-      <th>IFRA</th>
-    </tr>
-  </thead>
+  <thead><tr>
+    <th style="text-align:left">Ingrediente</th>
+    <th>Nota</th>
+    <th>Dil.</th>
+    <th>Gocce</th>
+    <th>Grammi</th>
+    <th>% Conc.</th>
+    <th>Pura nel Fin.</th>
+    <th>IFRA</th>
+  </tr></thead>
   <tbody>${ingRows}</tbody>
 </table>
 
-<!-- VERIFICA IFRA -->
 <h3>Verifica Limiti IFRA — Ingredienti Soggetti a Restrizioni</h3>
-<p style="font-size:8.5pt;color:#555;margin-bottom:7pt;line-height:1.5">
-  Concentrazioni calcolate nel prodotto finito pronto all'uso (${F.vol} ml totali).
-  Limiti: IFRA 50th Amendment (2023), Categoria 4.
+<p style="font-size:8pt;color:#666;margin-bottom:6pt">
+  Verifica sulla molecola attiva pura equivalente nel prodotto finito (${F.vol} ml). 
+  Limite: IFRA 50th Amendment (2023), Cat. 4 Fine Fragrance leave-on.
 </p>
 ${ifraSection}
 ${taraSection}
 
-<!-- ESITO -->
 <h3>Esito Certificazione</h3>
 <div class="esito-box">
   <div class="esito-text">${esitoTxt}</div>
-  <div class="stamp">${stampaTxt}<span style="font-size:6.5pt;margin-top:3pt">IFRA CAT.4</span><span style="font-size:6pt">50th Amendment</span></div>
+  <div class="stamp">${stampaTxt}<span style="font-size:6pt;margin-top:3pt">IFRA CAT.4</span><span style="font-size:5.5pt">50th Amendment</span></div>
 </div>
 
-<!-- DISCLAIMER -->
-<div class="disclaimer">
-  <strong>⚠ Disclaimer:</strong> Questo certificato è generato automaticamente da Parfum Studio a scopo orientativo e non costituisce una valutazione della sicurezza ai sensi del Regolamento (CE) n. 1223/2009 sui prodotti cosmetici, né una certificazione IFRA rilasciata da un profumiere qualificato certificato IFRA. Per immissione commerciale in vendita è obbligatoria la compilazione di un PIF (Product Information File) e la valutazione della sicurezza da parte di un Safety Assessor qualificato. I limiti indicati si basano sull'IFRA 50th Amendment (2023), Categoria 4 — verificare sempre il certificato IFRA del fornitore per ogni lotto di materia prima acquistata. Densità degli oli assunta = 1 g/ml a scopo di calcolo (valore indicativo).
+<div class="box-note">
+  <strong>⚠ Disclaimer:</strong> Certificato generato automaticamente da Parfum Studio a scopo orientativo.
+  Non sostituisce una valutazione della sicurezza ai sensi del Reg. (CE) 1223/2009, né una certificazione IFRA
+  emessa da un profumiere qualificato. Per uso commerciale è obbligatoria una PIF e la valutazione di un Safety Assessor.
+  I limiti IFRA sono per la Categoria 4 (leave-on). Verificare sempre il certificato IFRA del fornitore per ogni lotto.
+  Densità assunta = 1 g/ml. Le diluizioni degli ingredienti pre-diluiti (TRI, IPM, APV) sono indicate nel database e 
+  riflettono la concentrazione reale della molecola attiva dichiarata dal fornitore.
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
   <div>
-    <div>Parfum Studio — AI Fragrance Generator</div>
-    <div>Generato il ${dateStr} alle ${timeStr}</div>
-    <div>Certificato N° ${certNum}</div>
+    <div>Parfum Studio v2.1 — AI Fragrance Generator</div>
+    <div>Certificato N° ${certNum} — ${dateStr}</div>
   </div>
   <div class="sign-box">
     <div class="sign-line"></div>
     <div>Firma / Timbro Formulatore</div>
-    <div style="margin-top:2pt;font-size:7pt;color:#999">Parfum Studio v2.0 — generato automaticamente</div>
+    <div style="font-size:7pt;color:#999;margin-top:2pt">generato automaticamente</div>
   </div>
 </div>
 
-<script>
-  window.onload=function(){
-    setTimeout(function(){ window.print(); },400);
-  };
-<\/script>
+<script>window.onload=function(){setTimeout(function(){window.print();},400);};<\/script>
 </body>
 </html>`;
 
-  /* Apri nuova finestra con l'HTML del certificato */
-  const w=window.open('','_blank','width=900,height=700,scrollbars=yes');
-  if(!w){ alert('Il popup è stato bloccato. Abilita i popup per questo sito per stampare il certificato.'); return; }
+  const w=window.open('','_blank','width=900,height=750,scrollbars=yes');
+  if(!w){alert('Popup bloccato. Abilita i popup per questo sito per stampare il certificato.');return;}
   w.document.open();
   w.document.write(html);
   w.document.close();
