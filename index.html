@@ -1,1 +1,1236 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parfum Studio - AI Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+        
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
+            font-family:'Courier Prime','Courier New',monospace;
+            background:#ffffff;
+            color:#000000;
+            line-height:1.6;
+            -webkit-font-smoothing:antialiased;
+        }
+
+        .landing {
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            min-height:100vh;
+            text-align:center;
+            padding:2rem;
+            opacity:1;
+            transition:opacity 0.6s ease;
+        }
+        .landing.fade-out { opacity:0; pointer-events:none; }
+
+        .landing-dot {
+            width:80px; height:80px;
+            background:#ff0000;
+            border-radius:50%;
+            margin-bottom:3rem;
+            animation:pulse 2s ease-in-out infinite;
+        }
+        .landing-dot.expand { animation:expand 0.8s ease-out forwards; }
+
+        @keyframes pulse {
+            0%,100% { transform:scale(1); opacity:1; }
+            50% { transform:scale(1.05); opacity:0.9; }
+        }
+        @keyframes expand {
+            0% { transform:scale(1); }
+            50% { transform:scale(20); opacity:0.8; }
+            100% { transform:scale(1); opacity:0; }
+        }
+
+        .landing h1 {
+            font-size:4rem;
+            font-weight:400;
+            letter-spacing:0.02em;
+            margin-bottom:1rem;
+        }
+        .landing-subtitle {
+            font-size:1.2rem;
+            font-weight:400;
+            color:#666;
+            margin-bottom:3rem;
+        }
+
+        .btn {
+            padding:1rem 3rem;
+            background:#000;
+            color:#fff;
+            border:none;
+            border-radius:50px;
+            font-size:1rem;
+            font-weight:500;
+            cursor:pointer;
+            transition:all 0.3s ease;
+            letter-spacing:0.05em;
+        }
+        .btn:hover { background:#ff0000; transform:translateY(-2px); }
+
+        .btn-secondary {
+            background:#fff;
+            color:#000;
+            border:1px solid #000;
+        }
+        .btn-secondary:hover { background:#000; color:#fff; }
+
+        .main-app {
+            display:none;
+            opacity:0;
+            max-width:1400px;
+            margin:0 auto;
+            padding:2rem;
+            padding-top:100px;
+        }
+        .main-app.active { display:block; animation:fadeIn 0.6s forwards; }
+
+        @keyframes fadeIn {
+            from { opacity:0; }
+            to { opacity:1; }
+        }
+
+        .app-header {
+            position:fixed;
+            top:0; left:0; right:0;
+            background:rgba(255,255,255,0.95);
+            backdrop-filter:blur(10px);
+            border-bottom:1px solid #e0e0e0;
+            z-index:1000;
+            padding:1.5rem 2rem;
+        }
+        .header-content {
+            max-width:1400px;
+            margin:0 auto;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .logo {
+            font-size:1.5rem;
+            font-weight:500;
+            letter-spacing:0.02em;
+            display:flex;
+            align-items:center;
+            gap:0.5rem;
+            cursor:pointer;
+            transition:opacity 0.3s ease;
+        }
+        .logo:hover { opacity:0.7; }
+        .logo-dot {
+            width:12px; height:12px;
+            background:#ff0000;
+            border-radius:50%;
+        }
+
+        .progress-container {
+            background:#fafafa;
+            border:1px solid #e0e0e0;
+            border-radius:12px;
+            padding:2rem;
+            margin-bottom:2rem;
+        }
+        .progress-steps {
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:2rem;
+            position:relative;
+        }
+        .progress-steps::before {
+            content:'';
+            position:absolute;
+            top:20px;
+            left:0; right:0;
+            height:2px;
+            background:#e0e0e0;
+            z-index:0;
+        }
+        .progress-line {
+            position:absolute;
+            top:20px; left:0;
+            height:2px;
+            background:#ff0000;
+            z-index:1;
+            transition:width 0.5s ease;
+        }
+        .progress-step {
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            position:relative;
+            z-index:2;
+            flex:1;
+        }
+        .step-circle {
+            width:40px; height:40px;
+            border-radius:50%;
+            background:#fff;
+            border:2px solid #e0e0e0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:600;
+            margin-bottom:0.5rem;
+            transition:all 0.3s ease;
+        }
+        .progress-step.active .step-circle {
+            background:#000;
+            border-color:#000;
+            color:#fff;
+        }
+        .progress-step.completed .step-circle {
+            background:#ff0000;
+            border-color:#ff0000;
+            color:#fff;
+        }
+        .step-label {
+            font-size:0.85rem;
+            color:#666;
+            text-align:center;
+        }
+        .progress-step.active .step-label {
+            color:#000;
+            font-weight:600;
+        }
+
+        .wizard-step { display:none; }
+        .wizard-step.active { display:block; animation:fadeIn 0.4s ease; }
+
+        .step-title {
+            font-size:2.5rem;
+            font-weight:400;
+            margin-bottom:1rem;
+            letter-spacing:0.02em;
+        }
+        .step-subtitle {
+            font-size:1.2rem;
+            color:#666;
+            margin-bottom:3rem;
+        }
+
+        .options-grid {
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+            gap:1.5rem;
+            margin-bottom:3rem;
+        }
+        .option-card {
+            background:#fafafa;
+            border:2px solid #e0e0e0;
+            border-radius:12px;
+            padding:2rem;
+            cursor:pointer;
+            transition:all 0.3s ease;
+            text-align:center;
+            position:relative;
+        }
+        .option-card:hover { border-color:#000; transform:translateY(-4px); }
+        .option-card.selected {
+            background:#000;
+            color:#fff;
+            border-color:#000;
+            box-shadow:0 8px 24px rgba(0,0,0,0.15);
+        }
+        .option-card.selected::before {
+            content:'✓';
+            position:absolute;
+            top:12px; right:12px;
+            width:24px; height:24px;
+            background:#ff0000;
+            color:#fff;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:0.85rem;
+            font-weight:700;
+        }
+        .option-icon {
+            font-size:3rem;
+            margin-bottom:1rem;
+            display:block;
+        }
+        .option-card.selected .option-icon { filter:brightness(0) invert(1); }
+        .option-title {
+            font-size:1.2rem;
+            font-weight:600;
+            margin-bottom:0.5rem;
+            letter-spacing:0.02em;
+        }
+        .option-desc {
+            font-size:0.95rem;
+            opacity:0.8;
+            line-height:1.5;
+        }
+        .option-card.selected .option-desc { opacity:0.9; }
+
+        .tags-container {
+            display:flex;
+            flex-wrap:wrap;
+            gap:1rem;
+            margin-bottom:3rem;
+        }
+        .tag {
+            padding:0.75rem 1.5rem;
+            background:#fafafa;
+            border:2px solid #e0e0e0;
+            border-radius:50px;
+            cursor:pointer;
+            transition:all 0.3s ease;
+            font-weight:500;
+            font-size:0.95rem;
+        }
+        .tag:hover { border-color:#000; }
+        .tag.selected {
+            background:#000;
+            color:#fff;
+            border-color:#000;
+        }
+
+        .slider-container { margin-bottom:2.5rem; }
+        .slider-header {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:1rem;
+        }
+        .slider-label { font-weight:600; font-size:1.1rem; }
+        .slider-value { font-weight:600; color:#ff0000; font-size:1.1rem; }
+
+        .slider {
+            width:100%;
+            height:8px;
+            border-radius:4px;
+            background:#e0e0e0;
+            outline:none;
+            -webkit-appearance:none;
+            appearance:none;
+            cursor:pointer;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance:none;
+            appearance:none;
+            width:24px; height:24px;
+            border-radius:50%;
+            background:#ff0000;
+            cursor:pointer;
+            transition:all 0.3s ease;
+        }
+        .slider::-webkit-slider-thumb:hover {
+            transform:scale(1.2);
+            box-shadow:0 0 0 8px rgba(255,0,0,0.1);
+        }
+        .slider::-moz-range-thumb {
+            width:24px; height:24px;
+            border-radius:50%;
+            background:#ff0000;
+            cursor:pointer;
+            border:none;
+        }
+
+        .input-group { margin-bottom:2rem; }
+        .input-label {
+            display:block;
+            font-weight:600;
+            margin-bottom:0.5rem;
+            font-size:1rem;
+        }
+        .input-field {
+            width:100%;
+            padding:1rem;
+            border:2px solid #e0e0e0;
+            border-radius:12px;
+            font-size:1rem;
+            font-family:'Courier Prime',monospace;
+            transition:all 0.3s ease;
+        }
+        .input-field:focus { outline:none; border-color:#000; }
+
+        .step-navigation {
+            display:flex;
+            justify-content:space-between;
+            gap:1rem;
+            margin-top:3rem;
+        }
+
+        .results-container { display:none; }
+        .results-container.active { display:block; animation:fadeIn 0.6s ease; }
+
+        .results-header {
+            background:#fafafa;
+            border:1px solid #e0e0e0;
+            border-radius:12px;
+            padding:3rem;
+            text-align:center;
+            margin-bottom:2rem;
+        }
+        .perfume-name {
+            font-size:2.5rem;
+            font-weight:600;
+            margin-bottom:1rem;
+            letter-spacing:0.02em;
+        }
+        .perfume-description {
+            font-size:1.1rem;
+            color:#666;
+            max-width:700px;
+            margin:0 auto;
+            line-height:1.7;
+        }
+
+        .cost-summary {
+            background:#000;
+            color:#fff;
+            border-radius:12px;
+            padding:2.5rem;
+            text-align:center;
+            margin-bottom:2rem;
+        }
+        .cost-label {
+            font-size:0.9rem;
+            font-weight:500;
+            text-transform:uppercase;
+            letter-spacing:0.1em;
+            opacity:0.7;
+            margin-bottom:1rem;
+        }
+        .total-cost {
+            font-size:3.5rem;
+            font-weight:600;
+            color:#ff0000;
+            margin-bottom:0.5rem;
+        }
+        .cost-details {
+            font-size:0.95rem;
+            opacity:0.8;
+            margin-top:1rem;
+        }
+        .cost-breakdown {
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:1.5rem;
+            margin-top:2rem;
+            padding-top:2rem;
+            border-top:1px solid rgba(255,255,255,0.2);
+        }
+        .cost-item { text-align:center; }
+        .cost-item-label {
+            font-size:0.85rem;
+            opacity:0.7;
+            margin-bottom:0.5rem;
+        }
+        .cost-item-value {
+            font-size:1.5rem;
+            font-weight:600;
+        }
+
+        .pyramid-container {
+            background:#fafafa;
+            border:1px solid #e0e0e0;
+            border-radius:12px;
+            padding:2rem;
+            margin-bottom:2rem;
+        }
+        .pyramid-title {
+            font-size:1.5rem;
+            font-weight:600;
+            margin-bottom:2rem;
+            text-align:center;
+        }
+        .pyramid-section { margin-bottom:1.5rem; }
+        .pyramid-header {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:0.5rem;
+            font-weight:600;
+        }
+        .pyramid-bar {
+            height:50px;
+            background:#e0e0e0;
+            border-radius:10px;
+            overflow:hidden;
+            position:relative;
+        }
+        .pyramid-fill {
+            height:100%;
+            display:flex;
+            align-items:center;
+            padding-left:1.5rem;
+            color:#fff;
+            font-weight:600;
+            font-size:1.1rem;
+            transition:width 1s ease;
+        }
+        .pyramid-testa { background:#3b82f6; }
+        .pyramid-cuore { background:#f59e0b; }
+        .pyramid-fondo { background:#7c3aed; }
+
+        .ingredients-container {
+            background:#fafafa;
+            border:1px solid #e0e0e0;
+            border-radius:12px;
+            padding:2rem;
+            margin-bottom:2rem;
+        }
+        .ingredients-title {
+            font-size:1.5rem;
+            font-weight:600;
+            margin-bottom:2rem;
+            text-align:center;
+        }
+        .ingredient-item {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:1.25rem;
+            margin-bottom:0.75rem;
+            background:#fff;
+            border:1px solid #e0e0e0;
+            border-radius:8px;
+            transition:all 0.3s ease;
+        }
+        .ingredient-item:hover { border-color:#000; transform:translateX(4px); }
+        .ingredient-info {
+            display:flex;
+            align-items:center;
+            gap:1rem;
+        }
+        .ingredient-name {
+            font-weight:600;
+            font-size:1rem;
+        }
+        .badge {
+            padding:0.35rem 0.75rem;
+            border-radius:12px;
+            font-size:0.75rem;
+            font-weight:600;
+            text-transform:uppercase;
+            letter-spacing:0.05em;
+        }
+        .badge-testa {
+            background:rgba(59,130,246,0.15);
+            color:#1e40af;
+        }
+        .badge-cuore {
+            background:rgba(245,158,11,0.15);
+            color:#92400e;
+        }
+        .badge-fondo {
+            background:rgba(124,58,237,0.15);
+            color:#5b21b6;
+        }
+        .ingredient-details {
+            display:flex;
+            align-items:center;
+            gap:2rem;
+        }
+        .ingredient-percent {
+            color:#666;
+            font-weight:500;
+        }
+        .ingredient-drops {
+            font-weight:700;
+            color:#ff0000;
+            font-size:1.1rem;
+        }
+
+        .instructions-container {
+            background:#fafafa;
+            border:1px solid #e0e0e0;
+            border-radius:12px;
+            padding:2rem;
+            margin-bottom:2rem;
+        }
+        .instructions-title {
+            font-size:1.5rem;
+            font-weight:600;
+            margin-bottom:1.5rem;
+        }
+        .instruction-step {
+            display:flex;
+            gap:1rem;
+            margin-bottom:1.5rem;
+            padding-bottom:1.5rem;
+            border-bottom:1px solid #e0e0e0;
+        }
+        .instruction-step:last-child {
+            border-bottom:none;
+            padding-bottom:0;
+            margin-bottom:0;
+        }
+        .step-number {
+            width:32px; height:32px;
+            background:#000;
+            color:#fff;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:700;
+            flex-shrink:0;
+        }
+        .step-text { flex:1; line-height:1.8; }
+
+        .info-box {
+            background:#fff5f5;
+            border-left:4px solid #ff0000;
+            padding:1.5rem;
+            border-radius:8px;
+            margin:2rem 0;
+        }
+        .info-box-title {
+            font-weight:600;
+            margin-bottom:0.5rem;
+        }
+
+        .actions-container {
+            display:flex;
+            gap:1rem;
+            justify-content:center;
+            margin-top:3rem;
+        }
+
+        @media (max-width:768px){
+            .landing h1{font-size:2.5rem;}
+            .step-title{font-size:2rem;}
+            .options-grid{grid-template-columns:1fr;}
+            .cost-breakdown{grid-template-columns:1fr;}
+            .step-navigation{flex-direction:column;}
+            .actions-container{flex-direction:column;}
+        }
+    </style>
+</head>
+<body>
+    <div class="landing" id="landing">
+        <div class="landing-dot" id="landingDot"></div>
+        <h1>Parfum Studio</h1>
+        <p class="landing-subtitle">AI-Powered Fragrance Generator</p>
+        <button class="btn" onclick="startApp()">Inizia la Creazione</button>
+    </div>
+
+    <div class="main-app" id="mainApp">
+        <div class="app-header">
+            <div class="header-content">
+                <div class="logo" onclick="resetToLanding()">
+                    <div class="logo-dot"></div>
+                    Parfum Studio
+                </div>
+                <button class="btn btn-secondary" onclick="resetWizard()">Reset Totale</button>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="progress-line" id="progressLine"></div>
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Famiglia</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Intensità</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Occasione</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Caratteristiche</div>
+                </div>
+                <div class="progress-step" data-step="5">
+                    <div class="step-circle">5</div>
+                    <div class="step-label">Dettagli</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="wizardContainer">
+            <div class="wizard-step active" data-step="1">
+                <h2 class="step-title">Scegli la Famiglia Olfattiva</h2>
+                <p class="step-subtitle">Che tipo di profumo desideri creare?</p>
+                <div class="options-grid">
+                    <div class="option-card" data-family="fresco-agrumato" onclick="selectOption(this,'family')">
+                        <span class="option-icon">🍋</span>
+                        <div class="option-title">Fresco & Agrumato</div>
+                        <p class="option-desc">Vivace, solare, energizzante. Perfetto per il giorno e l'estate.</p>
+                    </div>
+                    <div class="option-card" data-family="floreale" onclick="selectOption(this,'family')">
+                        <span class="option-icon">🌸</span>
+                        <div class="option-title">Floreale & Romantico</div>
+                        <p class="option-desc">Elegante, delicato, femminile. Bouquet di petali e fiori.</p>
+                    </div>
+                    <div class="option-card" data-family="legnoso-ambrato" onclick="selectOption(this,'family')">
+                        <span class="option-icon">🌳</span>
+                        <div class="option-title">Legnoso & Ambrato</div>
+                        <p class="option-desc">Caldo, avvolgente, persistente. Eleganza senza tempo.</p>
+                    </div>
+                    <div class="option-card" data-family="orientale-speziato" onclick="selectOption(this,'family')">
+                        <span class="option-icon">🔥</span>
+                        <div class="option-title">Orientale & Speziato</div>
+                        <p class="option-desc">Misterioso, sensuale, intenso. Spezie esotiche e resine.</p>
+                    </div>
+                    <div class="option-card" data-family="marino-fresco" onclick="selectOption(this,'family')">
+                        <span class="option-icon">🌊</span>
+                        <div class="option-title">Marino & Acquatico</div>
+                        <p class="option-desc">Pulito, ozono, moderno. Brezza marina e note acquatiche.</p>
+                    </div>
+                    <div class="option-card" data-family="gourmand-dolce" onclick="selectOption(this,'family')">
+                        <span class="option-icon">🍰</span>
+                        <div class="option-title">Gourmand & Dolce</div>
+                        <p class="option-desc">Goloso, confortante, avvolgente. Vaniglia e note zuccherate.</p>
+                    </div>
+                </div>
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" disabled>← Indietro</button>
+                    <button class="btn" onclick="nextStep()">Continua →</button>
+                </div>
+            </div>
+
+            <div class="wizard-step" data-step="2">
+                <h2 class="step-title">Scegli l'Intensità</h2>
+                <p class="step-subtitle">Quanto vuoi che sia persistente il profumo?</p>
+                <div class="options-grid">
+                    <div class="option-card" data-intensity="leggero" onclick="selectOption(this,'intensity')">
+                        <span class="option-icon">☁️</span>
+                        <div class="option-title">Leggero</div>
+                        <p class="option-desc">Eau de Cologne (EDC) · ~5%</p>
+                    </div>
+                    <div class="option-card" data-intensity="moderato" onclick="selectOption(this,'intensity')">
+                        <span class="option-icon">💨</span>
+                        <div class="option-title">Moderato</div>
+                        <p class="option-desc">Eau de Toilette (EDT) · ~10%</p>
+                    </div>
+                    <div class="option-card" data-intensity="intenso" onclick="selectOption(this,'intensity')">
+                        <span class="option-icon">⚡</span>
+                        <div class="option-title">Intenso</div>
+                        <p class="option-desc">Eau de Parfum (EDP) · ~17%</p>
+                    </div>
+                </div>
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Indietro</button>
+                    <button class="btn" onclick="nextStep()">Continua →</button>
+                </div>
+            </div>
+
+            <div class="wizard-step" data-step="3">
+                <h2 class="step-title">Per Quale Occasione?</h2>
+                <p class="step-subtitle">Quando userai questo profumo?</p>
+                <div class="tags-container">
+                    <div class="tag" data-occasion="giorno" onclick="selectTag(this,'occasion')">Uso quotidiano</div>
+                    <div class="tag" data-occasion="sera" onclick="selectTag(this,'occasion')">Serata elegante</div>
+                    <div class="tag" data-occasion="lavoro" onclick="selectTag(this,'occasion')">Lavoro/Ufficio</div>
+                    <div class="tag" data-occasion="sport" onclick="selectTag(this,'occasion')">Sport/Palestra</div>
+                    <div class="tag" data-occasion="romantico" onclick="selectTag(this,'occasion')">Appuntamento romantico</div>
+                    <div class="tag" data-occasion="inverno" onclick="selectTag(this,'occasion')">Inverno</div>
+                    <div class="tag" data-occasion="estate" onclick="selectTag(this,'occasion')">Estate</div>
+                    <div class="tag" data-occasion="primavera" onclick="selectTag(this,'occasion')">Primavera/Autunno</div>
+                </div>
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Indietro</button>
+                    <button class="btn" onclick="nextStep()">Continua →</button>
+                </div>
+            </div>
+
+            <div class="wizard-step" data-step="4">
+                <h2 class="step-title">Personalizza le Caratteristiche</h2>
+                <p class="step-subtitle">Regola i parametri per il tuo profumo perfetto</p>
+                <div class="slider-container">
+                    <div class="slider-header">
+                        <span class="slider-label">Dolcezza</span>
+                        <span class="slider-value" id="sweetnessValue">50%</span>
+                    </div>
+                    <input type="range" class="slider" id="sweetness" min="0" max="100" value="50" oninput="updateSlider(this,'sweetnessValue')">
+                </div>
+                <div class="slider-container">
+                    <div class="slider-header">
+                        <span class="slider-label">Freschezza</span>
+                        <span class="slider-value" id="freshnessValue">50%</span>
+                    </div>
+                    <input type="range" class="slider" id="freshness" min="0" max="100" value="50" oninput="updateSlider(this,'freshnessValue')">
+                </div>
+                <div class="slider-container">
+                    <div class="slider-header">
+                        <span class="slider-label">Complessità (ingredienti)</span>
+                        <span class="slider-value" id="complexityValue">10 ingredienti</span>
+                    </div>
+                    <input type="range" class="slider" id="complexity" min="0" max="100" value="100" oninput="updateComplexity(this)">
+                </div>
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Indietro</button>
+                    <button class="btn" onclick="nextStep()">Continua →</button>
+                </div>
+            </div>
+
+            <div class="wizard-step" data-step="5">
+                <h2 class="step-title">Ultimi Dettagli</h2>
+                <p class="step-subtitle">Nome e volume del tuo profumo</p>
+                <div style="max-width:600px;margin:0 auto;">
+                    <div class="input-group">
+                        <label class="input-label">Nome del Profumo</label>
+                        <input type="text" class="input-field" id="perfumeName" placeholder="Es. Brezza Marina">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Volume Finale (ml)</label>
+                        <input type="number" class="input-field" id="volumeInput" value="50" min="10" max="1000">
+                    </div>
+                </div>
+                <div class="step-navigation">
+                    <button class="btn btn-secondary" onclick="prevStep()">← Indietro</button>
+                    <button class="btn" onclick="generateFormula()">🔮 Genera Formula</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-container" id="resultsContainer">
+            <div class="results-header">
+                <div class="perfume-name" id="resultName">Il Tuo Profumo</div>
+                <p class="perfume-description" id="resultDesc"></p>
+            </div>
+
+            <div class="cost-summary">
+                <div class="cost-label">Costo Totale</div>
+                <div class="total-cost" id="totalCost">€0.00</div>
+                <p class="cost-details">per <span id="resultVolume">50</span> ml di <span id="resultType">profumo</span></p>
+                <div class="cost-breakdown">
+                    <div class="cost-item">
+                        <div class="cost-item-label">Concentrato</div>
+                        <div class="cost-item-value" id="concentrateCost">€0.00</div>
+                    </div>
+                    <div class="cost-item">
+                        <div class="cost-item-label">Diluente</div>
+                        <div class="cost-item-value" id="diluentCost">€0.00</div>
+                    </div>
+                    <div class="cost-item">
+                        <div class="cost-item-label">Ingredienti</div>
+                        <div class="cost-item-value" id="ingredientCount">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pyramid-container">
+                <h3 class="pyramid-title">Piramide Olfattiva Equilibrata</h3>
+                <div class="pyramid-section">
+                    <div class="pyramid-header">
+                        <span>Note di Testa</span>
+                        <span id="testaPercent">0%</span>
+                    </div>
+                    <div class="pyramid-bar">
+                        <div class="pyramid-fill pyramid-testa" id="testaBar" style="width:0%">0%</div>
+                    </div>
+                </div>
+                <div class="pyramid-section">
+                    <div class="pyramid-header">
+                        <span>Note di Cuore</span>
+                        <span id="cuorePercent">0%</span>
+                    </div>
+                    <div class="pyramid-bar">
+                        <div class="pyramid-fill pyramid-cuore" id="cuoreBar" style="width:0%">0%</div>
+                    </div>
+                </div>
+                <div class="pyramid-section">
+                    <div class="pyramid-header">
+                        <span>Note di Fondo</span>
+                        <span id="fondoPercent">0%</span>
+                    </div>
+                    <div class="pyramid-bar">
+                        <div class="pyramid-fill pyramid-fondo" id="fondoBar" style="width:0%">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructions-container">
+                <h3 class="instructions-title">Istruzioni di Preparazione</h3>
+                <div class="instruction-step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Prepara una boccetta in vetro scuro da <strong><span id="instrVolume">50</span> ml</strong>.</div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Versa <strong><span id="instrAlcohol">0</span> ml</strong> di alcol etilico 96°.</div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Aggiungi gli ingredienti nell'ordine: <strong>note di fondo → note di cuore → note di testa</strong>.</div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Mescola delicatamente con un bastoncino di vetro per circa 30 secondi.</div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-number">5</div>
+                    <div class="step-text">Lascia maturare il profumo al buio per <strong>2–4 settimane</strong> (ottimale 6 settimane).</div>
+                </div>
+                <div class="instruction-step">
+                    <div class="step-number">6</div>
+                    <div class="step-text">Agita delicatamente la boccetta una volta a settimana durante la maturazione.</div>
+                </div>
+            </div>
+
+            <div class="ingredients-container">
+                <h3 class="ingredients-title">Formula con 10 Ingredienti</h3>
+                <div id="ingredientsList"></div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-title">📝 Note Importanti</div>
+                <p>La formula è bilanciata per avere circa 25% note di testa, 40% di cuore e 35% di fondo, in linea con una piramide olfattiva classica e armoniosa.[file:122]</p>
+            </div>
+
+            <div class="actions-container">
+                <button class="btn" onclick="saveFormula()">💾 Salva Formula</button>
+                <button class="btn btn-secondary" onclick="resetWizard()">🔄 Ricomincia da capo</button>
+                <button class="btn btn-secondary" onclick="window.print()">🖨️ Stampa</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const INGREDIENTS = [
+            {name:"BERGAMOTTO",note:"testa",family:"agrumato",price:18,compatibility:["fresco-agrumato","floreale","marino-fresco"],drops:12},
+            {name:"LIMONE ITALIA",note:"testa",family:"agrumato",price:12,compatibility:["fresco-agrumato","marino-fresco"],drops:12},
+            {name:"MANDARINO GIALLO",note:"testa",family:"agrumato",price:15,compatibility:["fresco-agrumato","gourmand-dolce"],drops:10},
+            {name:"AGRUMEX",note:"testa",family:"agrumato",price:10,compatibility:["fresco-agrumato","marino-fresco"],drops:10},
+            {name:"ACETATO LINALILE",note:"testa",family:"floreale",price:11,compatibility:["floreale","fresco-agrumato"],drops:12},
+            {name:"LINALOLO",note:"testa",family:"floreale",price:10,compatibility:["floreale","fresco-agrumato"],drops:12},
+            {name:"DIIDROMIRCENOLO",note:"testa",family:"fresco",price:9,compatibility:["fresco-agrumato","marino-fresco"],drops:10},
+            {name:"CARDAMOMO",note:"testa",family:"speziato",price:20,compatibility:["orientale-speziato"],drops:6},
+            {name:"PEPE NERO",note:"testa",family:"speziato",price:16,compatibility:["orientale-speziato","legnoso-ambrato"],drops:4},
+            {name:"MANZANATE",note:"testa",family:"fruttato",price:16,compatibility:["fresco-agrumato","gourmand-dolce"],drops:3},
+            {name:"ALLIL AMIL GLICOLATE",note:"testa",family:"fruttato",price:14,compatibility:["fresco-agrumato","gourmand-dolce"],drops:3},
+            {name:"HEDIONE",note:"cuore",family:"floreale",price:25,compatibility:["floreale","fresco-agrumato"],drops:15},
+            {name:"DAMASCENONE",note:"cuore",family:"floreale",price:55,compatibility:["floreale","orientale-speziato"],drops:1},
+            {name:"ALFA DAMASCONE",note:"cuore",family:"floreale",price:45,compatibility:["floreale","orientale-speziato"],drops:2},
+            {name:"GERANIOLO",note:"cuore",family:"floreale",price:12,compatibility:["floreale"],drops:10},
+            {name:"ACETATO BENZILE",note:"cuore",family:"floreale",price:8,compatibility:["floreale"],drops:10},
+            {name:"IDROSSICITRONELLALE",note:"cuore",family:"floreale",price:9,compatibility:["floreale","fresco-agrumato"],drops:12},
+            {name:"SALICILATO BENZILE",note:"cuore",family:"floreale",price:7,compatibility:["floreale"],drops:12},
+            {name:"LAVANDINO GROSSO",note:"cuore",family:"aromatico",price:12,compatibility:["fresco-agrumato","legnoso-ambrato"],drops:12},
+            {name:"SALVIA SCLAREA",note:"cuore",family:"aromatico",price:14,compatibility:["legnoso-ambrato","orientale-speziato"],drops:10},
+            {name:"HELIONAL",note:"cuore",family:"marino",price:22,compatibility:["marino-fresco"],drops:10},
+            {name:"ALDEIDE C14",note:"cuore",family:"fresco",price:12,compatibility:["marino-fresco","fresco-agrumato"],drops:6},
+            {name:"CANNELLA CINA",note:"cuore",family:"speziato",price:25,compatibility:["orientale-speziato","gourmand-dolce"],drops:2},
+            {name:"NOCE MOSCATA",note:"cuore",family:"speziato",price:14,compatibility:["orientale-speziato","gourmand-dolce"],drops:5},
+            {name:"EUGENOLO PURO",note:"cuore",family:"speziato",price:10,compatibility:["orientale-speziato"],drops:4},
+            {name:"ISO E SUPER",note:"fondo",family:"legnoso",price:18,compatibility:["legnoso-ambrato","orientale-speziato","marino-fresco"],drops:15},
+            {name:"CEDRO VIRGINIA",note:"fondo",family:"legnoso",price:16,compatibility:["legnoso-ambrato","orientale-speziato"],drops:10},
+            {name:"PATCHOULY",note:"fondo",family:"legnoso",price:20,compatibility:["legnoso-ambrato","orientale-speziato"],drops:8},
+            {name:"VETIVER GIAVA",note:"fondo",family:"legnoso",price:22,compatibility:["legnoso-ambrato","fresco-agrumato"],drops:10},
+            {name:"SANDALORE",note:"fondo",family:"legnoso",price:24,compatibility:["legnoso-ambrato","floreale"],drops:10},
+            {name:"VERTOFIX COEUR",note:"fondo",family:"legnoso",price:20,compatibility:["legnoso-ambrato"],drops:10},
+            {name:"AMBROX SUPER",note:"fondo",family:"ambrato",price:35,compatibility:["legnoso-ambrato","orientale-speziato"],drops:6},
+            {name:"CUMARINA",note:"fondo",family:"dolce",price:10,compatibility:["gourmand-dolce","orientale-speziato"],drops:8},
+            {name:"VANILLA",note:"fondo",family:"dolce",price:12,compatibility:["gourmand-dolce","orientale-speziato"],drops:5},
+            {name:"GALAXOLIDE",note:"fondo",family:"muschiato",price:16,compatibility:["floreale","legnoso-ambrato","marino-fresco"],drops:10},
+            {name:"HABANOLIDE",note:"fondo",family:"muschiato",price:25,compatibility:["floreale","legnoso-ambrato"],drops:6},
+            {name:"ETILENE BRASSILATE",note:"fondo",family:"muschiato",price:18,compatibility:["floreale","marino-fresco"],drops:8},
+            {name:"INCENSO PURO",note:"fondo",family:"resinoso",price:30,compatibility:["orientale-speziato","legnoso-ambrato"],drops:5},
+            {name:"MIRRA",note:"fondo",family:"resinoso",price:22,compatibility:["orientale-speziato"],drops:6},
+            {name:"BENZOATO BENZILE",note:"fondo",family:"balsamico",price:7,compatibility:["floreale","orientale-speziato"],drops:8}
+        ];
+
+        const DILUENT_COST_PER_ML = 0.015;
+        const DROP_TO_ML = 0.05;
+
+        let currentStep = 1;
+        let selections = {
+            family:null,
+            intensity:null,
+            occasion:null,
+            sweetness:50,
+            freshness:50,
+            complexity:100,
+            volume:50,
+            name:""
+        };
+
+        function startApp(){
+            const dot = document.getElementById('landingDot');
+            dot.classList.add('expand');
+            setTimeout(()=>{ document.getElementById('landing').classList.add('fade-out'); },400);
+            setTimeout(()=>{
+                document.getElementById('landing').style.display='none';
+                document.getElementById('mainApp').classList.add('active');
+                updateProgress();
+            },1000);
+        }
+
+        function resetToLanding(){
+            currentStep = 1;
+            selections = {
+                family:null,
+                intensity:null,
+                occasion:null,
+                sweetness:50,
+                freshness:50,
+                complexity:100,
+                volume:50,
+                name:""
+            };
+            document.getElementById('mainApp').classList.remove('active');
+            document.getElementById('landing').style.display='flex';
+            document.getElementById('landing').classList.remove('fade-out');
+            const dot = document.getElementById('landingDot');
+            dot.classList.remove('expand');
+            resetInternals();
+        }
+
+        function resetInternals(){
+            document.querySelectorAll('.option-card,.tag').forEach(el=>el.classList.remove('selected'));
+            document.querySelectorAll('.wizard-step').forEach(s=>s.classList.remove('active'));
+            document.querySelector('[data-step="1"]').classList.add('active');
+            document.getElementById('resultsContainer').classList.remove('active');
+            document.getElementById('wizardContainer').style.display='block';
+            document.getElementById('volumeInput').value=50;
+            document.getElementById('perfumeName').value='';
+            document.getElementById('sweetness').value=50;
+            document.getElementById('freshness').value=50;
+            document.getElementById('complexity').value=100;
+            document.getElementById('sweetnessValue').textContent='50%';
+            document.getElementById('freshnessValue').textContent='50%';
+            document.getElementById('complexityValue').textContent='10 ingredienti';
+            document.querySelectorAll('.progress-step').forEach(s=>{s.classList.remove('active','completed');});
+            document.querySelector('.progress-step[data-step="1"]').classList.add('active');
+            updateProgress();
+        }
+
+        function selectOption(element,type){
+            const selector = type==='family' ? '[data-family]' : '[data-intensity]';
+            document.querySelectorAll(selector).forEach(el=>el.classList.remove('selected'));
+            element.classList.add('selected');
+            selections[type] = element.dataset[type];
+        }
+
+        function selectTag(element,type){
+            element.classList.toggle('selected');
+            selections[type] = element.classList.contains('selected') ? element.dataset[type] : null;
+        }
+
+        function updateSlider(slider,displayId){
+            const value = slider.value;
+            document.getElementById(displayId).textContent = value + '%';
+            selections[slider.id] = parseInt(value);
+        }
+
+        function updateComplexity(slider){
+            // forza sempre 10 ingredienti: il valore serve solo a UI
+            document.getElementById('complexityValue').textContent = '10 ingredienti';
+            selections.complexity = 100;
+        }
+
+        function nextStep(){
+            if(currentStep===1 && !selections.family){ alert('Seleziona una famiglia olfattiva!'); return; }
+            if(currentStep===2 && !selections.intensity){ alert('Seleziona un\'intensità!'); return; }
+
+            document.querySelector(`.wizard-step[data-step="${currentStep}"]`).classList.remove('active');
+            document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.add('completed');
+            document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.remove('active');
+            currentStep++;
+            document.querySelector(`.wizard-step[data-step="${currentStep}"]`).classList.add('active');
+            document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.add('active');
+            updateProgress();
+            window.scrollTo({top:0,behavior:'smooth'});
+        }
+
+        function prevStep(){
+            document.querySelector(`.wizard-step[data-step="${currentStep}"]`).classList.remove('active');
+            document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.remove('active');
+            currentStep--;
+            document.querySelector(`.wizard-step[data-step="${currentStep}"]`).classList.add('active');
+            document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.remove('completed');
+            document.querySelector(`.progress-step[data-step="${currentStep}"]`).classList.add('active');
+            updateProgress();
+            window.scrollTo({top:0,behavior:'smooth'});
+        }
+
+        function updateProgress(){
+            const progress = ((currentStep-1)/4)*100;
+            document.getElementById('progressLine').style.width = progress + '%';
+        }
+
+        function generateFormula(){
+            selections.volume = parseInt(document.getElementById('volumeInput').value)||50;
+            selections.name = document.getElementById('perfumeName').value || "Il Mio Profumo";
+
+            const concentrations = {
+                leggero:{name:'EDC',percent:5},
+                moderato:{name:'EDT',percent:10},
+                intenso:{name:'EDP',percent:17}
+            };
+            const concentration = concentrations[selections.intensity];
+
+            const compatibleIngredients = INGREDIENTS.filter(ing=>ing.compatibility.includes(selections.family));
+
+            const NUM_ING = 10;
+            const targetNotes = { testa:Math.round(NUM_ING*0.3), cuore:Math.round(NUM_ING*0.4), fondo:NUM_ING }; 
+            targetNotes.fondo = NUM_ING - targetNotes.testa - targetNotes.cuore;
+
+            const selected = [];
+
+            function pickByNote(note,count){
+                const pool = compatibleIngredients.filter(i=>i.note===note && !selected.includes(i));
+                for(let i=0;i<count && i<pool.length;i++) selected.push(pool[i]);
+            }
+
+            pickByNote('testa',targetNotes.testa);
+            pickByNote('cuore',targetNotes.cuore);
+            pickByNote('fondo',targetNotes.fondo);
+
+            while(selected.length<NUM_ING){
+                const extra = compatibleIngredients.find(i=>!selected.includes(i));
+                if(!extra) break;
+                selected.push(extra);
+            }
+            if(selected.length>NUM_ING) selected.length=NUM_ING;
+
+            const requiredConcentrateMl = (selections.volume * concentration.percent)/100;
+            const totalDropsTarget = requiredConcentrateMl / DROP_TO_ML;
+
+            const targetPct = { testa:25, cuore:40, fondo:35 };
+            const dropsTarget = {
+                testa: totalDropsTarget*targetPct.testa/100,
+                cuore: totalDropsTarget*targetPct.cuore/100,
+                fondo: totalDropsTarget*targetPct.fondo/100
+            };
+
+            const baseDrops = selected.map(ing=>({
+                ...ing,
+                dropsInFormula: ing.note==='testa' ? dropsTarget.testa/Math.max(1,selected.filter(i=>i.note==='testa').length) :
+                               ing.note==='cuore' ? dropsTarget.cuore/Math.max(1,selected.filter(i=>i.note==='cuore').length) :
+                               dropsTarget.fondo/Math.max(1,selected.filter(i=>i.note==='fondo').length)
+            }));
+
+            baseDrops.forEach(ing=>{
+                if(ing.family==='dolce') ing.dropsInFormula *= (0.5 + selections.sweetness/100);
+                if(ing.family==='agrumato' || ing.family==='fresco') ing.dropsInFormula *= (0.5 + selections.freshness/100);
+            });
+
+            let currentTotal = baseDrops.reduce((s,i)=>s+i.dropsInFormula,0);
+            const scaleFactor = totalDropsTarget/currentTotal;
+            baseDrops.forEach(ing=>{
+                ing.dropsInFormula = Math.max(1,Math.round(ing.dropsInFormula*scaleFactor));
+            });
+
+            const concentrateCost = baseDrops.reduce((sum,ing)=>{
+                const mlUsed = ing.dropsInFormula*DROP_TO_ML;
+                const costPerMl = ing.price/10;
+                return sum + costPerMl*mlUsed;
+            },0);
+
+            const alcoholMl = selections.volume - requiredConcentrateMl;
+            const diluentCost = alcoholMl * DILUENT_COST_PER_ML;
+            const totalCost = concentrateCost + diluentCost;
+
+            const totalDropsActual = baseDrops.reduce((s,i)=>s+i.dropsInFormula,0);
+            const pyramid = {
+                testa:(baseDrops.filter(i=>i.note==='testa').reduce((s,i)=>s+i.dropsInFormula,0)/totalDropsActual*100).toFixed(1),
+                cuore:(baseDrops.filter(i=>i.note==='cuore').reduce((s,i)=>s+i.dropsInFormula,0)/totalDropsActual*100).toFixed(1),
+                fondo:(baseDrops.filter(i=>i.note==='fondo').reduce((s,i)=>s+i.dropsInFormula,0)/totalDropsActual*100).toFixed(1)
+            };
+
+            const descriptions = {
+                "fresco-agrumato":"Un profumo vivace e solare, con una piramide agrumata bilanciata testa/cuore/fondo per massima freschezza e struttura.[file:122]",
+                "floreale":"Un bouquet floreale armonico con cuore dominante e testa/fondo calibrate per eleganza e persistenza.[file:122]",
+                "legnoso-ambrato":"Struttura solida con fondo importante e cuore avvolgente, mantenendo testa ariosa per non risultare pesante.[file:122]",
+                "orientale-speziato":"Spezie e resine su una base ricca, con cuore strutturato e testa contenuta per un effetto sensuale e rotondo.[file:122]",
+                "marino-fresco":"Testa fresca e acquatica su cuore leggero e fondo trasparente, per un profumo moderno e pulito.[file:122]",
+                "gourmand-dolce":"Dolcezza bilanciata da cuore e fondo legnoso/muschiato, evitando eccessi stucchevoli.[file:122]"
+            };
+
+            displayResults(baseDrops,{
+                concentration,
+                totalCost,
+                concentrateCost,
+                diluentCost,
+                alcoholMl,
+                pyramid,
+                description:descriptions[selections.family]
+            });
+        }
+
+        function displayResults(formula,data){
+            document.getElementById('wizardContainer').style.display='block';
+            document.getElementById('resultsContainer').classList.add('active');
+            document.getElementById('wizardContainer').style.display='none';
+
+            document.getElementById('resultName').textContent = selections.name;
+            document.getElementById('resultDesc').textContent = data.description;
+            document.getElementById('resultVolume').textContent = selections.volume;
+            document.getElementById('resultType').textContent = data.concentration.name;
+
+            document.getElementById('totalCost').textContent = '€'+data.totalCost.toFixed(2);
+            document.getElementById('concentrateCost').textContent = '€'+data.concentrateCost.toFixed(2);
+            document.getElementById('diluentCost').textContent = '€'+data.diluentCost.toFixed(2);
+            document.getElementById('ingredientCount').textContent = formula.length;
+
+            document.getElementById('testaPercent').textContent = data.pyramid.testa+'%';
+            document.getElementById('cuorePercent').textContent = data.pyramid.cuore+'%';
+            document.getElementById('fondoPercent').textContent = data.pyramid.fondo+'%';
+
+            setTimeout(()=>{
+                document.getElementById('testaBar').style.width = data.pyramid.testa+'%';
+                document.getElementById('testaBar').textContent = data.pyramid.testa+'%';
+                document.getElementById('cuoreBar').style.width = data.pyramid.cuore+'%';
+                document.getElementById('cuoreBar').textContent = data.pyramid.cuore+'%';
+                document.getElementById('fondoBar').style.width = data.pyramid.fondo+'%';
+                document.getElementById('fondoBar').textContent = data.pyramid.fondo+'%';
+            },300);
+
+            document.getElementById('instrVolume').textContent = selections.volume;
+            document.getElementById('instrAlcohol').textContent = data.alcoholMl.toFixed(1);
+
+            const totalDrops = formula.reduce((s,i)=>s+i.dropsInFormula,0);
+            const list = document.getElementById('ingredientsList');
+            list.innerHTML = formula.map(ing=>`
+                <div class="ingredient-item">
+                    <div class="ingredient-info">
+                        <div class="ingredient-name">${ing.name}</div>
+                        <span class="badge badge-${ing.note}">${ing.note}</span>
+                    </div>
+                    <div class="ingredient-details">
+                        <div class="ingredient-percent">${(ing.dropsInFormula/totalDrops*100).toFixed(1)}%</div>
+                        <div class="ingredient-drops">${ing.dropsInFormula} gocce</div>
+                    </div>
+                </div>
+            `).join('');
+
+            window.scrollTo({top:0,behavior:'smooth'});
+        }
+
+        function resetWizard(){
+            currentStep=1;
+            selections.family=null;
+            selections.intensity=null;
+            selections.occasion=null;
+            selections.sweetness=50;
+            selections.freshness=50;
+            selections.complexity=100;
+            selections.volume=50;
+            selections.name="";
+            resetInternals();
+        }
+
+        function saveFormula(){
+            const formulas = JSON.parse(localStorage.getItem('savedFormulas')||'[]');
+            formulas.push({
+                name:selections.name,
+                family:selections.family,
+                intensity:selections.intensity,
+                date:new Date().toISOString()
+            });
+            localStorage.setItem('savedFormulas',JSON.stringify(formulas));
+            alert('Formula salvata.');
+        }
+    </script>
+</body>
+</html>
 
