@@ -1,1587 +1,1671 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Parfum Studio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#ff0000">
-  <meta name="description" content="Parfum Studio - crea le tue formule di profumo, calcola costi e piramide olfattiva.">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: "Courier Prime","Courier New",monospace;
-      background: #ffffff;
-      color: #000000;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-    .landing {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      padding: 2rem;
-      opacity: 1;
-      transition: opacity 0.6s ease;
-    }
-    .landing.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .landing-dot {
-      width: 80px;
-      height: 80px;
-      background: #ff0000;
-      border-radius: 50%;
-      margin-bottom: 3rem;
-      animation: pulse 2s ease-in-out infinite;
-    }
-    .landing-dot.expand {
-      animation: expand 0.8s ease-out forwards;
-    }
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-      50% {
-        transform: scale(1.05);
-        opacity: 0.9;
-      }
-    }
-    @keyframes expand {
-      0% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(20);
-        opacity: 0.8;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 0;
-      }
-    }
-    .landing h1 {
-      font-size: 4rem;
-      font-weight: 400;
-      letter-spacing: 0.02em;
-      margin-bottom: 1rem;
-    }
-    .landing-subtitle {
-      font-size: 1.2rem;
-      font-weight: 400;
-      color: #666666;
-      margin-bottom: 3rem;
-    }
-    .landing-config {
-      max-width: 500px;
-      width: 100%;
-      background: #fafafa;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
-    .config-title {
-      font-size: 1.2rem;
-      font-weight: 400;
-      margin-bottom: 1.5rem;
-    }
-    .config-group {
-      margin-bottom: 1.5rem;
-    }
-    .config-group:last-child {
-      margin-bottom: 0;
-    }
-    .config-label {
-      display: block;
-      font-weight: 400;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
-    }
-    .config-options {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    .config-option {
-      padding: 0.75rem;
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: center;
-      font-weight: 400;
-    }
-    .config-option:hover {
-      border-color: #000000;
-    }
-    .config-option.active {
-      background: #000000;
-      color: #ffffff;
-      border-color: #000000;
-    }
-    .config-option-label {
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-    .config-option-sub {
-      font-size: 0.75rem;
-      color: #666666;
-      margin-top: 0.25rem;
-    }
-    .config-option.active .config-option-sub {
-      color: #999999;
-    }
-    .config-input {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 400;
-      font-family: "Courier Prime", monospace;
-    }
-    .btn {
-      padding: 1rem 3rem;
-      background: #000000;
-      color: #ffffff;
-      border: none;
-      border-radius: 50px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      letter-spacing: 0.05em;
-      font-family: "Courier Prime", monospace;
-    }
-    .btn:hover {
-      background: #ff0000;
-      transform: translateY(-2px);
-    }
-    .btn-secondary {
-      background: #ffffff;
-      color: #000000;
-      border: 1px solid #000000;
-    }
-    .btn-secondary:hover {
-      background: #000000;
-      color: #ffffff;
-    }
-    .main-app {
-      display: none;
-      opacity: 0;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 2rem;
-      padding-top: 100px;
-    }
-    .main-app.active {
-      display: block;
-      animation: fadeIn 0.6s forwards;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-    .app-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #e0e0e0;
-      z-index: 1000;
-      padding: 1.5rem 2rem;
-    }
-    .header-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      transition: opacity 0.3s ease;
-    }
-    .logo:hover {
-      opacity: 0.7;
-    }
-    .logo-dot {
-      width: 12px;
-      height: 12px;
-      background: #ff0000;
-      border-radius: 50%;
-    }
-    .nav-tabs {
-      display: flex;
-      gap: 2rem;
-    }
-    .nav-tab {
-      padding: 0.5rem 0;
-      background: none;
-      border: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      cursor: pointer;
-      color: #666666;
-      transition: color 0.3s ease;
-      position: relative;
-      font-family: "Courier Prime", monospace;
-    }
-    .nav-tab:hover {
-      color: #000000;
-    }
-    .nav-tab.active {
-      color: #000000;
-    }
-    .nav-tab.active::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: #ff0000;
-    }
-    .section {
-      display: none;
-    }
-    .section.active {
-      display: block;
-      animation: fadeIn 0.4s;
-    }
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 400;
-      margin-bottom: 3rem;
-      letter-spacing: 0.02em;
-    }
-    .filters {
-      display: flex;
-      gap: 0.75rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-    }
-    .filter-btn {
-      padding: 0.6rem 1.5rem;
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-radius: 50px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: "Courier Prime", monospace;
-    }
-    .filter-btn:hover {
-      border-color: #000000;
-    }
-    .filter-btn.active {
-      background: #000000;
-      color: #ffffff;
-      border-color: #000000;
-    }
-    .ingredients-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .ingredient-card {
-      background: #fafafa;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 1.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    .ingredient-card:hover {
-      border-color: #000000;
-      transform: translateY(-2px);
-    }
-    .ingredient-card.selected {
-      background: #000000;
-      color: #ffffff;
-      border-color: #000000;
-    }
-    .ingredient-card.selected .ingredient-family,
-    .ingredient-card.selected .detail-text {
-      color: #999999;
-    }
-    .ingredient-card.recommended {
-      border-color: #ff0000;
-      background: #fff5f5;
-    }
-    .ingredient-card.recommended::before {
-      content: "";
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 8px;
-      height: 8px;
-      background: #ff0000;
-      border-radius: 50%;
-    }
-    .ingredient-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.5rem;
-    }
-    .ingredient-name {
-      font-size: 1rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-    }
-    .ingredient-badge {
-      padding: 0.25rem 0.75rem;
-      border-radius: 12px;
-      font-size: 0.7rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .badge-testa {
-      background: #e3f2fd;
-      color: #1976d2;
-    }
-    .badge-cuore {
-      background: #fff3e0;
-      color: #f57c00;
-    }
-    .badge-fondo {
-      background: #f3e5f5;
-      color: #7b1fa2;
-    }
-    .badge-fissatore {
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-    .ingredient-card.selected .ingredient-badge {
-      background: rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-    }
-    .ingredient-family {
-      font-size: 0.85rem;
-      color: #666666;
-      margin-top: 0.25rem;
-    }
-    .ingredient-details {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease, margin-top 0.4s ease;
-    }
-    .ingredient-card.expanded .ingredient-details {
-      max-height: 500px;
-      margin-top: 1rem;
-    }
-    .detail-section {
-      margin-bottom: 0.75rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .detail-section:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
-    .detail-label {
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #999999;
-      margin-bottom: 0.25rem;
-    }
-    .detail-text {
-      font-size: 0.9rem;
-      color: #333333;
-      line-height: 1.5;
-    }
-    .price-tag {
-      display: inline-block;
-      padding: 0.4rem 1rem;
-      background: #000000;
-      color: #ffffff;
-      border-radius: 20px;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-    .ingredient-card.selected .price-tag {
-      background: #ffffff;
-      color: #000000;
-    }
-    .suggested-drops {
-      display: inline-block;
-      margin-top: 0.5rem;
-      padding: 0.4rem 1rem;
-      background: #fff5f5;
-      border: 1px dashed #ff0000;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #ff0000;
-    }
-    .select-indicator {
-      position: absolute;
-      bottom: 15px;
-      right: 15px;
-      width: 28px;
-      height: 28px;
-      border: 2px solid #e0e0e0;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-    .ingredient-card:hover .select-indicator {
-      border-color: #000000;
-    }
-    .ingredient-card.selected .select-indicator {
-      background: #ff0000;
-      border-color: #ff0000;
-      color: #ffffff;
-    }
-    .selected-panel {
-      background: #fafafa;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 2rem;
-      margin-top: 3rem;
-    }
-    .panel-title {
-      font-size: 1.5rem;
-      font-weight: 500;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.02em;
-    }
-    .selected-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem;
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      margin-bottom: 0.75rem;
-    }
-    .selected-item-name {
-      flex: 1;
-      font-weight: 500;
-    }
-    .drops-input {
-      width: 70px;
-      padding: 0.5rem;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      text-align: center;
-      font-weight: 500;
-      margin: 0 1rem;
-      font-family: "Courier Prime", monospace;
-    }
-    .btn-remove {
-      width: 32px;
-      height: 32px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      font-size: 1.2rem;
-      color: #999999;
-      transition: color 0.3s ease;
-    }
-    .btn-remove:hover {
-      color: #ff0000;
-    }
-    .cost-summary {
-      background: #ffffff;
-      border: 2px solid #000000;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-top: 1.5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-    }
-    .cost-item {
-      text-align: center;
-    }
-    .cost-label {
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #999999;
-      margin-bottom: 0.5rem;
-    }
-    .cost-value {
-      font-size: 1.8rem;
-      font-weight: 500;
-    }
-    .settings-panel {
-      background: #fafafa;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 2rem;
-      margin-top: 2rem;
-    }
-    .dilution-panel {
-      background: #fafafa;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 2rem;
-      margin-top: 2rem;
-    }
-    .dilution-result {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-    .dilution-result-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 1rem;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .dilution-result-item:last-child {
-      border-bottom: none;
-    }
-    .dilution-result-label {
-      font-weight: 500;
-    }
-    .dilution-result-value {
-      font-weight: 500;
-      color: #ff0000;
-    }
-    .final-cost-panel {
-      background: #000000;
-      color: #ffffff;
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-    }
-    .final-cost-label {
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #999999;
-      margin-bottom: 1rem;
-    }
-    .final-cost-value {
-      font-size: 3rem;
-      font-weight: 500;
-      color: #ff0000;
-      margin-bottom: 0.5rem;
-    }
-    .final-cost-details {
-      font-size: 0.9rem;
-      color: #999999;
-      margin-top: 0.5rem;
-    }
-    .btn-calculate {
-      width: 100%;
-      max-width: 400px;
-      margin: 2rem auto 0;
-      display: block;
-    }
-    .results-panel {
-      background: #fafafa;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 2rem;
-      margin-top: 3rem;
-    }
-    .rating-display {
-      text-align: center;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .rating-score {
-      font-size: 4rem;
-      font-weight: 400;
-      margin-bottom: 0.5rem;
-    }
-    .rating-excellent {
-      color: #4caf50;
-    }
-    .rating-good {
-      color: #ff9800;
-    }
-    .rating-fair {
-      color: #ff5722;
-    }
-    .rating-poor {
-      color: #f44336;
-    }
-    .rating-label {
-      font-size: 1.2rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-    .rating-feedback {
-      color: #666666;
-      font-size: 0.9rem;
-    }
-    .pyramid-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin: 2rem 0;
-    }
-    .pyramid-item {
-      text-align: center;
-      padding: 1.5rem;
-      background: #ffffff;
-      border-radius: 8px;
-    }
-    .pyramid-label {
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #999999;
-      margin-bottom: 0.5rem;
-    }
-    .pyramid-value {
-      font-size: 2.5rem;
-      font-weight: 400;
-    }
-    .ingredients-list {
-      margin-top: 2rem;
-    }
-    .ingredient-result-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 1rem;
-      background: #ffffff;
-      border-radius: 8px;
-      margin-bottom: 0.5rem;
-    }
-    .ingredient-result-name {
-      font-weight: 500;
-    }
-    .ingredient-result-drops {
-      font-weight: 500;
-      color: #666666;
-    }
-    .formulas-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1rem;
-    }
-    .formula-card {
-      background: #fafafa;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 1.5rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    .formula-card:hover {
-      border-color: #000000;
-      transform: translateY(-2px);
-    }
-    .formula-name {
-      font-size: 1.2rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-      letter-spacing: 0.02em;
-    }
-    .formula-meta {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      font-size: 0.85rem;
-      color: #666666;
-    }
-    .formula-phase {
-      display: inline-block;
-      padding: 0.4rem 1rem;
-      background: #ffffff;
-      border-radius: 20px;
-      font-weight: 500;
-      font-size: 0.8rem;
-      margin-top: 1rem;
-    }
-    .phase-fresh {
-      color: #fbbf24;
-      border: 1px solid #fbbf24;
-    }
-    .phase-young {
-      color: #fb923c;
-      border: 1px solid #fb923c;
-    }
-    .phase-mature {
-      color: #f97316;
-      border: 1px solid #f97316;
-    }
-    .phase-ready {
-      color: #22c55e;
-      border: 1px solid #22c55e;
-    }
-    .formula-actions {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-    .btn-icon {
-      padding: 0.5rem 1rem;
-      background: #ffffff;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex: 1;
-      font-family: "Courier Prime", monospace;
-    }
-    .btn-icon:hover {
-      border-color: #000000;
-    }
-    .btn-icon.danger:hover {
-      background: #ff0000;
-      color: #ffffff;
-      border-color: #ff0000;
-    }
-    .maturation-view {
-      background: #fafafa;
-      border: 1px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 3rem;
-      text-align: center;
-    }
-    .maturation-title {
-      font-size: 2rem;
-      font-weight: 400;
-      margin-bottom: 3rem;
-      letter-spacing: 0.02em;
-    }
-    .bottle-container {
-      width: 180px;
-      height: 280px;
-      margin: 0 auto 3rem;
-      position: relative;
-    }
-    .bottle-svg {
-      width: 100%;
-      height: 100%;
-    }
-    .phase-indicator {
-      padding: 2rem;
-      background: #ffffff;
-      border-radius: 12px;
-      margin-bottom: 3rem;
-    }
-    .phase-name {
-      font-size: 1.8rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-    .phase-desc {
-      color: #666666;
-      line-height: 1.7;
-    }
-    .timeline {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 2rem;
-      margin-top: 3rem;
-    }
-    .timeline-item {
-      flex: 1;
-      text-align: center;
-      position: relative;
-    }
-    .timeline-item::before {
-      content: "";
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      width: 100%;
-      height: 2px;
-      background: #e0e0e0;
-      z-index: 0;
-    }
-    .timeline-item:last-child::before {
-      display: none;
-    }
-    .timeline-dot {
-      width: 40px;
-      height: 40px;
-      background: #ffffff;
-      border: 2px solid #e0e0e0;
-      border-radius: 50%;
-      margin: 0 auto 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
-      transition: all 0.3s ease;
-    }
-    .timeline-dot.active {
-      background: #000000;
-      border-color: #000000;
-      color: #ffffff;
-    }
-    .timeline-label {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: #666666;
-    }
-    .timeline-dot.active .timeline-label {
-      color: #000000;
-    }
-    .btn-back {
-      margin-bottom: 2rem;
-    }
-    .empty-state {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: #666666;
-    }
-    .empty-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      opacity: 0.5;
-    }
-    .editing-indicator {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background: #fff3cd;
-      border: 1px solid #ffc107;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-      color: #856404;
-    }
-    @media (max-width: 768px) {
-      .landing h1 {font-size: 2.5rem;}
-      .section-title {font-size: 2rem;}
-      .ingredients-grid {grid-template-columns: 1fr;}
-      .nav-tabs {gap: 1rem;}
-      .pyramid-grid {grid-template-columns: 1fr;}
-      .config-options {grid-template-columns: 1fr;}
-      .cost-summary {grid-template-columns: 1fr;}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#cc0000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Parfum Studio">
+<meta name="description" content="Generatore AI di formule profumo con calcolatore IFRA">
+<title>Parfum Studio</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════════════════
+   RESET & DESIGN TOKENS
+══════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bk:#000;--wh:#fff;--rd:#cc0000;--rd2:#a80000;
+  --g50:#f9f9f9;--g100:#f2f2f2;--g200:#e4e4e4;--g300:#ccc;
+  --g500:#777;--g700:#333;
+  --blue:#1a5fb4;--amber:#b45309;--purple:#6d28d9;
+  --green:#15803d;--danger:#991b1b;
+  --fn:'Courier Prime','Courier New',monospace;
+  --r:14px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
+}
+html{height:100%;}
+body{
+  font-family:var(--fn);
+  background:var(--wh);
+  color:var(--bk);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior:none;
+  min-height:100%;
+}
+.hidden{display:none!important;}
+img,svg{display:block;}
+
+/* ══════════════════════════════════════════
+   ANIMAZIONI
+══════════════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(204,0,0,.4)}70%{box-shadow:0 0 0 22px rgba(204,0,0,0)}}
+@keyframes boom{0%{transform:scale(1);opacity:1}60%{transform:scale(28);opacity:.3}100%{transform:scale(0);opacity:0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ══════════════════════════════════════════
+   PALLINO ROSSO — LOGO SYSTEM
+══════════════════════════════════════════ */
+.dot{
+  display:inline-block;
+  background:radial-gradient(circle at 36% 34%, #ff4444 0%, #cc0000 55%, #880000 100%);
+  border-radius:50%;
+  flex-shrink:0;
+}
+.dot-xs{width:8px;height:8px;}
+.dot-sm{width:12px;height:12px;}
+.dot-md{width:28px;height:28px;}
+.dot-lg{
+  width:88px;height:88px;
+  animation:pulse 2.2s ease-in-out infinite;
+  cursor:pointer;
+  box-shadow:0 8px 32px rgba(204,0,0,.35);
+}
+.dot-lg:active{transform:scale(.93);}
+.dot-lg.boom{animation:boom .7s ease-out forwards;}
+
+/* ══════════════════════════════════════════
+   LANDING
+══════════════════════════════════════════ */
+#landing{
+  position:fixed;inset:0;
+  background:var(--wh);
+  z-index:2000;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:2rem;text-align:center;
+  transition:opacity .5s ease;
+}
+.land-logo-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  margin-bottom:2.5rem;gap:1.2rem;
+}
+.land-wordmark{
+  font-size:2.6rem;font-weight:400;letter-spacing:.04em;line-height:1.1;
+}
+.land-wordmark span{font-weight:700;}
+.land-sub{font-size:.95rem;color:var(--g500);margin-bottom:2.8rem;line-height:1.6;}
+.land-btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:1.1rem 2.6rem;
+  background:var(--bk);color:var(--wh);
+  border:none;border-radius:50px;
+  font-family:var(--fn);font-size:1rem;font-weight:700;
+  cursor:pointer;letter-spacing:.05em;
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
+  transition:transform .2s,box-shadow .2s;
+}
+.land-btn:active{transform:scale(.96);box-shadow:none;}
+.land-version{position:absolute;bottom:2rem;font-size:.72rem;color:var(--g300);}
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+#hdr{
+  position:fixed;top:0;left:0;right:0;
+  height:calc(60px + var(--safe-top));
+  padding-top:var(--safe-top);
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--g200);
+  z-index:900;
+  display:none;
+}
+.hdr-in{
+  height:60px;
+  max-width:960px;margin:0 auto;
+  padding:0 1.2rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.logo-btn{
+  display:flex;align-items:center;gap:.6rem;
+  background:none;border:none;cursor:pointer;
+  font-family:var(--fn);font-size:1.05rem;font-weight:700;
+  padding:0;color:var(--bk);
+}
+.logo-btn:active{opacity:.6;}
+.hdr-right{display:flex;gap:.5rem;align-items:center;}
+
+/* ══════════════════════════════════════════
+   PULSANTI GENERICI
+══════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  padding:.75rem 1.5rem;
+  background:var(--bk);color:var(--wh);
+  border:2px solid var(--bk);border-radius:50px;
+  font-family:var(--fn);font-size:.88rem;font-weight:700;
+  cursor:pointer;letter-spacing:.04em;
+  transition:transform .18s,background .18s;
+  white-space:nowrap;
+}
+.btn:active{transform:scale(.95);}
+.btn-ghost{background:transparent;color:var(--bk);}
+.btn-ghost:active{background:var(--g100);}
+.btn-red{background:var(--rd);border-color:var(--rd);}
+.btn-green{background:var(--green);border-color:var(--green);}
+.btn-sm{padding:.5rem 1.1rem;font-size:.8rem;}
+.btn-full{width:100%;justify-content:center;}
+
+/* ══════════════════════════════════════════
+   BANNER INSTALLAZIONE
+══════════════════════════════════════════ */
+#install-bar{
+  display:none;
+  background:#000;color:#fff;
+  padding:.8rem 1.2rem;
+  flex-direction:row;align-items:center;justify-content:space-between;
+  gap:.8rem;font-size:.83rem;
+  border-bottom:2px solid var(--rd);
+}
+#install-bar.show{display:flex;}
+.ib-left{display:flex;align-items:center;gap:.7rem;}
+
+/* ══════════════════════════════════════════
+   APP CONTAINER
+══════════════════════════════════════════ */
+#app{
+  display:none;
+  max-width:960px;margin:0 auto;
+  padding-bottom:calc(90px + var(--safe-bot));
+}
+#app.on{display:block;}
+
+/* ══════════════════════════════════════════
+   PROGRESS BAR
+══════════════════════════════════════════ */
+.prog-zone{
+  position:sticky;
+  top:calc(60px + var(--safe-top));
+  z-index:500;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--g200);
+  padding:.9rem 1.4rem;
+}
+.prog-track{height:3px;background:var(--g200);border-radius:2px;margin-bottom:.55rem;}
+.prog-fill{height:100%;background:var(--rd);border-radius:2px;transition:width .45s ease;width:0%;}
+.prog-info{display:flex;justify-content:space-between;font-size:.7rem;font-weight:700;
+           text-transform:uppercase;letter-spacing:.08em;color:var(--g500);}
+
+/* ══════════════════════════════════════════
+   STEP CONTENUTO
+══════════════════════════════════════════ */
+.step{display:none;padding:1.6rem 1.4rem 1rem;animation:fadeUp .3s ease;}
+.step.on{display:block;}
+.step-head{margin-bottom:1.6rem;}
+.step-ttl{font-size:1.85rem;font-weight:400;line-height:1.2;margin-bottom:.4rem;}
+.step-sub{font-size:.9rem;color:var(--g500);line-height:1.5;}
+
+/* ══════════════════════════════════════════
+   OPTION CARDS
+══════════════════════════════════════════ */
+.opt-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:.75rem;margin-bottom:1.8rem;
+}
+.opt{
+  background:var(--g50);border:2px solid var(--g200);
+  border-radius:var(--r);padding:1.4rem .9rem;
+  text-align:center;cursor:pointer;
+  transition:border-color .2s,transform .18s,background .2s;
+  position:relative;
+}
+.opt:active{transform:scale(.97);}
+.opt.sel{background:var(--wh);border-color:var(--bk);
+  box-shadow:0 4px 16px rgba(0,0,0,.1);}
+.opt.sel::after{
+  content:'';position:absolute;top:9px;right:9px;
+  width:8px;height:8px;background:var(--rd);border-radius:50%;
+}
+.opt-ico{font-size:2rem;margin-bottom:.7rem;}
+.opt-tit{font-size:.88rem;font-weight:700;margin-bottom:.25rem;}
+.opt-dsc{font-size:.73rem;color:var(--g500);line-height:1.4;}
+.opt.sel .opt-dsc{color:var(--g700);}
+
+/* ══════════════════════════════════════════
+   TAG PILLS
+══════════════════════════════════════════ */
+.pill-wrap{display:flex;flex-wrap:wrap;gap:.55rem;margin-bottom:1.8rem;}
+.pill{
+  padding:.5rem 1rem;
+  border:1.5px solid var(--g300);border-radius:40px;
+  background:var(--wh);cursor:pointer;
+  font-family:var(--fn);font-size:.82rem;font-weight:700;
+  transition:all .18s;
+}
+.pill.sel{background:var(--bk);color:var(--wh);border-color:var(--bk);}
+
+/* ══════════════════════════════════════════
+   SLIDER
+══════════════════════════════════════════ */
+.sl-block{margin-bottom:1.6rem;}
+.sl-top{display:flex;justify-content:space-between;
+        font-size:.88rem;font-weight:700;margin-bottom:.55rem;}
+.sl-val{color:var(--rd);}
+input[type=range]{
+  width:100%;height:6px;
+  background:var(--g200);border-radius:3px;
+  -webkit-appearance:none;appearance:none;outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:22px;height:22px;
+  border-radius:50%;background:var(--rd);
+  box-shadow:0 2px 8px rgba(204,0,0,.4);
+}
+input[type=range]::-moz-range-thumb{
+  width:22px;height:22px;border:none;border-radius:50%;background:var(--rd);
+}
+
+/* ══════════════════════════════════════════
+   CAMPI INPUT
+══════════════════════════════════════════ */
+.field{margin-bottom:1.3rem;}
+.field-lbl{
+  display:block;font-size:.76rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.08em;
+  color:var(--g500);margin-bottom:.45rem;
+}
+.inp{
+  width:100%;padding:.9rem 1rem;
+  border:2px solid var(--g200);border-radius:var(--r);
+  font-family:var(--fn);font-size:1rem;background:var(--wh);
+  transition:border-color .2s;
+}
+.inp:focus{outline:none;border-color:var(--bk);}
+
+/* ══════════════════════════════════════════
+   CARD / BOX
+══════════════════════════════════════════ */
+.card{
+  background:var(--wh);border:1px solid var(--g200);
+  border-radius:var(--r);overflow:hidden;
+  margin-bottom:1.2rem;
+  box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+.card-hdr{
+  padding:.9rem 1.2rem;border-bottom:1px solid var(--g100);
+  font-size:.85rem;font-weight:700;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.card-body{padding:1rem 1.2rem;}
+
+/* ══════════════════════════════════════════
+   PIRAMIDE BARRE
+══════════════════════════════════════════ */
+.pyr-row{margin-bottom:.9rem;}
+.pyr-lbl{display:flex;justify-content:space-between;
+         font-size:.8rem;font-weight:700;margin-bottom:.3rem;}
+.pyr-track{height:28px;background:var(--g100);border-radius:6px;overflow:hidden;}
+.pyr-fill{height:100%;display:flex;align-items:center;padding-left:.6rem;
+          color:var(--wh);font-weight:700;font-size:.75rem;
+          transition:width 1s ease;min-width:3rem;}
+.pyr-t{background:var(--blue);}
+.pyr-c{background:var(--amber);}
+.pyr-f{background:var(--purple);}
+
+/* ══════════════════════════════════════════
+   RIGHE INGREDIENTI
+══════════════════════════════════════════ */
+.ing-row{
+  display:grid;
+  grid-template-columns:1fr auto auto auto;
+  align-items:center;gap:.6rem;
+  padding:.85rem 0;border-bottom:1px solid var(--g100);
+}
+.ing-row:last-child{border-bottom:none;}
+.ing-name{font-size:.88rem;font-weight:700;margin-bottom:.2rem;}
+.ing-meta{display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;}
+.badge{
+  padding:.15rem .45rem;border-radius:5px;
+  font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+}
+.b-t{background:#dbeafe;color:#1d4ed8;}
+.b-c{background:#fef3c7;color:#92400e;}
+.b-f{background:#ede9fe;color:#5b21b6;}
+.b-d{background:#f1f5f9;color:#475569;}
+.b-w{background:#fee2e2;color:#991b1b;}
+.ing-drops{font-size:.88rem;font-weight:700;color:var(--rd);text-align:right;}
+.ing-g{font-size:.78rem;color:var(--g500);text-align:right;}
+.ing-pct{font-size:.75rem;color:var(--g500);text-align:right;}
+
+/* ══════════════════════════════════════════
+   BOX MESSAGGI
+══════════════════════════════════════════ */
+.msg{padding:1rem 1.1rem;border-radius:10px;font-size:.85rem;line-height:1.6;margin:.8rem 0;}
+.msg-ok{background:#f0fdf4;border-left:4px solid var(--green);color:#14532d;}
+.msg-warn{background:#fffbeb;border-left:4px solid var(--amber);color:#78350f;}
+.msg-info{background:#eff6ff;border-left:4px solid var(--blue);color:#1e3a5f;}
+.msg-err{background:#fff1f2;border-left:4px solid var(--danger);color:#881337;}
+
+/* ══════════════════════════════════════════
+   RIEPILOGO COSTI
+══════════════════════════════════════════ */
+.cost-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.6rem;margin-top:.6rem;}
+.cost-cell{background:var(--g50);border-radius:10px;padding:.9rem;text-align:center;}
+.cost-lbl{font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--g500);margin-bottom:.25rem;}
+.cost-val{font-size:1.4rem;font-weight:700;}
+.cost-big{grid-column:1/-1;background:#000;color:#fff;}
+.cost-big .cost-val{font-size:2rem;color:var(--rd);}
+
+/* ══════════════════════════════════════════
+   IFRA TABLE
+══════════════════════════════════════════ */
+.ifra-row{
+  display:grid;grid-template-columns:1fr 90px 80px 55px;
+  gap:.4rem;align-items:center;
+  padding:.7rem .8rem;border-radius:8px;margin-bottom:.4rem;
+  font-size:.82rem;
+}
+.ifra-row.ok{background:rgba(21,128,61,.07);}
+.ifra-row.ko{background:rgba(153,27,27,.07);}
+.ifra-note{font-size:.7rem;color:var(--g500);margin-top:.2rem;line-height:1.3;}
+.ifra-val{text-align:right;}
+.ifra-lim{text-align:right;}
+.ifra-st{text-align:center;font-weight:700;}
+.ifra-st.ok{color:var(--green);}
+.ifra-st.ko{color:var(--danger);}
+
+/* ══════════════════════════════════════════
+   ISTRUZIONI
+══════════════════════════════════════════ */
+.inst-list{list-style:none;counter-reset:inst;}
+.inst-list li{
+  counter-increment:inst;
+  display:flex;gap:.9rem;
+  padding:.8rem 0;border-bottom:1px solid var(--g100);
+  font-size:.88rem;line-height:1.55;
+}
+.inst-list li:last-child{border-bottom:none;}
+.inst-list li::before{
+  content:counter(inst);
+  flex-shrink:0;width:26px;height:26px;
+  background:var(--bk);color:var(--wh);
+  border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-weight:700;font-size:.72rem;
+}
+
+/* ══════════════════════════════════════════
+   MODAL
+══════════════════════════════════════════ */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);
+  z-index:1800;display:none;
+  align-items:center;justify-content:center;
+  padding:1.2rem;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+.overlay.open{display:flex;}
+.modal{
+  background:var(--wh);border-radius:20px;
+  padding:2rem;width:100%;max-width:390px;
+  box-shadow:0 24px 60px rgba(0,0,0,.22);
+  animation:fadeUp .3s ease;
+}
+.modal-ttl{font-size:1.25rem;font-weight:700;margin-bottom:.4rem;}
+.modal-sub{font-size:.85rem;color:var(--g500);margin-bottom:1.4rem;line-height:1.5;}
+.modal-dot{
+  width:40px;height:40px;
+  background:radial-gradient(circle at 36% 34%,#ff4444,#cc0000 55%,#880000);
+  border-radius:50%;margin:0 auto 1.2rem;
+}
+.modal-btns{display:flex;gap:.7rem;justify-content:flex-end;margin-top:1rem;}
+.err-lbl{color:var(--danger);font-size:.82rem;margin-top:.35rem;min-height:1rem;}
+
+/* ══════════════════════════════════════════
+   BOTTOM NAV
+══════════════════════════════════════════ */
+#bnav{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  padding:.8rem 1.4rem;
+  padding-bottom:calc(.8rem + var(--safe-bot));
+  background:rgba(255,255,255,.97);
+  border-top:1px solid var(--g200);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  z-index:800;
+  display:none;
+  justify-content:space-between;align-items:center;
+  gap:.8rem;
+}
+#bnav.show{display:flex;}
+
+/* ══════════════════════════════════════════
+   FORMULA PAGE (step 6)
+══════════════════════════════════════════ */
+.fp-hero{
+  background:var(--bk);color:var(--wh);
+  border-radius:var(--r);
+  padding:1.6rem 1.4rem;margin-bottom:1.2rem;
+}
+.fp-name{font-size:1.9rem;font-weight:700;margin-bottom:.3rem;}
+.fp-desc{font-size:.88rem;opacity:.6;line-height:1.5;}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media(max-width:540px){
+  .opt-grid{grid-template-columns:1fr 1fr;}
+  .cost-grid{grid-template-columns:1fr 1fr;}
+  .ing-row{grid-template-columns:1fr auto auto;}
+  .ing-pct{display:none;}
+  .ifra-row{grid-template-columns:1fr 70px 55px;}
+  .ifra-lim{display:none;}
+}
+@media(max-width:360px){
+  .opt-grid{grid-template-columns:1fr;}
+  .step-ttl{font-size:1.5rem;}
+}
+</style>
 </head>
 <body>
-<div class="landing" id="landing">
-  <div class="landing-dot" id="landingDot"></div>
-  <h1>Parfum Studio</h1>
-  <p class="landing-subtitle">Create Your Signature Scent</p>
-  <div class="landing-config">
-    <div class="config-title">Configurazione Profumo</div>
-    <div class="config-group">
-      <label class="config-label">Tipo di profumo</label>
-      <div class="config-options">
-        <div class="config-option" id="landing-dilution-EDC" onclick="selectLandingDilution('EDC')">
-          <div class="config-option-label">EDC</div>
-          <div class="config-option-sub">2–5%</div>
-        </div>
-        <div class="config-option" id="landing-dilution-EDT" onclick="selectLandingDilution('EDT')">
-          <div class="config-option-label">EDT</div>
-          <div class="config-option-sub">5–15%</div>
-        </div>
-        <div class="config-option active" id="landing-dilution-EDP" onclick="selectLandingDilution('EDP')">
-          <div class="config-option-label">EDP</div>
-          <div class="config-option-sub">15–20%</div>
-        </div>
-      </div>
-    </div>
-    <div class="config-group">
-      <label class="config-label">Volume finale (ml)</label>
-      <input type="number" class="config-input" id="landingVolumeInput" value="50" min="10" max="1000">
-    </div>
+
+<!-- ══════════════════════════════════
+     LANDING SCREEN
+══════════════════════════════════ -->
+<div id="landing">
+  <div class="land-logo-wrap">
+    <div class="dot dot-lg" id="herobot" onclick="startApp()"></div>
+    <div class="land-wordmark">Parfum<br><span>Studio</span></div>
   </div>
-  <button class="btn" onclick="startApp()">Inizia</button>
+  <p class="land-sub">Generatore AI di formule profumo<br>con calcolatore IFRA integrato.</p>
+  <button class="land-btn" onclick="startApp()">
+    Inizia la Creazione →
+  </button>
+  <div class="land-version">v2.1 — PWA</div>
 </div>
 
-<div class="main-app" id="mainApp">
-  <div class="app-header">
-    <div class="header-content">
-      <div class="logo" onclick="resetToLanding()">
-        <div class="logo-dot"></div>
-        Parfum Studio
-      </div>
-      <div class="nav-tabs">
-        <button class="nav-tab active" onclick="switchSection('create')">Crea Formula</button>
-        <button class="nav-tab" onclick="switchSection('formulas')">Le Mie Formule</button>
-      </div>
-    </div>
+<!-- ══════════════════════════════════
+     INSTALL BANNER
+══════════════════════════════════ -->
+<div id="install-bar">
+  <div class="ib-left">
+    <div class="dot dot-sm"></div>
+    <span>Installa Parfum Studio come app</span>
   </div>
+  <button class="btn btn-red btn-sm" onclick="installApp()">Installa</button>
+  <button class="btn btn-ghost btn-sm" onclick="dismissInstall()">✕</button>
+</div>
 
-  <div class="section active" id="section-create">
-    <h2 class="section-title">Selezione Ingredienti</h2>
-    <div id="editingIndicator"></div>
-    <div class="filters">
-      <button class="filter-btn active" onclick="filterByNote('all')">Tutti</button>
-      <button class="filter-btn" onclick="filterByNote('testa')">Testa</button>
-      <button class="filter-btn" onclick="filterByNote('cuore')">Cuore</button>
-      <button class="filter-btn" onclick="filterByNote('fondo')">Fondo</button>
+<!-- ══════════════════════════════════
+     HEADER
+══════════════════════════════════ -->
+<div id="hdr">
+  <div class="hdr-in">
+    <button class="logo-btn" onclick="location.reload()">
+      <div class="dot dot-sm"></div>
+      Parfum Studio
+    </button>
+    <div class="hdr-right">
+      <button class="btn btn-ghost btn-sm" id="installBtn" onclick="installApp()" style="display:none">↓ Installa App</button>
+      <button class="btn btn-ghost btn-sm" onclick="location.reload()">↺ Reset</button>
+      <button class="btn btn-sm" onclick="openPass()">🔐 Formule</button>
     </div>
-    <div class="ingredients-grid" id="ingredientsGrid"></div>
-    <div class="selected-panel" id="selectedPanel" style="display:none;">
-      <h3 class="panel-title">Composizione</h3>
-      <div id="selectedList"></div>
-      <div class="cost-summary" id="costSummaryBasic"></div>
-    </div>
-    <div class="settings-panel" id="settingsPanel" style="display:none;">
-      <h3 class="panel-title">Impostazioni Finali</h3>
-      <div class="config-group">
-        <label class="config-label">Tipo di profumo</label>
-        <div class="config-options">
-          <div class="config-option" id="edit-dilution-EDC" onclick="editDilutionType('EDC')">
-            <div class="config-option-label">EDC</div>
-            <div class="config-option-sub">2–5%</div>
-          </div>
-          <div class="config-option" id="edit-dilution-EDT" onclick="editDilutionType('EDT')">
-            <div class="config-option-label">EDT</div>
-            <div class="config-option-sub">5–15%</div>
-          </div>
-          <div class="config-option active" id="edit-dilution-EDP" onclick="editDilutionType('EDP')">
-            <div class="config-option-label">EDP</div>
-            <div class="config-option-sub">15–20%</div>
-          </div>
-        </div>
-      </div>
-      <div class="config-group">
-        <label class="config-label">Volume finale (ml)</label>
-        <input type="number" class="config-input" id="editVolumeInput" value="50" min="10" max="1000" onchange="editTargetVolume(this.value)">
-      </div>
-      <button class="btn btn-calculate" onclick="calculateFormula()">Calcola Formula</button>
-    </div>
-    <div class="dilution-panel" id="dilutionPanel" style="display:none;">
-      <h3 class="panel-title">Riepilogo Diluizione</h3>
-      <div class="dilution-result" id="dilutionResult"></div>
-      <div class="final-cost-panel" id="finalCostPanel"></div>
-    </div>
-    <div class="results-panel" id="resultsPanel" style="display:none;">
-      <div class="rating-display" id="ratingDisplay"></div>
-      <div id="resultsContent"></div>
-      <button class="btn btn-calculate" onclick="saveFormula()">Salva Formula</button>
-    </div>
-  </div>
-
-  <div class="section" id="section-formulas">
-    <h2 class="section-title">Le Mie Formule</h2>
-    <div class="formulas-grid" id="formulasGrid"></div>
-  </div>
-
-  <div class="section" id="section-maturation">
-    <button class="btn btn-secondary btn-back" onclick="switchSection('formulas')">Indietro</button>
-    <div id="maturationContent"></div>
   </div>
 </div>
 
+<!-- ══════════════════════════════════
+     APP
+══════════════════════════════════ -->
+<div id="app">
+
+  <!-- PROGRESS -->
+  <div class="prog-zone">
+    <div class="prog-track"><div class="prog-fill" id="pf"></div></div>
+    <div class="prog-info">
+      <span id="ps-lbl">Step 1 di 5</span>
+      <span id="ps-name">Famiglia</span>
+    </div>
+  </div>
+
+  <!-- ── STEP 1 — Famiglia ── -->
+  <div class="step on" data-step="1">
+    <div class="step-head">
+      <h2 class="step-ttl">Famiglia Olfattiva</h2>
+      <p class="step-sub">Scegli l'identità della fragranza.</p>
+    </div>
+    <div class="opt-grid">
+      <div class="opt" data-g="fam" data-v="fresco-agrumato" onclick="pick(this,'fam')">
+        <div class="opt-ico">🍋</div><div class="opt-tit">Agrumato</div>
+        <div class="opt-dsc">Limone, bergamotto, mandarino</div>
+      </div>
+      <div class="opt" data-g="fam" data-v="floreale" onclick="pick(this,'fam')">
+        <div class="opt-ico">🌸</div><div class="opt-tit">Floreale</div>
+        <div class="opt-dsc">Rosa, gelsomino, mughetto</div>
+      </div>
+      <div class="opt" data-g="fam" data-v="aromatico-fougere" onclick="pick(this,'fam')">
+        <div class="opt-ico">🌿</div><div class="opt-tit">Aromatico</div>
+        <div class="opt-dsc">Lavanda, erbe, felce</div>
+      </div>
+      <div class="opt" data-g="fam" data-v="legnoso-ambrato" onclick="pick(this,'fam')">
+        <div class="opt-ico">🌲</div><div class="opt-tit">Legnoso</div>
+        <div class="opt-dsc">Cedro, vetiver, ambra</div>
+      </div>
+      <div class="opt" data-g="fam" data-v="orientale-speziato" onclick="pick(this,'fam')">
+        <div class="opt-ico">🔥</div><div class="opt-tit">Orientale</div>
+        <div class="opt-dsc">Spezie, resine, vaniglia</div>
+      </div>
+      <div class="opt" data-g="fam" data-v="marino-fresco" onclick="pick(this,'fam')">
+        <div class="opt-ico">🌊</div><div class="opt-tit">Marino</div>
+        <div class="opt-dsc">Ozono, brezza, acquatico</div>
+      </div>
+      <div class="opt" data-g="fam" data-v="chypre-verde" onclick="pick(this,'fam')">
+        <div class="opt-ico">🍃</div><div class="opt-tit">Chypre</div>
+        <div class="opt-dsc">Patchouly, quercia, verde</div>
+      </div>
+      <div class="opt" data-g="fam" data-v="gourmand-dolce" onclick="pick(this,'fam')">
+        <div class="opt-ico">🍰</div><div class="opt-tit">Gourmand</div>
+        <div class="opt-dsc">Vaniglia, cumarina, miele</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 2 — Concentrazione ── -->
+  <div class="step" data-step="2">
+    <div class="step-head">
+      <h2 class="step-ttl">Concentrazione</h2>
+      <p class="step-sub">Tipo e intensità della fragranza.</p>
+    </div>
+    <div class="opt-grid" style="grid-template-columns:1fr;max-width:440px;">
+      <div class="opt" data-g="int" data-v="edc" onclick="pick(this,'int')" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1.2rem 1.4rem;">
+        <div style="font-size:2rem">☁️</div>
+        <div><div class="opt-tit">Eau de Cologne</div><div class="opt-dsc">~5% essenze · durata 2–3h · fresco, leggero</div></div>
+      </div>
+      <div class="opt" data-g="int" data-v="edt" onclick="pick(this,'int')" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1.2rem 1.4rem;">
+        <div style="font-size:2rem">💨</div>
+        <div><div class="opt-tit">Eau de Toilette</div><div class="opt-dsc">~10% essenze · durata 4–6h · equilibrato</div></div>
+      </div>
+      <div class="opt" data-g="int" data-v="edp" onclick="pick(this,'int')" style="text-align:left;display:flex;align-items:center;gap:1rem;padding:1.2rem 1.4rem;">
+        <div style="font-size:2rem">⚡</div>
+        <div><div class="opt-tit">Eau de Parfum</div><div class="opt-dsc">~17% essenze · durata 6–8h · intenso</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 3 — Carattere ── -->
+  <div class="step" data-step="3">
+    <div class="step-head">
+      <h2 class="step-ttl">Carattere Olfattivo</h2>
+      <p class="step-sub">Modella le sfumature sensoriali.</p>
+    </div>
+    <div style="max-width:520px;">
+      <div class="sl-block">
+        <div class="sl-top"><span>🍯 Dolcezza</span><span class="sl-val" id="vSw">50%</span></div>
+        <input type="range" id="sSw" min="0" max="100" value="50" oninput="setSl('sSw','vSw','sweet')">
+      </div>
+      <div class="sl-block">
+        <div class="sl-top"><span>💧 Freschezza</span><span class="sl-val" id="vFr">50%</span></div>
+        <input type="range" id="sFr" min="0" max="100" value="50" oninput="setSl('sFr','vFr','fresh')">
+      </div>
+      <div class="sl-block">
+        <div class="sl-top"><span>🌑 Profondità</span><span class="sl-val" id="vDp">50%</span></div>
+        <input type="range" id="sDp" min="0" max="100" value="50" oninput="setSl('sDp','vDp','depth')">
+      </div>
+      <div class="sl-block">
+        <div class="sl-top"><span>✨ Fruttato</span><span class="sl-val" id="vFt">30%</span></div>
+        <input type="range" id="sFt" min="0" max="100" value="30" oninput="setSl('sFt','vFt','fruity')">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 4 — Occasione + Dettagli ── -->
+  <div class="step" data-step="4">
+    <div class="step-head">
+      <h2 class="step-ttl">Occasione & Dettagli</h2>
+      <p class="step-sub">Seleziona le occasioni d'uso (opzionale) e inserisci i parametri.</p>
+    </div>
+    <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--g500);margin-bottom:.7rem;">Occasione d'Uso</p>
+    <div class="pill-wrap" style="margin-bottom:1.8rem;">
+      <div class="pill" data-occ="quotidiano" onclick="togOcc(this)">Quotidiano</div>
+      <div class="pill" data-occ="sera" onclick="togOcc(this)">Serata</div>
+      <div class="pill" data-occ="lavoro" onclick="togOcc(this)">Lavoro</div>
+      <div class="pill" data-occ="sport" onclick="togOcc(this)">Sport</div>
+      <div class="pill" data-occ="romantico" onclick="togOcc(this)">Romantico</div>
+      <div class="pill" data-occ="estate" onclick="togOcc(this)">Estate</div>
+      <div class="pill" data-occ="inverno" onclick="togOcc(this)">Inverno</div>
+    </div>
+    <div style="max-width:440px;">
+      <div class="field">
+        <label class="field-lbl">Nome del Profumo</label>
+        <input class="inp" id="pName" type="text" placeholder="Es. Notte di Cedro">
+      </div>
+      <div class="field">
+        <label class="field-lbl">Volume Finale (ml)</label>
+        <input class="inp" id="pVol" type="number" value="50" min="10" max="1000">
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 5 — Preview Pubblica ── -->
+  <div class="step" data-step="5">
+    <div class="fp-hero" id="fp-hero">
+      <div class="fp-name" id="fp-name">—</div>
+      <div class="fp-desc" id="fp-desc">—</div>
+    </div>
+
+    <!-- Piramide -->
+    <div class="card">
+      <div class="card-hdr">Piramide Olfattiva</div>
+      <div class="card-body">
+        <div class="pyr-row">
+          <div class="pyr-lbl"><span>Testa</span><span id="pyrTl">—</span></div>
+          <div class="pyr-track"><div class="pyr-fill pyr-t" id="pyrTb" style="width:0%"></div></div>
+        </div>
+        <div class="pyr-row">
+          <div class="pyr-lbl"><span>Cuore</span><span id="pyrCl">—</span></div>
+          <div class="pyr-track"><div class="pyr-fill pyr-c" id="pyrCb" style="width:0%"></div></div>
+        </div>
+        <div class="pyr-row">
+          <div class="pyr-lbl"><span>Fondo</span><span id="pyrFl">—</span></div>
+          <div class="pyr-track"><div class="pyr-fill pyr-f" id="pyrFb" style="width:0%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lista ingredienti pubblica -->
+    <div class="card">
+      <div class="card-hdr">
+        <span>Ingredienti</span>
+        <span style="font-size:.72rem;color:var(--g500);">% conc. · gocce · grammi</span>
+      </div>
+      <div class="card-body" id="pub-ing"></div>
+    </div>
+
+    <div id="tara-msg"></div>
+
+    <div class="msg msg-info">
+      <strong>👁 Anteprima pubblica</strong> — Mostra ingredienti, gocce e grammature.<br>
+      Costi, istruzioni dettagliate e certificato IFRA PDF si trovano nell'<strong>Area Formule</strong>.
+    </div>
+  </div>
+
+  <!-- ── STEP 6 — Formula Completa (Protetta) ── -->
+  <div class="step" data-step="6">
+    <div class="fp-hero" id="fp-hero2">
+      <div class="fp-name" id="fp-name2">—</div>
+      <div class="fp-desc" id="fp-desc2">—</div>
+    </div>
+
+    <!-- Riepilogo -->
+    <div class="card">
+      <div class="card-hdr">📋 Riepilogo Formula</div>
+      <div class="card-body" id="summ-body"></div>
+    </div>
+
+    <!-- Costi -->
+    <div class="card">
+      <div class="card-hdr">💶 Costi di Produzione</div>
+      <div class="card-body">
+        <div class="cost-grid" id="cost-grid"></div>
+      </div>
+    </div>
+
+    <!-- Dosaggi Tecnici -->
+    <div class="card">
+      <div class="card-hdr">⚗️ Dosaggi Tecnici</div>
+      <div class="card-body">
+        <div class="msg msg-info" style="margin-bottom:1rem;font-size:.8rem;">
+          <strong>Nota calcoli:</strong> "% conc." = % della soluzione nel concentrato totale. "Pura fin." = % molecola attiva pura nel prodotto finito (con correzione diluizione). 1 goccia = 0.05 ml · densità ≈ 1 g/ml.
+        </div>
+        <div id="tech-ing"></div>
+      </div>
+    </div>
+
+    <!-- IFRA -->
+    <div class="card">
+      <div class="card-hdr">🛡️ Conformità IFRA — Cat.4 Leave-on</div>
+      <div class="card-body">
+        <p style="font-size:.8rem;color:var(--g500);margin-bottom:.9rem;line-height:1.5;">
+          Verifica sulla <strong>molecola attiva pura equivalente</strong> nel prodotto finito, con correzione pre-diluizioni. IFRA 50th Amendment (2023).
+        </p>
+        <div id="ifra-msg"></div>
+        <div style="display:grid;grid-template-columns:1fr 90px 80px 55px;gap:.4rem;padding:.4rem .8rem;background:var(--g100);border-radius:7px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--g500);margin-bottom:.5rem;">
+          <span>Ingrediente</span><span style="text-align:right">Pura fin.</span><span style="text-align:right">Limite</span><span style="text-align:center">Stato</span>
+        </div>
+        <div id="ifra-rows"></div>
+        <div id="ifra-none" class="msg msg-ok hidden">✅ Nessun ingrediente IFRA-limitato in formula.</div>
+      </div>
+    </div>
+
+    <!-- Istruzioni -->
+    <div class="card">
+      <div class="card-hdr">📖 Istruzioni di Preparazione</div>
+      <div class="card-body">
+        <ol class="inst-list">
+          <li>Prepara superficie pulita. Occorrente: bilancia 0.01 g, boccetta vetro scuro, pipette Pasteur separate per ogni ingrediente, becher, bastoncino vetro.</li>
+          <li>Versa <strong id="iAlc">—</strong> ml di alcol etilico 96° per profumeria nella boccetta.</li>
+          <li>Aggiungi le <strong>note di fondo</strong> per prime (più pesanti e persistenti).</li>
+          <li>Aggiungi le <strong>note di cuore</strong> (corpo centrale).</li>
+          <li>Aggiungi le <strong>note di testa</strong> (le più volatili, per ultime).</li>
+          <li>Mescola 30–40 secondi con movimenti circolari lenti. Chiudi ermeticamente.</li>
+          <li>Etichetta con nome, data, tipo (<span id="iType">—</span>), volume (<span id="iVol">—</span> ml), n° lotto.</li>
+          <li><strong>Maturazione:</strong> 2–6 settimane al buio 18–22°C. Agita 1×/settimana. Testa su mouillette prima della cute.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap;padding-bottom:1rem;">
+      <button class="btn btn-green btn-full" onclick="printCert()">📄 Scarica Certificato IFRA PDF</button>
+      <button class="btn btn-ghost btn-full" onclick="saveFormula()">💾 Salva Formula</button>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<!-- ══════════════════════════════════
+     BOTTOM NAV
+══════════════════════════════════ -->
+<div id="bnav">
+  <button class="btn btn-ghost" id="prevBtn" onclick="goStep(-1)">← Indietro</button>
+  <button class="btn" id="nextBtn" onclick="goStep(1)">Continua →</button>
+</div>
+
+<!-- ══════════════════════════════════
+     MODAL PASSWORD
+══════════════════════════════════ -->
+<div class="overlay" id="pass-ov">
+  <div class="modal">
+    <div class="modal-dot"></div>
+    <div class="modal-ttl">Area Formule Riservata</div>
+    <div class="modal-sub">Costi di produzione, istruzioni di preparazione, conformità IFRA e certificato PDF.</div>
+    <div class="field">
+      <label class="field-lbl">Password</label>
+      <input class="inp" type="password" id="passInp" placeholder="••••••••"
+             onkeydown="if(event.key==='Enter')chkPass()">
+    </div>
+    <div class="err-lbl" id="passErr"></div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closePass()">Annulla</button>
+      <button class="btn" onclick="chkPass()">Entra →</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════ -->
 <script>
-  const INGREDIENTS = [
-    {name:"ACETATO BENZILE", note:"cuore", family:"floreale", desc:"Note floreali delicate di gelsomino, conferisce freschezza e naturalezza", quality:"Buono", price:8, drops:10},
-    {name:"ACETATO EXILE", note:"testa", family:"fruttato", desc:"Fruttato dolce con note di pera e mela, molto fresco", quality:"Buono", price:7, drops:8},
-    {name:"ACETATO GERANILE", note:"cuore", family:"floreale", desc:"Rosa-geranio, floreale verde con sfaccettature fruttate", quality:"Buono", price:9, drops:10},
-    {name:"ACETATO LINALILE", note:"testa", family:"floreale", desc:"Lavanda bergamotto, fresco e aromatico con note floreali", quality:"Ottimo", price:11, drops:12},
-    {name:"AGRUMEX", note:"testa", family:"agrumato", desc:"Blend di agrumi intenso, fresco e solare", quality:"Buono", price:10, drops:10},
-    {name:"ALDEIDE ALFA EXILCINNAMICA", note:"cuore", family:"floreale", desc:"Floreale aldeidico, note di gelsomino e tuberosa", quality:"Premium", price:15, drops:5},
-    {name:"ALDEIDE C14", note:"cuore", family:"fresco", desc:"Pesca-melone, fruttato cremoso molto particolare", quality:"Buono", price:12, drops:6},
-    {name:"ALDEIDE C18", note:"fondo", family:"orientale", desc:"Grasso-ceroso, porta corposità e persistenza", quality:"Buono", price:10, drops:4},
-    {name:"ALFA DAMASCONE", note:"cuore", family:"floreale", desc:"Rosa damascena intensa, molto potente e diffusiva", quality:"Eccellente", price:45, drops:2},
-    {name:"ALLIL AMIL GLICOLATE", note:"testa", family:"fruttato", desc:"Ananas tropicale, dolce e succoso", quality:"Buono", price:14, drops:3},
-    {name:"AMBROX SUPER", note:"fondo", family:"ambrato", desc:"Ambra grigia calda, avvolgente e persistente", quality:"Eccellente", price:35, drops:6},
-    {name:"ANTRANILATO METILE", note:"cuore", family:"floreale", desc:"Fiori d'arancio, dolce e leggermente verde", quality:"Buono", price:8, drops:8},
-    {name:"SALVIA SCLAREA", note:"cuore", family:"aromatico", desc:"Erbaceo aromatico, muschiato e caldo", quality:"Buono", price:14, drops:10},
-    {name:"BENZOATO BENZILE", note:"fondo", family:"balsamico", desc:"Balsamico dolce, fissa le composizioni floreali", quality:"Buono", price:7, drops:8},
-    {name:"BERGAMOTTO", note:"testa", family:"agrumato", desc:"Agrume nobile, fresco con note leggermente amare", quality:"Premium", price:18, drops:12},
-    {name:"CUMARINA", note:"fondo", family:"dolce", desc:"Fieno tagliato, dolce e persistente con note vanillate", quality:"Ottimo", price:10, drops:8},
-    {name:"DAMASCENONE", note:"cuore", family:"floreale", desc:"Rosa concentrata, potentissimo usare con cautela", quality:"Eccellente", price:55, drops:1},
-    {name:"DIIDROMIRCENOLO", note:"testa", family:"fresco", desc:"Limone-lavanda, molto fresco e pulito", quality:"Buono", price:9, drops:10},
-    {name:"CANNELLA CINA", note:"cuore", family:"speziato", desc:"Speziato caldo, dolce e avvolgente, potente", quality:"Premium", price:25, drops:2},
-    {name:"CARDAMOMO", note:"testa", family:"speziato", desc:"Speziato fresco, aromatico e leggermente limonato", quality:"Ottimo", price:20, drops:6},
-    {name:"INCENSO PURO", note:"fondo", family:"resinoso", desc:"Resinoso sacro, fumoso e profondo", quality:"Premium", price:30, drops:5},
-    {name:"LAVANDINO GROSSO", note:"cuore", family:"aromatico", desc:"Lavanda ibrida, fresca aromatica e fiorita", quality:"Ottimo", price:12, drops:12},
-    {name:"CEDRO VIRGINIA", note:"fondo", family:"legnoso", desc:"Legnoso secco, classico per fragranze maschili", quality:"Premium", price:16, drops:10},
-    {name:"LIMONE ITALIA", note:"testa", family:"agrumato", desc:"Limone fresco appena spremuto, solare e vivace", quality:"Eccellente", price:12, drops:12},
-    {name:"MANDARINO GIALLO", note:"testa", family:"agrumato", desc:"Dolce e zuccherino, rotondo e confortante", quality:"Premium", price:15, drops:10},
-    {name:"MIRRA", note:"fondo", family:"resinoso", desc:"Resinoso balsamico, caldo e avvolgente", quality:"Ottimo", price:22, drops:6},
-    {name:"NOCE MOSCATA", note:"cuore", family:"speziato", desc:"Speziato dolce, caldo con note legnose", quality:"Buono", price:14, drops:5},
-    {name:"PATCHOULY", note:"fondo", family:"legnoso", desc:"Terroso intenso, profondo e persistente", quality:"Eccellente", price:20, drops:8},
-    {name:"PEPE NERO", note:"testa", family:"speziato", desc:"Speziato secco, pungente e fresco", quality:"Ottimo", price:16, drops:4},
-    {name:"VETIVER GIAVA", note:"fondo", family:"legnoso", desc:"Verde legnoso, elegante con note fumé", quality:"Premium", price:22, drops:10},
-    {name:"ETIL LINALOLO", note:"testa", family:"floreale", desc:"Lavanda-petitgrain, fresco e fiorito", quality:"Buono", price:8, drops:10},
-    {name:"ETILENE BRASSILATE", note:"fondo", family:"muschiato", desc:"Muschio floreale, persistente e avvolgente", quality:"Ottimo", price:18, drops:8},
-    {name:"EUGENOLO PURO", note:"cuore", family:"speziato", desc:"Chiodo di garofano, speziato caldo e potente", quality:"Buono", price:10, drops:4},
-    {name:"GALAXOLIDE", note:"fondo", family:"muschiato", desc:"Muschio pulito, fissa senza appesantire", quality:"Premium", price:16, drops:10},
-    {name:"GERANIOLO", note:"cuore", family:"floreale", desc:"Rosa-geranio, floreale verde molto naturale", quality:"Ottimo", price:12, drops:10},
-    {name:"HABANOLIDE", note:"fondo", family:"muschiato", desc:"Muschio lattato, morbido e sensuale", quality:"Premium", price:25, drops:6},
-    {name:"HEDIONE", note:"cuore", family:"floreale", desc:"Gelsomino trasparente, amplifica e dona radianza", quality:"Eccellente", price:25, drops:15},
-    {name:"HELIONAL", note:"cuore", family:"marino", desc:"Marino ozono, fresco acquatico e moderno", quality:"Premium", price:22, drops:10},
-    {name:"IDROSSICITRONELLALE", note:"cuore", family:"floreale", desc:"Mughetto verde, fresco e fiorito", quality:"Buono", price:9, drops:12},
-    {name:"ISO E SUPER", note:"fondo", family:"legnoso", desc:"Legno trasparente, amplifica e fissa tutto", quality:"Eccellente", price:18, drops:15},
-    {name:"ISORALDEINA", note:"testa", family:"fresco", desc:"Ciclamino acquatico, fresco e fiorito", quality:"Buono", price:11, drops:8},
-    {name:"LINALOLO", note:"testa", family:"floreale", desc:"Lavanda-coriandolo, fresco universale", quality:"Ottimo", price:10, drops:12},
-    {name:"MANZANATE", note:"testa", family:"fruttato", desc:"Mela verde croccante, fresco e succoso", quality:"Buono", price:16, drops:3},
-    {name:"MOUSSE DE METRE", note:"fondo", family:"legnoso", desc:"Muschio di quercia, terroso e profondo", quality:"Premium", price:28, drops:5},
-    {name:"OCTINE CARBONATO METILE", note:"cuore", family:"verde", desc:"Verde violetta, floreale fresco e naturale", quality:"Buono", price:12, drops:8},
-    {name:"SALICILATO BENZILE", note:"cuore", family:"floreale", desc:"Floreale solare, porta volume alle composizioni", quality:"Buono", price:7, drops:12},
-    {name:"SANDALORE", note:"fondo", family:"legnoso", desc:"Sandalo sintetico, cremoso e avvolgente", quality:"Premium", price:24, drops:10},
-    {name:"TRIACETINA", note:"fissatore", family:"neutro", desc:"Fissatore neutro, aiuta la maturazione", quality:"Buono", price:5, drops:10},
-    {name:"VANILLA", note:"fondo", family:"dolce", desc:"Vaniglia gourmand, dolce e confortante", quality:"Ottimo", price:12, drops:5},
-    {name:"VERTOCITRAL C", note:"testa", family:"agrumato", desc:"Limone-verbena, fresco citrico intenso", quality:"Buono", price:13, drops:8},
-    {name:"VERTOFIX COEUR", note:"fondo", family:"legnoso", desc:"Legno ambrato, fissa con eleganza", quality:"Premium", price:20, drops:10}
-  ];
-  const COMPATIBILITYRULES = {
-    agrumato:["agrumato","aromatico","floreale","legnoso","fresco"],
-    floreale:["floreale","agrumato","ambrato","dolce","legnoso","muschiato","fruttato"],
-    legnoso:["legnoso","ambrato","aromatico","floreale","muschiato","resinoso","speziato"],
-    aromatico:["aromatico","agrumato","legnoso","floreale","fresco"],
-    ambrato:["ambrato","legnoso","floreale","dolce","orientale","muschiato"],
-    dolce:["dolce","floreale","ambrato","orientale","fruttato"],
-    speziato:["speziato","legnoso","orientale","dolce","resinoso"],
-    resinoso:["resinoso","legnoso","orientale","balsamico","speziato"],
-    muschiato:["muschiato","floreale","legnoso","ambrato"],
-    fruttato:["fruttato","floreale","agrumato","dolce","fresco"],
-    fresco:["fresco","agrumato","aromatico","marino"],
-    marino:["marino","fresco","agrumato","floreale"],
-    verde:["verde","floreale","fresco","aromatico"],
-    balsamico:["balsamico","resinoso","dolce","orientale"],
-    orientale:["orientale","speziato","ambrato","dolce","resinoso"],
-    neutro:["neutro"]
-  };
-  const DILUTIONTYPES = {
-    EDC: {name:"Eau de Cologne", concentration:3.5, min:2, max:5},
-    EDT: {name:"Eau de Toilette", concentration:10, min:5, max:15},
-    EDP: {name:"Eau de Parfum", concentration:17.5, min:15, max:20}
-  };
-  const DILUENTCOSTPERML = 0.015;
-  let selectedIngredients = [];
-  let currentFormula = null;
-  let currentFilter = "all";
-  let editingFormulaIndex = null;
-  let selectedDilutionType = "EDP";
-  let targetVolume = 50;
-  const DROPTOML = 0.05;
+/* ═════════════════════════════════════════════════════════════
+   DATABASE INGREDIENTI
+   
+   dilution : frazione molecola PURA nella soluzione
+              1.0 = puro  |  0.10 = 10% in TRI/IPM/APV  ecc.
+   
+   ifraMax  : % MAX MOLECOLA PURA nel prodotto FINITO
+              (IFRA 50th Amendment 2023 — Cat. 4 leave-on)
+   
+   price    : €/10 ml della SOLUZIONE (come acquistata)
+   w        : peso relativo per distribuzione gocce
+   compat   : famiglie compatibili
+═════════════════════════════════════════════════════════════ */
+const DB = [
+  /* ── TESTA ─────────────────────────────────────────────── */
+  {n:"Bergamotto FCF",         note:"t",fam:"agrumato",    dil:1.00, price:18, w:12,
+   ifra:true, ifraMax:0.4,
+   ifraNote:"Bergapten-free · max 0.4% pura nel fin.",
+   compat:["fresco-agrumato","floreale","aromatico-fougere","marino-fresco","chypre-verde"]},
 
-  function selectLandingDilution(type){
-    selectedDilutionType = type;
-    document.querySelectorAll(".landing-config .config-option").forEach(opt=>opt.classList.remove("active"));
-    document.getElementById("landing-dilution-"+type).classList.add("active");
+  {n:"Limone Italia",          note:"t",fam:"agrumato",    dil:1.00, price:12, w:12,
+   ifra:true, ifraMax:2.0,
+   ifraNote:"Limonene · max 2.0% pura nel fin.",
+   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
+
+  {n:"Mandarino Giallo",       note:"t",fam:"agrumato",    dil:1.00, price:15, w:10,
+   ifra:false,
+   compat:["fresco-agrumato","gourmand-dolce","floreale"]},
+
+  {n:"Agrumex",                note:"t",fam:"agrumato",    dil:1.00, price:10, w:10,
+   ifra:false,
+   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
+
+  {n:"Diidromircenolo",        note:"t",fam:"fresco",      dil:1.00, price:9,  w:10,
+   ifra:false,
+   compat:["fresco-agrumato","marino-fresco","aromatico-fougere"]},
+
+  {n:"Linalolo",               note:"t",fam:"floreale",    dil:1.00, price:10, w:12,
+   ifra:true, ifraMax:5.0,
+   ifraNote:"Linalool · allergene UE · max 5.0% pura nel fin.",
+   compat:["floreale","fresco-agrumato","aromatico-fougere","chypre-verde"]},
+
+  {n:"Acetato Linalile",       note:"t",fam:"floreale",    dil:1.00, price:11, w:12,
+   ifra:true, ifraMax:5.0,
+   ifraNote:"Linalyl acetate · allergene UE · max 5.0% pura nel fin.",
+   compat:["floreale","fresco-agrumato","aromatico-fougere"]},
+
+  {n:"Cardamomo 10% TRI",      note:"t",fam:"speziato",    dil:0.10, price:20, w:6,
+   ifra:false,
+   compat:["orientale-speziato","aromatico-fougere","legnoso-ambrato"]},
+
+  {n:"Pepe Nero",              note:"t",fam:"speziato",    dil:1.00, price:16, w:4,
+   ifra:false,
+   compat:["orientale-speziato","legnoso-ambrato","chypre-verde"]},
+
+  {n:"Vertocitral C 10% TRI",  note:"t",fam:"agrumato",    dil:0.10, price:13, w:8,
+   ifra:false,
+   compat:["fresco-agrumato","marino-fresco"]},
+
+  {n:"Manzanate 1% TRI",       note:"t",fam:"fruttato",    dil:0.01, price:16, w:3,
+   ifra:true, ifraMax:0.05,
+   ifraNote:"Allyl amyl glycolate · max 0.05% pura nel fin.",
+   compat:["fresco-agrumato","gourmand-dolce","floreale"]},
+
+  {n:"Acetato Exile",          note:"t",fam:"fruttato",    dil:1.00, price:7,  w:8,
+   ifra:false,
+   compat:["fresco-agrumato","floreale","gourmand-dolce"]},
+
+  /* ── CUORE ─────────────────────────────────────────────── */
+  {n:"Hedione",                note:"c",fam:"floreale",    dil:1.00, price:25, w:15,
+   ifra:false,
+   compat:["floreale","fresco-agrumato","aromatico-fougere","marino-fresco","chypre-verde"]},
+
+  {n:"Damascenone 1% TRI",     note:"c",fam:"floreale",    dil:0.01, price:55, w:3,
+   ifra:true, ifraMax:0.02,
+   ifraNote:"β-Damascenone puro · MASSIMO 0.02% pura nel fin. (pre-dil. 1% TRI)",
+   compat:["floreale","orientale-speziato","gourmand-dolce","chypre-verde"]},
+
+  {n:"α-Damascone 10% TRI",    note:"c",fam:"floreale",    dil:0.10, price:45, w:2,
+   ifra:true, ifraMax:0.02,
+   ifraNote:"α-Damascone puro · max 0.02% pura nel fin. (pre-dil. 10% TRI)",
+   compat:["floreale","orientale-speziato","chypre-verde"]},
+
+  {n:"Geraniolo 50%",          note:"c",fam:"floreale",    dil:0.50, price:12, w:10,
+   ifra:true, ifraMax:6.0,
+   ifraNote:"Geraniol puro · max 6.0% pura nel fin. (sol. 50%)",
+   compat:["floreale","chypre-verde","aromatico-fougere"]},
+
+  {n:"Acetato Benzile",        note:"c",fam:"floreale",    dil:1.00, price:8,  w:10,
+   ifra:false,
+   compat:["floreale","aromatico-fougere"]},
+
+  {n:"Idrossicitronellale",    note:"c",fam:"floreale",    dil:1.00, price:9,  w:12,
+   ifra:true, ifraMax:1.0,
+   ifraNote:"Hydroxycitronellal · max 1.0% pura nel fin.",
+   compat:["floreale","fresco-agrumato","chypre-verde"]},
+
+  {n:"Salicilato Benzile",     note:"c",fam:"floreale",    dil:1.00, price:7,  w:12,
+   ifra:true, ifraMax:10.0,
+   ifraNote:"Benzyl salicylate · max 10.0% pura nel fin.",
+   compat:["floreale","chypre-verde","aromatico-fougere"]},
+
+  {n:"Lavandino Grosso",       note:"c",fam:"aromatico",   dil:1.00, price:12, w:12,
+   ifra:false,
+   compat:["aromatico-fougere","fresco-agrumato","legnoso-ambrato","chypre-verde"]},
+
+  {n:"Salvia Sclarea 10% APV", note:"c",fam:"aromatico",   dil:0.10, price:14, w:10,
+   ifra:false,
+   compat:["aromatico-fougere","legnoso-ambrato","orientale-speziato"]},
+
+  {n:"Helional",               note:"c",fam:"marino",      dil:1.00, price:22, w:10,
+   ifra:false,
+   compat:["marino-fresco","fresco-agrumato"]},
+
+  {n:"Aldeide C14 10% TRI",    note:"c",fam:"fresco",      dil:0.10, price:12, w:6,
+   ifra:false,
+   compat:["marino-fresco","fresco-agrumato","chypre-verde"]},
+
+  {n:"Octine Carb. Metile 10% TRI", note:"c",fam:"verde",  dil:0.10, price:12, w:8,
+   ifra:false,
+   compat:["chypre-verde","floreale","aromatico-fougere"]},
+
+  {n:"Cannella Cina 1% TRI",   note:"c",fam:"speziato",    dil:0.01, price:25, w:3,
+   ifra:true, ifraMax:0.1,
+   ifraNote:"Cinnamaldehyde puro · max 0.1% pura nel fin. (pre-dil. 1% TRI)",
+   compat:["orientale-speziato","gourmand-dolce"]},
+
+  {n:"Noce Moscata rid.Safrolo",note:"c",fam:"speziato",   dil:1.00, price:14, w:5,
+   ifra:true, ifraMax:1.0,
+   ifraNote:"Nutmeg oil · max 1.0% pura nel fin.",
+   compat:["orientale-speziato","legnoso-ambrato","gourmand-dolce"]},
+
+  {n:"Eugenolo Puro",          note:"c",fam:"speziato",    dil:1.00, price:10, w:4,
+   ifra:true, ifraMax:0.5,
+   ifraNote:"Eugenol · max 0.5% pura nel fin.",
+   compat:["orientale-speziato","chypre-verde"]},
+
+  {n:"Ald. α-Exilcinnamica",   note:"c",fam:"floreale",    dil:1.00, price:15, w:5,
+   ifra:true, ifraMax:0.5,
+   ifraNote:"α-Hexylcinnamaldehyde · max 0.5% pura nel fin.",
+   compat:["floreale","orientale-speziato"]},
+
+  /* ── FONDO ─────────────────────────────────────────────── */
+  {n:"Iso E Super",            note:"f",fam:"legnoso",     dil:1.00, price:18, w:15,
+   ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","marino-fresco","aromatico-fougere","chypre-verde","floreale"]},
+
+  {n:"Cedro Virginia",         note:"f",fam:"legnoso",     dil:1.00, price:16, w:10,
+   ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","aromatico-fougere","chypre-verde"]},
+
+  {n:"Patchouly",              note:"f",fam:"legnoso",     dil:1.00, price:20, w:8,
+   ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","chypre-verde","gourmand-dolce"]},
+
+  {n:"Vetiver Giava",          note:"f",fam:"legnoso",     dil:1.00, price:22, w:10,
+   ifra:false,
+   compat:["legnoso-ambrato","fresco-agrumato","chypre-verde","aromatico-fougere"]},
+
+  {n:"Sandalore",              note:"f",fam:"legnoso",     dil:1.00, price:24, w:10,
+   ifra:false,
+   compat:["legnoso-ambrato","floreale","orientale-speziato","gourmand-dolce"]},
+
+  {n:"Vertofix Coeur",         note:"f",fam:"legnoso",     dil:1.00, price:20, w:10,
+   ifra:false,
+   compat:["legnoso-ambrato","chypre-verde","aromatico-fougere"]},
+
+  {n:"Mousse de Metre 10% TRI",note:"f",fam:"legnoso",     dil:0.10, price:28, w:5,
+   ifra:true, ifraMax:0.03,
+   ifraNote:"Oakmoss absolute puro · max 0.03% pura nel fin. (pre-dil. 10% TRI)",
+   compat:["chypre-verde","aromatico-fougere","legnoso-ambrato"]},
+
+  {n:"Ambrox Super 10% IPM",   note:"f",fam:"ambrato",     dil:0.10, price:35, w:8,
+   ifra:false,
+   compat:["legnoso-ambrato","orientale-speziato","floreale","gourmand-dolce"]},
+
+  {n:"Galaxolide 50% IPM",     note:"f",fam:"muschiato",   dil:0.50, price:16, w:10,
+   ifra:false,
+   compat:["floreale","legnoso-ambrato","marino-fresco","aromatico-fougere","chypre-verde"]},
+
+  {n:"Habanolide",             note:"f",fam:"muschiato",   dil:1.00, price:25, w:6,
+   ifra:false,
+   compat:["floreale","legnoso-ambrato","gourmand-dolce"]},
+
+  {n:"Etilene Brassilate",     note:"f",fam:"muschiato",   dil:1.00, price:18, w:8,
+   ifra:false,
+   compat:["floreale","marino-fresco","chypre-verde","aromatico-fougere"]},
+
+  {n:"Cumarina 10% TRI",       note:"f",fam:"dolce",       dil:0.10, price:10, w:8,
+   ifra:true, ifraMax:1.0,
+   ifraNote:"Coumarin puro · max 1.0% pura nel fin. (pre-dil. 10% TRI)",
+   compat:["gourmand-dolce","orientale-speziato","aromatico-fougere"]},
+
+  {n:"Vanilla 10% TRI",        note:"f",fam:"dolce",       dil:0.10, price:12, w:5,
+   ifra:false,
+   compat:["gourmand-dolce","orientale-speziato","floreale"]},
+
+  {n:"Aldeide C18",            note:"f",fam:"orientale",   dil:1.00, price:10, w:4,
+   ifra:false,
+   compat:["orientale-speziato","gourmand-dolce","legnoso-ambrato"]},
+
+  {n:"Incenso Puro",           note:"f",fam:"resinoso",    dil:1.00, price:30, w:5,
+   ifra:false,
+   compat:["orientale-speziato","legnoso-ambrato","chypre-verde"]},
+
+  {n:"Mirra 10% APV",          note:"f",fam:"resinoso",    dil:0.10, price:22, w:6,
+   ifra:false,
+   compat:["orientale-speziato","legnoso-ambrato"]},
+
+  {n:"Benzoato Benzile",       note:"f",fam:"balsamico",   dil:1.00, price:7,  w:8,
+   ifra:true, ifraMax:8.0,
+   ifraNote:"Benzyl benzoate · max 8.0% pura nel fin.",
+   compat:["floreale","orientale-speziato","gourmand-dolce"]},
+];
+
+/* ══════════════════════════════════════
+   COSTANTI
+══════════════════════════════════════ */
+const CONC_PCT = {edc:5, edt:10, edp:17};
+const ALC_COST = 0.015;   // €/ml alcol 96°
+const DROP_ML  = 0.05;    // ml per goccia
+const DENS     = 1.0;     // g/ml densità media
+const PYR      = {t:25, c:40, f:35}; // distribuzione % piramide
+
+const FAM_NAMES = {
+  "fresco-agrumato":"Fresco & Agrumato","floreale":"Floreale & Romantico",
+  "aromatico-fougere":"Aromatico & Fougère","legnoso-ambrato":"Legnoso & Ambrato",
+  "orientale-speziato":"Orientale & Speziato","marino-fresco":"Marino & Acquatico",
+  "chypre-verde":"Chypre & Verde","gourmand-dolce":"Gourmand & Dolce"
+};
+const FAM_DESC = {
+  "fresco-agrumato":"Apertura vivace su base leggera e raffinata.",
+  "floreale":"Bouquet ricco di fiori sostenuto da base muschiata.",
+  "aromatico-fougere":"Fougère classica — lavanda, erbe, base legnosa.",
+  "legnoso-ambrato":"Legni nobili e ambra — scia profonda e persistente.",
+  "orientale-speziato":"Spezie e resine esotiche — composizione avvolgente.",
+  "marino-fresco":"Brezze ozoniche e note acquatiche — freschezza moderna.",
+  "chypre-verde":"Patchouly, muschio di quercia, foglie verdi.",
+  "gourmand-dolce":"Vaniglia, cumarina, note golose e morbide."
+};
+const TYPE_LBL = {edc:"Eau de Cologne ~5%",edt:"Eau de Toilette ~10%",edp:"Eau de Parfum ~17%"};
+
+/* ══════════════════════════════════════
+   STATO APPLICAZIONE
+══════════════════════════════════════ */
+let CUR = 1;
+const SEL = {
+  fam: null, int: null,
+  sweet:50, fresh:50, depth:50, fruity:30,
+  occ: [],
+};
+let FORMULA = null;
+let deferredInstall = null;
+
+const STEP_META = [
+  {lbl:"Famiglia",      name:"Famiglia Olfattiva"},
+  {lbl:"Concentraz.",   name:"Concentrazione"},
+  {lbl:"Carattere",     name:"Carattere Olfattivo"},
+  {lbl:"Dettagli",      name:"Occasione & Dettagli"},
+  {lbl:"Anteprima",     name:"Formula Generata"},
+  {lbl:"Area Tecnica",  name:"Dati Tecnici & IFRA"},
+];
+
+/* ══════════════════════════════════════
+   PWA — SERVICE WORKER & INSTALL
+══════════════════════════════════════ */
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () =>
+    navigator.serviceWorker.register('./sw.js')
+      .catch(e => console.warn('SW:', e))
+  );
+}
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstall = e;
+  document.getElementById('installBtn').style.display = 'flex';
+  document.getElementById('install-bar').classList.add('show');
+});
+window.addEventListener('appinstalled', () => {
+  document.getElementById('install-bar').classList.remove('show');
+  document.getElementById('installBtn').style.display = 'none';
+});
+async function installApp(){
+  if(!deferredInstall) return;
+  deferredInstall.prompt();
+  const {outcome} = await deferredInstall.userChoice;
+  if(outcome==='accepted'){
+    deferredInstall = null;
+    document.getElementById('install-bar').classList.remove('show');
+    document.getElementById('installBtn').style.display = 'none';
   }
-  function startApp(){
-    targetVolume = parseFloat(document.getElementById("landingVolumeInput").value) || 50;
-    const dot = document.getElementById("landingDot");
-    dot.classList.add("expand");
-    setTimeout(()=>{
-      document.getElementById("landing").classList.add("fade-out");
-    },400);
-    setTimeout(()=>{
-      document.getElementById("landing").style.display = "none";
-      document.getElementById("mainApp").classList.add("active");
-      renderIngredients();
-      renderFormulasList();
-      syncSettingsPanel();
-    },1000);
-  }
-  function resetToLanding(){
-    selectedIngredients = [];
-    currentFormula = null;
-    editingFormulaIndex = null;
-    currentFilter = "all";
-    selectedDilutionType = "EDP";
-    targetVolume = 50;
-    document.getElementById("mainApp").classList.remove("active");
-    document.getElementById("landing").style.display = "flex";
-    document.getElementById("landing").classList.remove("fade-out");
-    const dot = document.getElementById("landingDot");
-    dot.classList.remove("expand");
-    document.getElementById("landingVolumeInput").value = 50;
-    document.querySelectorAll(".landing-config .config-option").forEach(opt=>opt.classList.remove("active"));
-    document.getElementById("landing-dilution-EDP").classList.add("active");
-    document.getElementById("selectedPanel").style.display = "none";
-    document.getElementById("settingsPanel").style.display = "none";
-    document.getElementById("dilutionPanel").style.display = "none";
-    document.getElementById("resultsPanel").style.display = "none";
-    document.getElementById("editingIndicator").innerHTML = "";
-    document.querySelectorAll(".section").forEach(sec=>sec.classList.remove("active"));
-    document.getElementById("section-create").classList.add("active");
-    document.querySelectorAll(".nav-tab").forEach(tab=>tab.classList.remove("active"));
-    document.querySelector(".nav-tab").classList.add("active");
-  }
-  function syncSettingsPanel(){
-    document.querySelectorAll(".settings-panel .config-option").forEach(o=>o.classList.remove("active"));
-    document.getElementById("edit-dilution-"+selectedDilutionType).classList.add("active");
-    document.getElementById("editVolumeInput").value = targetVolume;
-  }
-  function editDilutionType(type){
-    selectedDilutionType = type;
-    document.querySelectorAll(".settings-panel .config-option").forEach(o=>o.classList.remove("active"));
-    document.getElementById("edit-dilution-"+type).classList.add("active");
-    renderIngredients();
-  }
-  function editTargetVolume(value){
-    targetVolume = parseFloat(value) || 50;
-    renderIngredients();
-  }
-  function switchSection(section){
-    document.querySelectorAll(".nav-tab").forEach(tab=>tab.classList.remove("active"));
-    document.querySelectorAll(".section").forEach(sec=>sec.classList.remove("active"));
-    event.target.classList.add("active");
-    document.getElementById("section-"+section).classList.add("active");
-    if(section === "formulas"){renderFormulasList();}
-  }
-  function filterByNote(note){
-    currentFilter = note;
-    document.querySelectorAll(".filter-btn").forEach(btn=>btn.classList.remove("active"));
-    event.target.classList.add("active");
-    renderIngredients();
-  }
-  function renderIngredients(){
-    const grid = document.getElementById("ingredientsGrid");
-    const filtered = currentFilter === "all" ? INGREDIENTS : INGREDIENTS.filter(ing=>ing.note === currentFilter);
-    grid.innerHTML = filtered.map((ing, idx)=>{
-      const realIdx = INGREDIENTS.indexOf(ing);
-      const isSelected = selectedIngredients.find(s=>s.name === ing.name);
-      const isRecommended = checkCompatibility(ing);
-      const suggestedDrops = calculateSuggestedDrops(ing);
-      return `
-      <div class="ingredient-card ${isSelected ? "selected":""} ${isRecommended ? "recommended":""}" id="card-${realIdx}" onclick="toggleExpand(${realIdx})">
-        <div class="ingredient-header">
-          <div>
-            <div class="ingredient-name">${ing.name}</div>
-            <div class="ingredient-family">${ing.family}</div>
-          </div>
-          <div>
-            <span class="ingredient-badge badge-${ing.note}">${ing.note}</span>
-          </div>
-        </div>
-        ${isRecommended ? `<div class="suggested-drops">${suggestedDrops} gocce</div>`:""}
-        <div class="ingredient-details">
-          <div class="detail-section">
-            <div class="detail-label">Descrizione</div>
-            <div class="detail-text">${ing.desc}</div>
-          </div>
-          <div class="detail-section">
-            <div class="detail-label">Qualità</div>
-            <div class="detail-text">${ing.quality}</div>
-          </div>
-          <div class="detail-section">
-            <div class="detail-label">Prezzo /10ml</div>
-            <div class="price-tag">€${ing.price}</div>
-          </div>
-        </div>
-        <div class="select-indicator" onclick="event.stopPropagation(); toggleSelection(${realIdx})">
-          ${isSelected ? "✓":"+"}
-        </div>
-      </div>`;
-    }).join("");
-  }
-  function toggleExpand(idx){
-    const card = document.getElementById("card-"+idx);
-    card.classList.toggle("expanded");
-  }
-  function toggleSelection(idx){
-    const ingredient = INGREDIENTS[idx];
-    const index = selectedIngredients.findIndex(s=>s.name === ingredient.name);
-    if(index >= 0){
-      selectedIngredients.splice(index,1);
-    } else {
-      const suggestedDrops = calculateSuggestedDrops(ingredient);
-      selectedIngredients.push({...ingredient, drops:suggestedDrops});
+}
+function dismissInstall(){
+  document.getElementById('install-bar').classList.remove('show');
+}
+
+/* ══════════════════════════════════════
+   LANDING → APP
+══════════════════════════════════════ */
+function startApp(){
+  const dot = document.getElementById('herobot');
+  dot.classList.add('boom');
+  setTimeout(() => {
+    const l = document.getElementById('landing');
+    l.style.opacity = '0';
+    setTimeout(() => {
+      l.classList.add('hidden');
+      document.getElementById('hdr').style.display = 'block';
+      document.getElementById('app').classList.add('on');
+      document.getElementById('bnav').classList.add('show');
+      updProg();
+    }, 450);
+  }, 750);
+}
+
+/* ══════════════════════════════════════
+   WIZARD — NAVIGAZIONE
+══════════════════════════════════════ */
+function goStep(dir){
+  const n = CUR + dir;
+
+  if(dir > 0){
+    if(CUR===1 && !SEL.fam){alert('Seleziona una famiglia olfattiva.');return;}
+    if(CUR===2 && !SEL.int){alert('Seleziona il tipo di concentrazione.');return;}
+    if(CUR===4){
+      generate();
+      // Vai a step 5 (preview)
     }
-    renderIngredients();
-    renderSelected();
-    calculateBasicCosts();
-  }
-  function checkCompatibility(ingredient){
-    if(selectedIngredients.length === 0){return false;}
-    const selectedFamilies = selectedIngredients.map(s=>s.family);
-    const compatibleFamilies = new Set();
-    selectedFamilies.forEach(fam=>{
-      if(COMPATIBILITYRULES[fam]){
-        COMPATIBILITYRULES[fam].forEach(comp=>compatibleFamilies.add(comp));
-      }
-    });
-    return compatibleFamilies.has(ingredient.family) && !selectedIngredients.find(s=>s.name === ingredient.name);
-  }
-  function calculateSuggestedDrops(ingredient){
-    const dilutionInfo = DILUTIONTYPES[selectedDilutionType];
-    const requiredConcentrateMl = targetVolume * dilutionInfo.concentration / 100;
-    const totalDropsNeeded = requiredConcentrateMl / DROPTOML;
-    if(selectedIngredients.length === 0){
-      return Math.round(ingredient.drops / 100 * totalDropsNeeded);
+    if(CUR===5){
+      // Richiede password per step 6
+      openPass(); return;
     }
-    const noteCount = {
-      testa: selectedIngredients.filter(i=>i.note === "testa").length,
-      cuore: selectedIngredients.filter(i=>i.note === "cuore").length,
-      fondo: selectedIngredients.filter(i=>i.note === "fondo").length
-    };
-    let multiplier = 1;
-    if(ingredient.note === "testa" && noteCount.testa < 2){multiplier = 1.3;}
-    if(ingredient.note === "cuore" && noteCount.cuore < 3){multiplier = 1.2;}
-    if(ingredient.note === "fondo" && noteCount.fondo < 2){multiplier = 1.4;}
-    const baseDrops = Math.round(ingredient.drops / 100 * totalDropsNeeded);
-    return Math.round(baseDrops * multiplier);
+    if(CUR===6) return;
   }
-  function renderSelected(){
-    const panel = document.getElementById("selectedPanel");
-    const settingsPanel = document.getElementById("settingsPanel");
-    const list = document.getElementById("selectedList");
-    const indicator = document.getElementById("editingIndicator");
-    if(editingFormulaIndex !== null){
-      indicator.innerHTML = `<div class="editing-indicator">Modalità Modifica</div>`;
-    } else {
-      indicator.innerHTML = "";
+  if(n < 1) return;
+
+  document.querySelector(`.step[data-step="${CUR}"]`).classList.remove('on');
+  CUR = n;
+  document.querySelector(`.step[data-step="${CUR}"]`).classList.add('on');
+  updProg();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updProg(){
+  const pct = ((CUR-1)/5)*100;
+  document.getElementById('pf').style.width = pct+'%';
+  const m = STEP_META[CUR-1];
+  document.getElementById('ps-lbl').textContent = `Step ${CUR} di 6`;
+  document.getElementById('ps-name').textContent = m.name;
+
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  prevBtn.disabled = CUR === 1;
+  prevBtn.style.opacity = CUR===1 ? '.3':'1';
+
+  if(CUR===4) nextBtn.textContent = '✨ Genera Formula';
+  else if(CUR===5) nextBtn.textContent = '🔐 Area Formule';
+  else if(CUR===6) nextBtn.textContent = '✓ Completato';
+  else nextBtn.textContent = 'Continua →';
+}
+
+/* ══════════════════════════════════════
+   SELEZIONI WIZARD
+══════════════════════════════════════ */
+function pick(el, group){
+  document.querySelectorAll(`.opt[data-g="${group}"]`).forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  SEL[group] = el.dataset.v;
+}
+function togOcc(el){
+  const v = el.dataset.occ;
+  el.classList.toggle('sel');
+  const i = SEL.occ.indexOf(v);
+  if(i>-1) SEL.occ.splice(i,1); else SEL.occ.push(v);
+}
+function setSl(id,vid,key){
+  const v = +document.getElementById(id).value;
+  document.getElementById(vid).textContent = v+'%';
+  SEL[key] = v;
+}
+
+/* ══════════════════════════════════════
+   HELPER CALCOLO IFRA (CORRETTO)
+   
+   purePctInFinal = (gocce × DROP_ML × dilution) / vol × 100
+   
+   maxDrops = (ifraMax × vol) / (100 × DROP_ML × dilution)
+══════════════════════════════════════ */
+function purePct(x, drops, vol){
+  return (drops * DROP_ML * x.dil) / vol * 100;
+}
+function maxDropsIfra(x, vol){
+  return Math.floor((x.ifraMax * vol) / (100 * DROP_ML * x.dil));
+}
+
+/* ══════════════════════════════════════
+   GENERA FORMULA
+══════════════════════════════════════ */
+function generate(){
+  const vol      = Math.max(10, parseInt(document.getElementById('pVol').value)||50);
+  const name     = document.getElementById('pName').value.trim() || 'Il Mio Profumo';
+  const fam      = SEL.fam;
+  const concPct  = CONC_PCT[SEL.int];
+  const concMl   = vol * concPct / 100;
+  const alcMl    = vol - concMl;
+  const totDrops = concMl / DROP_ML;
+
+  /* Score stile per ranking ingredienti */
+  function score(x){
+    let s = 0;
+    const fmFam = x.fam || '';
+    if(SEL.sweet>60  && ['dolce','fruttato','orientale','balsamico'].includes(fmFam)) s+=2;
+    if(SEL.fresh>60  && ['agrumato','fresco','marino'].includes(fmFam)) s+=2;
+    if(SEL.depth>60  && ['resinoso','ambrato','legnoso','speziato'].includes(fmFam)) s+=2;
+    if(SEL.fruity>50 && ['fruttato'].includes(fmFam)) s+=2;
+    return s;
+  }
+
+  const pool = note =>
+    DB.filter(x => x.note===note && x.compat.includes(fam))
+      .sort((a,b) => score(b)-score(a));
+
+  const tPick = pool('t').slice(0,3);
+  const cPick = pool('c').slice(0,4);
+  const fPick = pool('f').slice(0,3);
+
+  function assign(group, pyrPct){
+    const gDrop = totDrops * pyrPct / 100;
+    const sumW  = group.reduce((s,x)=>s+x.w,0) || 1;
+    return group.map(x => ({
+      ...x,
+      drops: Math.max(1, Math.round(x.w / sumW * gDrop)),
+      adjusted: false,
+      origDrops: null
+    }));
+  }
+
+  let items = [
+    ...assign(tPick, PYR.t),
+    ...assign(cPick, PYR.c),
+    ...assign(fPick, PYR.f)
+  ];
+
+  /* ── TARA IFRA con correzione diluizioni ──────────────────
+     maxDrops = floor( ifraMax% × vol / (100 × DROP_ML × dil) )
+     
+     Es. Damascenone 1% TRI, vol=50ml, ifraMax=0.02%:
+       maxDrops = floor( 0.02×50 / (100×0.05×0.01) ) = floor(20) = 20 gocce ✓
+  ────────────────────────────────────────────────────────── */
+  const taraLog = [];
+  items.forEach(x => {
+    if(!x.ifra) return;
+    const max = maxDropsIfra(x, vol);
+    if(x.drops > max){
+      taraLog.push({
+        n: x.n,
+        orig: x.drops,
+        cap: max,
+        ifraMax: x.ifraMax,
+        dil: x.dil,
+        pureOrig: purePct(x, x.drops, vol).toFixed(4),
+        pureCap:  purePct(x, max,      vol).toFixed(4)
+      });
+      x.origDrops = x.drops;
+      x.drops     = max;
+      x.adjusted  = true;
     }
-    if(selectedIngredients.length === 0){
-      panel.style.display = "none";
-      settingsPanel.style.display = "none";
-      return;
-    }
-    panel.style.display = "block";
-    settingsPanel.style.display = "block";
-    syncSettingsPanel();
-    list.innerHTML = selectedIngredients.map((ing, idx)=>`
-    <div class="selected-item">
-      <span class="selected-item-name">${ing.name}</span>
-      <input type="number" class="drops-input" value="${ing.drops}" onchange="updateDrops(${idx}, this.value)" min="1" max="50">
-      <span>gocce</span>
-      <button class="btn-remove" onclick="removeIngredient(${idx})">&times;</button>
-    </div>`).join("");
-  }
-  function updateDrops(idx, value){
-    selectedIngredients[idx].drops = parseInt(value) || 1;
-    calculateBasicCosts();
-  }
-  function removeIngredient(idx){
-    selectedIngredients.splice(idx,1);
-    renderIngredients();
-    renderSelected();
-    calculateBasicCosts();
-  }
-  function calculateBasicCosts(){
-    if(selectedIngredients.length === 0){return;}
-    const totalDrops = selectedIngredients.reduce((sum, ing)=>sum + ing.drops, 0);
-    const totalMl = (totalDrops * DROPTOML).toFixed(2);
-    const costSummary = document.getElementById("costSummaryBasic");
-    costSummary.innerHTML = `
-      <div class="cost-item">
-        <div class="cost-label">Gocce Totali</div>
-        <div class="cost-value">${totalDrops}</div>
-      </div>
-      <div class="cost-item">
-        <div class="cost-label">Volume Concentrato</div>
-        <div class="cost-value">${totalMl} ml</div>
-      </div>`;
-  }
-  function calculateFormula(){
-    if(selectedIngredients.length < 3){
-      alert("Seleziona almeno 3 ingredienti!");
-      return;
-    }
-    const totalDrops = selectedIngredients.reduce((sum, ing)=>sum + ing.drops, 0);
-    const concentrateMl = totalDrops * DROPTOML;
-    const dilutionInfo = DILUTIONTYPES[selectedDilutionType];
-    const requiredConcentrateMl = targetVolume * dilutionInfo.concentration / 100;
-    const alcoholMl = targetVolume - requiredConcentrateMl;
-    const batches = requiredConcentrateMl / concentrateMl;
-    let baseCost = 0;
-    selectedIngredients.forEach(ing=>{
-      const mlUsed = ing.drops * DROPTOML;
-      const costPerMl = ing.price / 10;
-      baseCost += costPerMl * mlUsed;
-    });
-    const finalConcentrateCost = baseCost * batches;
-    const diluentCost = alcoholMl * DILUENTCOSTPERML;
-    const finalTotalCost = finalConcentrateCost + diluentCost;
-    const notePercentages = {
-      testa: (selectedIngredients.filter(i=>i.note === "testa").reduce((sum,i)=>sum + i.drops, 0) / totalDrops * 100).toFixed(1),
-      cuore: (selectedIngredients.filter(i=>i.note === "cuore").reduce((sum,i)=>sum + i.drops, 0) / totalDrops * 100).toFixed(1),
-      fondo: (selectedIngredients.filter(i=>i.note === "fondo").reduce((sum,i)=>sum + i.drops, 0) / totalDrops * 100).toFixed(1)
-    };
-    let score = 100;
-    const feedback = [];
-    if(notePercentages.testa < 15 || notePercentages.testa > 40){
-      score -= 20;
-      feedback.push(notePercentages.testa < 15 ? "Poche note di testa" : "Troppe note di testa");
-    }
-    if(notePercentages.cuore < 30 || notePercentages.cuore > 60){
-      score -= 20;
-      feedback.push(notePercentages.cuore < 30 ? "Poche note di cuore" : "Troppe note di cuore");
-    }
-    if(notePercentages.fondo < 15 || notePercentages.fondo > 35){
-      score -= 20;
-      feedback.push(notePercentages.fondo < 15 ? "Poche note di fondo" : "Troppe note di fondo");
-    }
-    const ratingClass = score >= 85 ? "excellent" : score >= 70 ? "good" : score >= 50 ? "fair" : "poor";
-    const ratingLabel = score >= 85 ? "Eccellente" : score >= 70 ? "Buono" : score >= 50 ? "Discreto" : "Da Migliorare";
-    const dilutionPanel = document.getElementById("dilutionPanel");
-    dilutionPanel.style.display = "block";
-    const resultDiv = document.getElementById("dilutionResult");
-    resultDiv.innerHTML = `
-      <div class="dilution-result-item">
-        <span class="dilution-result-label">Tipo di profumo</span>
-        <span class="dilution-result-value">${selectedDilutionType} (${dilutionInfo.concentration}%)</span>
-      </div>
-      <div class="dilution-result-item">
-        <span class="dilution-result-label">Volume finale</span>
-        <span class="dilution-result-value">${targetVolume} ml</span>
-      </div>
-      <div class="dilution-result-item">
-        <span class="dilution-result-label">Concentrato necessario</span>
-        <span class="dilution-result-value">${requiredConcentrateMl.toFixed(2)} ml</span>
-      </div>
-      <div class="dilution-result-item">
-        <span class="dilution-result-label">Alcol/Diluente</span>
-        <span class="dilution-result-value">${alcoholMl.toFixed(2)} ml</span>
-      </div>
-      <div class="dilution-result-item">
-        <span class="dilution-result-label">Moltiplicatore ricetta</span>
-        <span class="dilution-result-value">${batches.toFixed(2)}x</span>
-      </div>`;
-    const finalCostPanel = document.getElementById("finalCostPanel");
-    finalCostPanel.innerHTML = `
-      <div class="final-cost-label">Costo Totale</div>
-      <div class="final-cost-value">€${finalTotalCost.toFixed(2)}</div>
-      <div class="final-cost-details">
-        di cui €${finalConcentrateCost.toFixed(2)} concentrato · €${diluentCost.toFixed(2)} diluente
-      </div>
-      <div class="final-cost-details">
-        per ${targetVolume} ml di ${selectedDilutionType}
-      </div>`;
-    currentFormula = {
-      ingredients: selectedIngredients,
-      totalDrops,
-      notePercentages,
-      score,
-      ratingClass,
-      ratingLabel,
-      feedback,
-      totalCost: finalTotalCost.toFixed(2),
-      concentrateCost: finalConcentrateCost.toFixed(2),
-      diluentCost: diluentCost.toFixed(2),
-      dilutionType: selectedDilutionType,
-      targetVolume,
-      createdAt: editingFormulaIndex !== null ? currentFormula.createdAt : new Date().toISOString()
-    };
-    displayResults();
-  }
-  function displayResults(){
-    const panel = document.getElementById("resultsPanel");
-    const rating = document.getElementById("ratingDisplay");
-    const content = document.getElementById("resultsContent");
-    panel.style.display = "block";
-    rating.innerHTML = `
-      <div class="rating-score rating-${currentFormula.ratingClass}">${currentFormula.score}</div>
-      <div class="rating-label">${currentFormula.ratingLabel}</div>
-      ${currentFormula.feedback.length ? `<div class="rating-feedback">${currentFormula.feedback.join(" · ")}</div>` : ""}
-    `;
-    content.innerHTML = `
-      <h3 class="panel-title">Piramide Olfattiva</h3>
-      <div class="pyramid-grid">
-        <div class="pyramid-item">
-          <div class="pyramid-label">Testa</div>
-          <div class="pyramid-value" style="color:#1976d2">${currentFormula.notePercentages.testa}%</div>
-        </div>
-        <div class="pyramid-item">
-          <div class="pyramid-label">Cuore</div>
-          <div class="pyramid-value" style="color:#f57c00">${currentFormula.notePercentages.cuore}%</div>
-        </div>
-        <div class="pyramid-item">
-          <div class="pyramid-label">Fondo</div>
-          <div class="pyramid-value" style="color:#7b1fa2">${currentFormula.notePercentages.fondo}%</div>
-        </div>
-      </div>
-      <div style="background:#000;color:#fff;border-radius:12px;padding:2rem;margin:2rem 0;text-align:center;">
-        <div style="font-size:0.9rem;font-weight:500;text-transform:uppercase;color:#999;margin-bottom:1rem;">
-          Costo Totale
-        </div>
-        <div style="font-size:3rem;font-weight:500;color:#ff0000;">
-          €${currentFormula.totalCost}
-        </div>
-        <div style="font-size:0.85rem;color:#999;margin-top:0.5rem;">
-          €${currentFormula.concentrateCost} concentrato · €${currentFormula.diluentCost} diluente
-        </div>
-        <div style="font-size:0.9rem;color:#999;margin-top:0.5rem;">
-          ${currentFormula.targetVolume} ml di ${currentFormula.dilutionType}
-        </div>
-      </div>
-      <div class="ingredients-list">
-        <h3 class="panel-title">Ingredienti</h3>
-        ${currentFormula.ingredients.map(ing=>`
-          <div class="ingredient-result-item">
-            <span class="ingredient-result-name">${ing.name}</span>
-            <span class="ingredient-result-drops">${ing.drops} gocce (${(ing.drops/currentFormula.totalDrops*100).toFixed(1)}%)</span>
-          </div>
-        `).join("")}
-      </div>
-    `;
-    panel.scrollIntoView({behavior:"smooth"});
-  }
-  function saveFormula(){
-    const name = prompt("Nome della formula", editingFormulaIndex !== null ? JSON.parse(localStorage.getItem("formulas"))[editingFormulaIndex].name : "");
-    if(!name){return;}
-    const endDate = prompt("Data fine maturazione (gg/mm/aaaa)", editingFormulaIndex !== null ? JSON.parse(localStorage.getItem("formulas"))[editingFormulaIndex].endDate : "");
-    if(!endDate){return;}
-    const formulas = JSON.parse(localStorage.getItem("formulas") || "[]");
-    if(editingFormulaIndex !== null){
-      formulas[editingFormulaIndex] = {...currentFormula, name, endDate};
-      editingFormulaIndex = null;
-    } else {
-      formulas.push({...currentFormula, name, endDate});
-    }
-    localStorage.setItem("formulas", JSON.stringify(formulas));
-    alert("Formula salvata!");
-    selectedIngredients = [];
-    currentFormula = null;
-    document.getElementById("selectedPanel").style.display = "none";
-    document.getElementById("settingsPanel").style.display = "none";
-    document.getElementById("dilutionPanel").style.display = "none";
-    document.getElementById("resultsPanel").style.display = "none";
-    document.getElementById("editingIndicator").innerHTML = "";
-    switchSection("formulas");
-  }
-  function editFormula(idx){
-    event.stopPropagation();
-    const formulas = JSON.parse(localStorage.getItem("formulas") || "[]");
-    const formula = formulas[idx];
-    editingFormulaIndex = idx;
-    currentFormula = formula;
-    selectedIngredients = [...formula.ingredients];
-    selectedDilutionType = formula.dilutionType || "EDP";
-    targetVolume = formula.targetVolume || 50;
-    document.querySelectorAll(".nav-tab").forEach(tab=>tab.classList.remove("active"));
-    document.querySelectorAll(".section").forEach(sec=>sec.classList.remove("active"));
-    document.querySelector(".nav-tab").classList.add("active");
-    document.getElementById("section-create").classList.add("active");
-    renderIngredients();
-    renderSelected();
-    calculateBasicCosts();
-    window.scrollTo({top:0, behavior:"smooth"});
-  }
-  function deleteFormula(idx){
-    event.stopPropagation();
-    if(!confirm("Sei sicuro di voler eliminare questa formula?")){return;}
-    const formulas = JSON.parse(localStorage.getItem("formulas") || "[]");
-    formulas.splice(idx,1);
-    localStorage.setItem("formulas", JSON.stringify(formulas));
-    renderFormulasList();
-  }
-  function renderFormulasList(){
-    const grid = document.getElementById("formulasGrid");
-    const formulas = JSON.parse(localStorage.getItem("formulas") || "[]");
-    if(formulas.length === 0){
-      grid.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-icon">🥃</div>
-          <p>Nessuna formula salvata</p>
-        </div>`;
-      return;
-    }
-    grid.innerHTML = formulas.map((formula, idx)=>{
-      const phase = getMaturationPhase(formula);
-      return `
-      <div class="formula-card" onclick="viewMaturation(${idx})">
-        <div class="formula-name">${formula.name}</div>
-        <div class="formula-meta">
-          <div>${formula.ingredients.length} ingredienti</div>
-          <div>${formula.totalDrops} gocce totali</div>
-          <div>${formula.score}/100</div>
-          <div>€${formula.totalCost} · ${formula.targetVolume || 50}ml ${formula.dilutionType || "EDP"}</div>
-        </div>
-        <div class="formula-phase phase-${phase.class}">${phase.name}</div>
-        <div class="formula-actions">
-          <button class="btn-icon" onclick="editFormula(${idx})">Modifica</button>
-          <button class="btn-icon danger" onclick="deleteFormula(${idx})">Elimina</button>
-        </div>
-      </div>`;
-    }).join("");
-  }
-  function viewMaturation(idx){
-    const formulas = JSON.parse(localStorage.getItem("formulas") || "[]");
-    const formula = formulas[idx];
-    const phase = getMaturationPhase(formula);
-    const phaseIndex = getMaturationPhaseIndex(formula);
-    document.getElementById("maturationContent").innerHTML = `
-      <div class="maturation-view">
-        <h2 class="maturation-title">${formula.name}</h2>
-        <div class="bottle-container">
-          <svg class="bottle-svg" viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="bottleGrad-${idx}" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" style="stop-color:${phase.color};stop-opacity:0.3" />
-                <stop offset="100%" style="stop-color:${phase.color};stop-opacity:0.8" />
-              </linearGradient>
-            </defs>
-            <rect x="35" y="10" width="30" height="15" fill="#000000" rx="2"/>
-            <path d="M 30 25 L 30 120 Q 30 135 40 140 L 60 140 Q 70 135 70 120 L 70 25 Z"
-                  fill="url(#bottleGrad-${idx})" stroke="#000000" stroke-width="1.5"/>
-          </svg>
-        </div>
-        <div class="phase-indicator">
-          <div class="phase-name">${phase.name}</div>
-          <div class="phase-desc">${phase.desc}</div>
-        </div>
-        <div class="timeline">
-          ${["Fresco","Giovane","Maturo","Pronto"].map((label, i)=>`
-            <div class="timeline-item">
-              <div class="timeline-dot ${i <= phaseIndex ? "active":""}">
-                ${i+1}
-              </div>
-              <div class="timeline-label">${label}</div>
-            </div>
-          `).join("")}
-        </div>
-      </div>`;
-    document.querySelectorAll(".section").forEach(sec=>sec.classList.remove("active"));
-    document.getElementById("section-maturation").classList.add("active");
-  }
-  function getMaturationPhase(formula){
-    const created = new Date(formula.createdAt);
-    const now = new Date();
-    const days = Math.floor((now - created)/(1000*60*60*24));
-    if(days < 7){return {name:"Fresco", desc:"Il profumo è appena stato creato. Le note sono ancora separate.", class:"fresh", color:"#fbbf24"};}
-    if(days < 14){return {name:"Giovane", desc:"Le note iniziano a fondersi. Evoluzione in corso.", class:"young", color:"#fb923c"};}
-    if(days < 28){return {name:"Maturo", desc:"Il profumo si è armonizzato in un bouquet equilibrato.", class:"mature", color:"#f97316"};}
-    return {name:"Pronto", desc:"Maturazione completa. Massima espressione raggiunta.", class:"ready", color:"#22c55e"};
-  }
-  function getMaturationPhaseIndex(formula){
-    const created = new Date(formula.createdAt);
-    const now = new Date();
-    const days = Math.floor((now - created)/(1000*60*60*24));
-    if(days < 7){return 0;}
-    if(days < 14){return 1;}
-    if(days < 28){return 2;}
-    return 3;
-  }
-  window.addEventListener("load", ()=>{
-    document.querySelectorAll(".badge-testa").forEach(()=>{});
   });
-</script>
-</body>
-</html>
+
+  const totalDrops = items.reduce((s,x)=>s+x.drops, 0);
+  const sumNote = n => items.filter(x=>x.note===n).reduce((s,x)=>s+x.drops,0);
+  const pyrT = (sumNote('t')/totalDrops*100).toFixed(1);
+  const pyrC = (sumNote('c')/totalDrops*100).toFixed(1);
+  const pyrF = (sumNote('f')/totalDrops*100).toFixed(1);
+
+  const concCost = items.reduce((s,x)=>s+(x.price/10)*(x.drops*DROP_ML), 0);
+  const alcCost  = alcMl * ALC_COST;
+  const totCost  = concCost + alcCost;
+
+  FORMULA = {
+    name, fam, type: SEL.int, vol, concPct, concMl, alcMl,
+    items, totalDrops, pyrT, pyrC, pyrF,
+    concCost, alcCost, totCost, taraLog,
+    genDate: new Date().toISOString()
+  };
+
+  renderPreview();
+}
+
+/* ══════════════════════════════════════
+   RENDER ANTEPRIMA PUBBLICA (Step 5)
+══════════════════════════════════════ */
+function renderPreview(){
+  const F = FORMULA;
+
+  // Hero
+  document.getElementById('fp-name').textContent  = F.name;
+  document.getElementById('fp-desc').textContent  = FAM_DESC[F.fam]||'';
+  document.getElementById('fp-name2').textContent = F.name;
+  document.getElementById('fp-desc2').textContent = FAM_DESC[F.fam]||'';
+
+  // Piramide (con delay animazione)
+  setTimeout(()=>{
+    [{k:'T',v:F.pyrT},{k:'C',v:F.pyrC},{k:'F',v:F.pyrF}].forEach(({k,v})=>{
+      document.getElementById(`pyr${k}l`).textContent = v+'%';
+      const b = document.getElementById(`pyr${k}b`);
+      b.style.width = v+'%'; b.textContent = v+'%';
+    });
+  },200);
+
+  // Ingredienti pubblici
+  const bc = n => n==='t'?'b-t':n==='c'?'b-c':'b-f';
+  const NL = {t:'Testa',c:'Cuore',f:'Fondo'};
+  const dilBdg = x => x.dil<1
+    ? `<span class="badge b-d">${Math.round(x.dil*100)}% dil.</span>` : '';
+  const adjBdg = x => x.adjusted
+    ? `<span class="badge b-w">tarato IFRA</span>` : '';
+
+  document.getElementById('pub-ing').innerHTML = F.items.map(x => {
+    const pctConc = (x.drops/F.totalDrops*100).toFixed(1);
+    const gr      = (x.drops*DROP_ML*DENS).toFixed(3);
+    return `<div class="ing-row">
+      <div>
+        <div class="ing-name">${x.n}</div>
+        <div class="ing-meta">
+          <span class="badge ${bc(x.note)}">${NL[x.note]}</span>
+          ${dilBdg(x)}${adjBdg(x)}
+        </div>
+      </div>
+      <div class="ing-pct">${pctConc}%</div>
+      <div class="ing-drops">${x.drops}gc</div>
+      <div class="ing-g">${gr}g</div>
+    </div>`;
+  }).join('');
+
+  // Tara log
+  const tm = document.getElementById('tara-msg');
+  if(F.taraLog.length>0){
+    tm.innerHTML = `<div class="msg msg-warn"><strong>⚠️ Tara IFRA (${F.taraLog.length} ingrediente/i):</strong><br>` +
+      F.taraLog.map(t=>{
+        const dp = Math.round(t.dil*100);
+        return `<strong>${t.n}</strong> (dil. ${dp}%): ${t.orig}→${t.cap} gocce · pura fin.: ${t.pureOrig}%→${t.pureCap}% (lim. ${t.ifraMax}%)`;
+      }).join('<br>')+`</div>`;
+  } else {
+    tm.innerHTML = `<div class="msg msg-ok">✅ Nessuna tara necessaria — tutti gli ingredienti nei limiti IFRA.</div>`;
+  }
+}
+
+/* ══════════════════════════════════════
+   RENDER AREA TECNICA (Step 6)
+══════════════════════════════════════ */
+function renderTech(){
+  const F = FORMULA;
+  const bc = n => n==='t'?'b-t':n==='c'?'b-c':'b-f';
+  const NL = {t:'Testa',c:'Cuore',f:'Fondo'};
+  const TYPE_K = {edc:'Eau de Cologne',edt:'Eau de Toilette',edp:'Eau de Parfum'};
+
+  // Riepilogo
+  document.getElementById('summ-body').innerHTML = [
+    ['Tipo concentrazione', TYPE_LBL[F.type]],
+    ['Volume finale', F.vol+' ml'],
+    ['Concentrato essenze', F.concMl.toFixed(2)+' ml ('+F.concPct+'%)'],
+    ['Alcol diluente 96°', F.alcMl.toFixed(2)+' ml'],
+    ['Gocce totali conc.', F.totalDrops+' gocce'],
+    ['Peso tot. concentrato', (F.totalDrops*DROP_ML*DENS).toFixed(2)+' g'],
+    ['N° ingredienti', F.items.length],
+  ].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--g100);font-size:.88rem;">
+    <span style="color:var(--g500)">${l}</span><strong>${v}</strong>
+  </div>`).join('');
+
+  // Costi
+  document.getElementById('cost-grid').innerHTML = `
+    <div class="cost-cell"><div class="cost-lbl">Concentrato</div><div class="cost-val">€${F.concCost.toFixed(2)}</div></div>
+    <div class="cost-cell"><div class="cost-lbl">Alcol</div><div class="cost-val">€${F.alcCost.toFixed(2)}</div></div>
+    <div class="cost-cell cost-big"><div class="cost-lbl">Totale produzione</div><div class="cost-val">€${F.totCost.toFixed(2)}</div></div>
+    <div class="cost-cell"><div class="cost-lbl">Costo / ml</div><div class="cost-val">€${(F.totCost/F.vol).toFixed(3)}</div></div>
+  `;
+
+  // Istruzioni
+  document.getElementById('iAlc').textContent  = F.alcMl.toFixed(1);
+  document.getElementById('iType').textContent = F.type.toUpperCase();
+  document.getElementById('iVol').textContent  = F.vol;
+
+  // Dosaggi tecnici
+  document.getElementById('tech-ing').innerHTML = F.items.map(x => {
+    const pctConc = (x.drops/F.totalDrops*100).toFixed(2);
+    const gr      = (x.drops*DROP_ML*DENS).toFixed(3);
+    const pp      = purePct(x,x.drops,F.vol).toFixed(4);
+    const dilBdg  = x.dil<1
+      ? `<span class="badge b-d">${Math.round(x.dil*100)}% dil.</span>` : '';
+    const adjBdg  = x.adjusted
+      ? `<span class="badge b-w">tarato IFRA</span>` : '';
+    return `<div class="ing-row">
+      <div>
+        <div class="ing-name">${x.n}</div>
+        <div class="ing-meta">
+          <span class="badge ${bc(x.note)}">${NL[x.note]}</span>
+          ${dilBdg}${adjBdg}
+        </div>
+        <div style="font-size:.7rem;color:var(--g500);margin-top:.2rem">pura fin.: ${pp}%</div>
+      </div>
+      <div class="ing-pct">${pctConc}%</div>
+      <div class="ing-drops">${x.drops}gc</div>
+      <div class="ing-g">${gr}g</div>
+    </div>`;
+  }).join('');
+
+  // IFRA
+  const limited = F.items.filter(x=>x.ifra);
+  const noneEl  = document.getElementById('ifra-none');
+  const rowsEl  = document.getElementById('ifra-rows');
+  const msgEl   = document.getElementById('ifra-msg');
+
+  if(limited.length===0){
+    noneEl.classList.remove('hidden');
+    rowsEl.innerHTML=''; msgEl.innerHTML='';
+  } else {
+    noneEl.classList.add('hidden');
+    let hasViol = false;
+    rowsEl.innerHTML = limited.map(x=>{
+      const pp  = purePct(x,x.drops,F.vol);
+      const ok  = pp <= x.ifraMax;
+      if(!ok) hasViol=true;
+      const ds  = x.dil<1 ? ` (${Math.round(x.dil*100)}% dil.)` : '';
+      return `<div class="ifra-row ${ok?'ok':'ko'}">
+        <div>
+          <strong>${x.n}</strong>${ds}
+          <div class="ifra-note">${x.ifraNote}</div>
+        </div>
+        <div class="ifra-val">${pp.toFixed(4)}%</div>
+        <div class="ifra-lim">≤${x.ifraMax}%</div>
+        <div class="ifra-st ${ok?'ok':'ko'}">${ok?'✅':'⚠️'}</div>
+      </div>`;
+    }).join('');
+    msgEl.innerHTML = hasViol
+      ? `<div class="msg msg-err">⚠️ Un ingrediente supera il limite IFRA — anomalia di calcolo.</div>`
+      : `<div class="msg msg-ok">✅ Tutti gli ingredienti IFRA-limitati rientrano nei limiti Cat.4 leave-on.</div>`;
+  }
+}
+
+/* ══════════════════════════════════════
+   PASSWORD MODAL
+══════════════════════════════════════ */
+function openPass(){
+  if(!FORMULA){alert('Genera prima una formula (Step 4).');return;}
+  document.getElementById('passInp').value='';
+  document.getElementById('passErr').textContent='';
+  document.getElementById('pass-ov').classList.add('open');
+  setTimeout(()=>document.getElementById('passInp').focus(),200);
+}
+function closePass(){
+  document.getElementById('pass-ov').classList.remove('open');
+}
+function chkPass(){
+  if(document.getElementById('passInp').value !== 'FormularioProfumi'){
+    document.getElementById('passErr').textContent='❌ Password non corretta.';
+    document.getElementById('passInp').select(); return;
+  }
+  closePass();
+  // Vai a step 6
+  document.querySelector(`.step[data-step="${CUR}"]`).classList.remove('on');
+  CUR = 6;
+  document.querySelector(`.step[data-step="6"]`).classList.add('on');
+  updProg();
+  renderTech();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ══════════════════════════════════════
+   SALVA FORMULA
+══════════════════════════════════════ */
+function saveFormula(){
+  if(!FORMULA) return;
+  const saved = JSON.parse(localStorage.getItem('ps_formulas')||'[]');
+  saved.unshift({...FORMULA, savedAt:new Date().toISOString()});
+  localStorage.setItem('ps_formulas', JSON.stringify(saved));
+  alert('✅ Formula "'+FORMULA.name+'" salvata!');
+}
+
+/* ══════════════════════════════════════════════════════════
+   STAMPA CERTIFICATO IFRA — FINESTRA SEPARATA
+   
+   Calcola % pura = gocce × DROP_ML × dil / vol × 100
+   Verifica IFRA sempre sulla molecola pura equivalente.
+══════════════════════════════════════════════════════════ */
+function printCert(){
+  if(!FORMULA){alert('Nessuna formula da certificare.');return;}
+  const F = FORMULA;
+
+  const now     = new Date();
+  const certNum = 'PS-'+now.getTime().toString(36).toUpperCase();
+  const dateStr = now.toLocaleDateString('it-IT',{day:'2-digit',month:'long',year:'numeric'});
+  const timeStr = now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+
+  const limited = F.items.filter(x=>x.ifra);
+  const allOk   = limited.every(x=>purePct(x,x.drops,F.vol)<=x.ifraMax);
+  const staColor= allOk?'#166534':'#991b1b';
+  const staTxt  = allOk?'CONFORME':'NON CONFORME';
+
+  /* righe composizione */
+  const ingRows = F.items.map((x,i)=>{
+    const pc  = (x.drops/F.totalDrops*100).toFixed(2);
+    const gr  = (x.drops*DROP_ML*DENS).toFixed(3);
+    const pp  = purePct(x,x.drops,F.vol).toFixed(4);
+    const NL  = {t:'Testa',c:'Cuore',f:'Fondo'};
+    const ds  = x.dil<1?`${Math.round(x.dil*100)}%`:'Puro';
+    const adj = x.adjusted?` <em style="color:#b45309;font-size:8pt">(tarato)</em>`:'';
+    return `<tr style="background:${i%2?'#f9f9f9':'#fff'}">
+      <td>${x.n}${adj}</td>
+      <td style="text-align:center">${NL[x.note]}</td>
+      <td style="text-align:center">${ds}</td>
+      <td style="text-align:center">${x.drops}</td>
+      <td style="text-align:center">${gr}</td>
+      <td style="text-align:center">${pc}%</td>
+      <td style="text-align:center"><strong>${pp}%</strong></td>
+      <td style="text-align:center;color:${x.ifra?'#b45309':'#999'}">${x.ifra?'⚠ IFRA':'—'}</td>
+    </tr>`;
+  }).join('');
+
+  /* righe IFRA */
+  let ifraRows = '';
+  if(limited.length===0){
+    ifraRows=`<tr><td colspan="5" style="color:#166534;padding:.6rem;background:#f0fdf4">✅ Nessun ingrediente IFRA-limitato.</td></tr>`;
+  } else {
+    ifraRows = limited.map(x=>{
+      const pp = purePct(x,x.drops,F.vol);
+      const ok = pp<=x.ifraMax;
+      const ds = x.dil<1?`${Math.round(x.dil*100)}%`:'100%';
+      return `<tr style="background:${ok?'rgba(21,128,61,.05)':'rgba(153,27,27,.05)'}">
+        <td><strong>${x.n}</strong><br><span style="font-size:7.5pt;color:#666">${x.ifraNote}</span></td>
+        <td style="text-align:center">${ds}</td>
+        <td style="text-align:center"><strong>${pp.toFixed(4)}%</strong></td>
+        <td style="text-align:center">${x.ifraMax}%</td>
+        <td style="text-align:center;font-weight:700;color:${ok?'#166534':'#991b1b'}">${ok?'✅ OK':'⚠ SUPERA'}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  /* tara log */
+  let taraHtml = '';
+  if(F.taraLog.length>0){
+    taraHtml=`<div style="background:#fefce8;border-left:3px solid #b45309;padding:.6rem .8rem;margin-top:.8rem;font-size:8.5pt">
+      <strong>Tara IFRA applicata (con correzione diluizioni):</strong><br>
+      ${F.taraLog.map(t=>{
+        const dp=Math.round(t.dil*100);
+        return `• ${t.n} (dil. ${dp}%): ${t.orig}→${t.cap} gocce | pura nel fin.: ${t.pureOrig}%→${t.pureCap}% (limite ${t.ifraMax}%)`;
+      }).join('<br>')}
+    </div>`;
+  }
+
+  const esitoTxt = allOk
+    ? `La miscela profumante è <strong>conforme</strong> ai limiti IFRA 50th Amendment (2023), Categoria 4 — Fine Fragrance / Leave-on. La verifica è stata condotta sulla molecola attiva pura equivalente nel prodotto finito, con correzione della pre-diluizione di ogni ingrediente.`
+    : `⚠ La formula presenta non conformità ai limiti IFRA. Si raccomanda di riformulare riducendo le dosi degli ingredienti segnalati.`;
+
+  const html=`<!DOCTYPE html>
+<html lang="it"><head><meta charset="UTF-8">
+<title>Certificato IFRA — ${F.name}</title>
+<style>
+@page{size:A4;margin:16mm 15mm 20mm 15mm;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Courier New',Courier,monospace;font-size:9.5pt;color:#000;background:#fff;line-height:1.5;}
+h2{font-size:14pt;font-weight:700;margin-bottom:4pt;}
+h3{font-size:9pt;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#555;
+   border-bottom:1px solid #ccc;padding-bottom:3pt;margin:12pt 0 6pt;page-break-after:avoid;}
+table{width:100%;border-collapse:collapse;font-size:8.5pt;}
+th,td{padding:3.5pt 5pt;border:1px solid #ddd;vertical-align:top;}
+thead th{background:#eee;font-size:7.5pt;text-transform:uppercase;letter-spacing:.05em;}
+tr{page-break-inside:avoid;}
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;
+     border-bottom:2.5pt solid #000;padding-bottom:9pt;margin-bottom:11pt;}
+.logo{display:flex;align-items:center;gap:7pt;font-size:13pt;font-weight:700;}
+.logo-dot{width:12pt;height:12pt;background:#cc0000;border-radius:50%;flex-shrink:0;}
+.meta{text-align:right;font-size:7.5pt;color:#444;line-height:1.7;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:2pt 14pt;margin-top:4pt;}
+.pair{display:flex;justify-content:space-between;padding:2.5pt 0;
+      border-bottom:1px dashed #ddd;font-size:8.5pt;}
+.pl{color:#666;}.pv{font-weight:700;}
+.esito{display:flex;gap:14pt;align-items:flex-start;margin-top:7pt;page-break-inside:avoid;}
+.esito-txt{flex:1;font-size:9pt;line-height:1.6;color:#222;}
+.stamp{flex-shrink:0;width:68pt;height:68pt;border:2.5pt solid ${staColor};border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:${staColor};font-weight:700;font-size:6.5pt;text-align:center;letter-spacing:.04em;}
+.disc{background:#f9f9f9;border-left:2.5pt solid #b45309;
+      padding:6pt 8pt;font-size:7pt;line-height:1.5;color:#555;margin-top:10pt;
+      page-break-inside:avoid;}
+.foot{border-top:2pt solid #000;padding-top:7pt;margin-top:13pt;
+      display:flex;justify-content:space-between;align-items:flex-end;
+      font-size:7pt;color:#666;page-break-inside:avoid;}
+.sign-line{width:130pt;height:.7pt;background:#000;margin:16pt auto 3pt;}
+@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
+</style></head><body>
+
+<div class="hdr">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <div>Parfum Studio<div style="font-size:7.5pt;color:#888;font-weight:400">AI Fragrance Generator · v2.1</div></div>
+  </div>
+  <div class="meta">
+    <div><strong>CERTIFICATO DI CONFORMITÀ IFRA</strong></div>
+    <div>N° ${certNum}</div>
+    <div>${dateStr} — ${timeStr}</div>
+  </div>
+</div>
+
+<h2>Dichiarazione di Conformità IFRA</h2>
+<p style="font-size:9pt;color:#444;margin-bottom:11pt;line-height:1.6">
+  Miscela verificata secondo <strong>IFRA 50th Amendment (2023) — Categoria 4 — Fine Fragrance / Leave-on</strong>. 
+  La verifica è condotta sulla <strong>molecola attiva pura equivalente</strong> nel prodotto finito,
+  con correzione della pre-diluizione di ciascun ingrediente.
+</p>
+
+<h3>Informazioni Prodotto</h3>
+<div class="g2">
+  <div class="pair"><span class="pl">Nome profumo</span><span class="pv">${F.name}</span></div>
+  <div class="pair"><span class="pl">Tipo</span><span class="pv">${TYPE_LBL[F.type]}</span></div>
+  <div class="pair"><span class="pl">Famiglia olfattiva</span><span class="pv">${FAM_NAMES[F.fam]||F.fam}</span></div>
+  <div class="pair"><span class="pl">Volume formulato</span><span class="pv">${F.vol} ml</span></div>
+  <div class="pair"><span class="pl">Concentrato essenze</span><span class="pv">${F.concMl.toFixed(2)} ml (${F.concPct}%)</span></div>
+  <div class="pair"><span class="pl">Alcol diluente 96°</span><span class="pv">${F.alcMl.toFixed(2)} ml</span></div>
+  <div class="pair"><span class="pl">N° ingredienti</span><span class="pv">${F.items.length}</span></div>
+  <div class="pair"><span class="pl">Gocce totali conc.</span><span class="pv">${F.totalDrops}</span></div>
+  <div class="pair"><span class="pl">Piramide T/C/F</span><span class="pv">${F.pyrT}% / ${F.pyrC}% / ${F.pyrF}%</span></div>
+  <div class="pair"><span class="pl">Standard IFRA</span><span class="pv">50th Amendment (2023) Cat.4</span></div>
+  <div class="pair"><span class="pl">Data formulazione</span><span class="pv">${dateStr}</span></div>
+  <div class="pair"><span class="pl">Costo produzione</span><span class="pv">€${F.totCost.toFixed(2)} (€${(F.totCost/F.vol).toFixed(3)}/ml)</span></div>
+</div>
+
+<h3>Composizione Dettagliata</h3>
+<p style="font-size:7.5pt;color:#666;margin-bottom:4pt">"% Conc." = % soluzione nel conc. totale. "Pura nel Fin." = % molecola attiva pura nel prod. finito. 1 goccia = 0.05 ml · ρ ≈ 1 g/ml.</p>
+<table>
+  <thead><tr>
+    <th style="text-align:left">Ingrediente</th><th>Nota</th><th>Dil.</th>
+    <th>Gocce</th><th>Grammi</th><th>% Conc.</th><th>Pura nel Fin.</th><th>IFRA</th>
+  </tr></thead>
+  <tbody>${ingRows}</tbody>
+</table>
+
+<h3>Verifica Limiti IFRA — Ingredienti Soggetti a Restrizioni</h3>
+<p style="font-size:8pt;color:#555;margin-bottom:5pt">Verifica sulla molecola pura nel prod. finito (${F.vol} ml). Limite: IFRA 50th Amendment, Cat. 4.</p>
+<table>
+  <thead><tr>
+    <th style="text-align:left">Ingrediente</th><th>Dil.</th>
+    <th>Pura nel Fin.</th><th>Limite Cat.4</th><th>Stato</th>
+  </tr></thead>
+  <tbody>${ifraRows}</tbody>
+</table>
+${taraHtml}
+
+<h3>Esito Certificazione</h3>
+<div class="esito">
+  <div class="esito-txt">${esitoTxt}</div>
+  <div class="stamp">
+    ${staTxt}<br>
+    <span style="font-size:5.5pt;margin-top:3pt">IFRA CAT.4</span>
+    <span style="font-size:5pt">50th Amend.</span>
+  </div>
+</div>
+
+<div class="disc">
+  <strong>⚠ Disclaimer:</strong> Certificato generato automaticamente da Parfum Studio a scopo orientativo.
+  Non sostituisce una valutazione della sicurezza ex Reg. (CE) 1223/2009, né una certificazione IFRA emessa da un 
+  profumiere qualificato. Per commercializzazione: PIF obbligatorio e Safety Assessor qualificato.
+  I limiti si riferiscono a IFRA 50th Amendment (2023), Cat. 4 leave-on. Verificare sempre il certificato IFRA 
+  del fornitore per ogni lotto. Densità assunta = 1 g/ml. Pre-diluizioni dichiarate dal fornitore.
+</div>
+
+<div class="foot">
+  <div>
+    <div>Parfum Studio v2.1 · AI Fragrance Generator · PWA</div>
+    <div>
