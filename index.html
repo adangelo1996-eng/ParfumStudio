@@ -122,6 +122,18 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 .m-txt{font-size:.9rem;color:var(--g500);margin-bottom:1.5rem;}
 .btns-row{display:flex;gap:.8rem;justify-content:flex-end;}
 
+/* ══ LOADING OVERLAY ══ */
+.loading-ov{position:fixed;inset:0;background:rgba(255,255,255,.9);z-index:2500;display:none;align-items:center;justify-content:center;}
+.loading-ov.show{display:flex;}
+.loading-box{background:var(--wh);border-radius:16px;padding:1.5rem 2rem;box-shadow:0 10px 30px rgba(0,0,0,.15);max-width:320px;text-align:center;font-size:.9rem;}
+.load-bar{width:100%;height:4px;background:var(--g200);border-radius:999px;overflow:hidden;margin-top:1rem;position:relative;}
+.load-fill{width:40%;height:100%;background:var(--bk);border-radius:999px;animation:loadingSlide 1s infinite;}
+@keyframes loadingSlide{
+  0%{transform:translateX(-100%);}
+  50%{transform:translateX(20%);}
+  100%{transform:translateX(200%);}
+}
+
 /* ══ NAV BOTTOM ══ */
 .nav-bot{position:fixed;bottom:0;left:0;right:0;background:var(--wh);border-top:1px solid var(--g200);padding:1rem;display:none;justify-content:space-between;z-index:800;}
 .nav-bot.show{display:flex;}
@@ -279,6 +291,15 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 
 </div>
 
+<!-- LOADING OVERLAY -->
+<div class="loading-ov" id="loading">
+  <div class="loading-box">
+    <div style="font-weight:700;margin-bottom:.5rem;">Sto generando la tua formula…</div>
+    <div style="color:var(--g500);font-size:.8rem;">Parfum Studio sta bilanciando ingredienti, IFRA e costi.</div>
+    <div class="load-bar"><div class="load-fill"></div></div>
+  </div>
+</div>
+
 <!-- NAVIGAZIONE BOTTOM -->
 <div class="nav-bot" id="nav">
   <button class="btn btn-out btn-sm" onclick="mov(-1)">← Indietro</button>
@@ -409,6 +430,8 @@ async function calcFormula(){
   const oldTxt=nextBtn.innerText;
   nextBtn.innerText="Sto formulando…";
   nextBtn.disabled=true;
+  const loading=document.getElementById('loading');
+  if(loading) loading.classList.add('show');
   try{
     const res=await fetch('http://localhost:4000/api/formula/generate',{
       method:'POST',
@@ -425,6 +448,7 @@ async function calcFormula(){
   }finally{
     nextBtn.innerText=oldTxt;
     nextBtn.disabled=false;
+    if(loading) loading.classList.remove('show');
   }
 }
 
@@ -460,7 +484,13 @@ function openLocker(){
 function checkPass(){
   if(document.getElementById('pwd').value=='Profumi25'){ // Password fissa area tecnica
     document.getElementById('locker').style.display='none';
-    mov(1); // Vai a step 6
+    // Vai direttamente allo step 6 (Area Tecnica) bypassando la logica del bottone Next
+    document.querySelectorAll('.step').forEach(x=>x.classList.remove('on'));
+    document.querySelector('.step[data-s="6"]').classList.add('on');
+    ST.s=6;
+    document.getElementById('pb').style.width=(6/6*100)+'%';
+    document.getElementById('pl-txt').innerText=`FASE 6 DI 6`;
+    document.getElementById('nextBtn').innerText="Continua →";
     renderPriv();
   } else {
     alert("Password Errata");
