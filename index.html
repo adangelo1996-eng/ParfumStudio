@@ -55,6 +55,9 @@ body{font-family:var(--fn);background:var(--wh);color:var(--bk);line-height:1.5;
 .logo{display:flex;align-items:center;gap:.6rem;font-size:1.1rem;font-weight:700;color:var(--bk);}
 .logo-dot{width:12px;height:12px;background:var(--rd);border-radius:50%;}
 .hdr-acts{display:flex;gap:.6rem;}
+.lang-switch{display:flex;gap:.3rem;align-items:center;margin-right:.3rem;}
+.lang-btn{border:1px solid var(--g200);background:var(--wh);border-radius:999px;padding:.25rem .5rem;font-size:.7rem;font-weight:700;cursor:pointer;}
+.lang-btn.sel{background:var(--bk);color:var(--wh);border-color:var(--bk);}
 
 /* ══ APP LAYOUT ══ */
 #app{display:none;max-width:1000px;margin:0 auto;padding:5.5rem 1.2rem 8rem;min-height:100vh;}
@@ -100,11 +103,14 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 .box{background:var(--wh);border:1px solid var(--g200);border-radius:var(--r);padding:1.5rem;margin-bottom:1.5rem;box-shadow:var(--sh);}
 .box-h{font-size:1.1rem;font-weight:700;margin-bottom:1rem;border-bottom:1px solid var(--g100);padding-bottom:.8rem;}
 
-.row-ing{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;border-bottom:1px solid var(--g100);font-size:.85rem;animation:fadeUp .25s ease forwards;}
+.row-ing{display:flex;align-items:flex-start;justify-content:space-between;padding:.8rem 0;border-bottom:1px solid var(--g100);font-size:.85rem;animation:fadeUp .25s ease forwards;cursor:default;}
 .row-ing:last-child{border-bottom:none;}
 .ri-l{display:flex;flex-direction:column;gap:2px;}
-.ri-n{font-weight:700;}
+.ri-n{font-weight:700;cursor:pointer;}
 .ri-meta{font-size:.7rem;color:var(--g500);display:flex;gap:6px;align-items:center;}
+.ri-desc{display:none;font-size:.75rem;color:var(--g500);margin-top:4px;max-width:260px;}
+.row-ing:hover .ri-desc{display:block;}
+.row-ing.desc-open .ri-desc{display:block;}
 .bdg{padding:2px 6px;border-radius:4px;font-size:.65rem;font-weight:700;text-transform:uppercase;}
 .bdg.t{background:#e0f2fe;color:var(--blue);}
 .bdg.c{background:#fef3c7;color:var(--amber);}
@@ -152,8 +158,8 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 <div id="landing">
   <div class="dot-hero" id="dot" onclick="initApp()"></div>
   <h1>Parfum Studio</h1>
-  <p style="color:#777;margin-bottom:2rem;">Generatore di Formule & Calcolatore IFRA</p>
-  <button class="btn" onclick="initApp()">Inizia Creazione</button>
+  <p id="landing-sub" style="color:#777;margin-bottom:2rem;">Generatore di Formule & Calcolatore IFRA</p>
+  <button class="btn" id="start-btn" onclick="initApp()">Inizia Creazione</button>
 </div>
 
 <!-- 2. HEADER -->
@@ -163,6 +169,11 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
       <div class="logo-dot"></div>Parfum Studio
     </div>
     <div class="hdr-acts">
+      <div class="lang-switch">
+        <button class="lang-btn sel" data-lang="it" onclick="setLang('it')">IT</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
+      </div>
       <button class="btn btn-sm install-btn" id="installBtn" onclick="installPWA()">↓ Installa</button>
       <button class="btn btn-sm btn-out" onclick="location.reload()">↺</button>
       <button class="btn btn-sm" onclick="openLocker()">🔐</button>
@@ -176,49 +187,49 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
   <!-- Progress -->
   <div class="prog-wrap">
     <div class="prog-bar"><div class="prog-fill" id="pb"></div></div>
-    <div class="prog-lbl"><span id="pl-txt">FASE 1 DI 5</span><span>CREAZIONE</span></div>
+    <div class="prog-lbl"><span id="pl-txt">FASE 1 DI 5</span><span id="pl-right">CREAZIONE</span></div>
   </div>
 
   <!-- STEP 1: Famiglia -->
   <div class="step on" data-s="1">
-    <h2 class="step-h">Famiglia Olfattiva</h2>
-    <p class="step-sub">Scegli il mondo olfattivo da cui partire: tutto il resto verrà cucito intorno a questa scelta.</p>
+    <h2 class="step-h" id="step1-title">Famiglia Olfattiva</h2>
+    <p class="step-sub" id="step1-sub">Scegli il mondo olfattivo da cui partire: tutto il resto verrà cucito intorno a questa scelta.</p>
     <div class="grid-cards">
-      <div class="card-opt" onclick="pick('fam','agrumato',this)"><span class="co-ico">🍋</span><div class="co-tit">Agrumato</div><div class="co-desc">Fresco, energetico, solare.</div></div>
-      <div class="card-opt" onclick="pick('fam','floreale',this)"><span class="co-ico">🌸</span><div class="co-tit">Floreale</div><div class="co-desc">Romantico, elegante, petali.</div></div>
-      <div class="card-opt" onclick="pick('fam','legnoso',this)"><span class="co-ico">🌲</span><div class="co-tit">Legnoso</div><div class="co-desc">Caldo, secco, avvolgente.</div></div>
-      <div class="card-opt" onclick="pick('fam','orientale',this)"><span class="co-ico">🔥</span><div class="co-tit">Orientale</div><div class="co-desc">Speziato, ambrato, sensuale.</div></div>
-      <div class="card-opt" onclick="pick('fam','marino',this)"><span class="co-ico">🌊</span><div class="co-tit">Marino</div><div class="co-desc">Brezza, sale, ozono.</div></div>
-      <div class="card-opt" onclick="pick('fam','gourmand',this)"><span class="co-ico">🍰</span><div class="co-tit">Gourmand</div><div class="co-desc">Dolce, vanigliato, commestibile.</div></div>
+      <div class="card-opt" data-fam="agrumato" onclick="pick('fam','agrumato',this)"><span class="co-ico">🍋</span><div class="co-tit">Agrumato</div><div class="co-desc">Fresco, energetico, solare.</div></div>
+      <div class="card-opt" data-fam="floreale" onclick="pick('fam','floreale',this)"><span class="co-ico">🌸</span><div class="co-tit">Floreale</div><div class="co-desc">Romantico, elegante, petali.</div></div>
+      <div class="card-opt" data-fam="legnoso" onclick="pick('fam','legnoso',this)"><span class="co-ico">🌲</span><div class="co-tit">Legnoso</div><div class="co-desc">Caldo, secco, avvolgente.</div></div>
+      <div class="card-opt" data-fam="orientale" onclick="pick('fam','orientale',this)"><span class="co-ico">🔥</span><div class="co-tit">Orientale</div><div class="co-desc">Speziato, ambrato, sensuale.</div></div>
+      <div class="card-opt" data-fam="marino" onclick="pick('fam','marino',this)"><span class="co-ico">🌊</span><div class="co-tit">Marino</div><div class="co-desc">Brezza, sale, ozono.</div></div>
+      <div class="card-opt" data-fam="gourmand" onclick="pick('fam','gourmand',this)"><span class="co-ico">🍰</span><div class="co-tit">Gourmand</div><div class="co-desc">Dolce, vanigliato, commestibile.</div></div>
     </div>
   </div>
 
   <!-- STEP 2: Intensità -->
   <div class="step" data-s="2">
-    <h2 class="step-h">Concentrazione</h2>
-    <p class="step-sub">Decidi quanta scia e persistenza vuoi: dalla nuvola leggera all’impronta intensa sulla pelle.</p>
+    <h2 class="step-h" id="step2-title">Concentrazione</h2>
+    <p class="step-sub" id="step2-sub">Decidi quanta scia e persistenza vuoi: dalla nuvola leggera all’impronta intensa sulla pelle.</p>
     <div class="grid-cards">
-      <div class="card-opt" onclick="pick('conc','edc',this)"><span class="co-ico">☁️</span><div class="co-tit">Eau de Cologne</div><div class="co-desc">Leggero (5%) · 2h</div></div>
-      <div class="card-opt" onclick="pick('conc','edt',this)"><span class="co-ico">💨</span><div class="co-tit">Eau de Toilette</div><div class="co-desc">Medio (10%) · 4h</div></div>
-      <div class="card-opt" onclick="pick('conc','edp',this)"><span class="co-ico">⚡</span><div class="co-tit">Eau de Parfum</div><div class="co-desc">Intenso (17%) · 8h</div></div>
+      <div class="card-opt" data-conc="edc" onclick="pick('conc','edc',this)"><span class="co-ico">☁️</span><div class="co-tit">Eau de Cologne</div><div class="co-desc">Leggero (5%) · 2h</div></div>
+      <div class="card-opt" data-conc="edt" onclick="pick('conc','edt',this)"><span class="co-ico">💨</span><div class="co-tit">Eau de Toilette</div><div class="co-desc">Medio (10%) · 4h</div></div>
+      <div class="card-opt" data-conc="edp" onclick="pick('conc','edp',this)"><span class="co-ico">⚡</span><div class="co-tit">Eau de Parfum</div><div class="co-desc">Intenso (17%) · 8h</div></div>
     </div>
   </div>
 
   <!-- STEP 3: Stile -->
   <div class="step" data-s="3">
-    <h2 class="step-h">Carattere</h2>
-    <p class="step-sub">Regola le sfumature: pochi gesti per dire se il profumo deve sorridere, rinfrescare o avvolgere.</p>
+    <h2 class="step-h" id="step3-title">Carattere</h2>
+    <p class="step-sub" id="step3-sub">Regola le sfumature: pochi gesti per dire se il profumo deve sorridere, rinfrescare o avvolgere.</p>
     <div class="box">
       <div class="slider-group">
-        <div class="sl-h"><span>Dolcezza</span><span id="v-sw">50%</span></div>
+        <div class="sl-h"><span id="lbl-sweet">Dolcezza</span><span id="v-sw">50%</span></div>
         <input type="range" oninput="updSl(this,'v-sw','sweet')" value="50">
       </div>
       <div class="slider-group">
-        <div class="sl-h"><span>Freschezza</span><span id="v-fr">50%</span></div>
+        <div class="sl-h"><span id="lbl-fresh">Freschezza</span><span id="v-fr">50%</span></div>
         <input type="range" oninput="updSl(this,'v-fr','fresh')" value="50">
       </div>
       <div class="slider-group">
-        <div class="sl-h"><span>Profondità</span><span id="v-dp">50%</span></div>
+        <div class="sl-h"><span id="lbl-depth">Profondità</span><span id="v-dp">50%</span></div>
         <input type="range" oninput="updSl(this,'v-dp','depth')" value="50">
       </div>
     </div>
@@ -226,14 +237,14 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 
   <!-- STEP 4: Dettagli -->
   <div class="step" data-s="4">
-    <h2 class="step-h">Progetto</h2>
-    <p class="step-sub">Dai un nome al progetto e scegli il formato finale della boccetta.</p>
+    <h2 class="step-h" id="step4-title">Progetto</h2>
+    <p class="step-sub" id="step4-sub">Dai un nome al progetto e scegli il formato finale della boccetta.</p>
     <div class="inp-group">
-      <label>Nome del Profumo</label>
+      <label id="lbl-name">Nome del Profumo</label>
       <input type="text" class="inp" id="pName" placeholder="Es. Notte Estiva">
     </div>
     <div class="inp-group">
-      <label>Volume Finale (ml)</label>
+      <label id="lbl-volume">Volume Finale (ml)</label>
       <input type="number" class="inp" id="pVol" value="50">
     </div>
   </div>
@@ -241,51 +252,51 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
   <!-- STEP 5: Risultato Pubblico -->
   <div class="step" data-s="5">
     <div class="box">
-      <div class="box-h">Formula Generata</div>
+      <div class="box-h" id="box5-title">Formula Generata</div>
       <div id="pub-list"></div>
       <div id="ifra-alert"></div>
       <div style="font-size:.8rem;color:var(--g500);margin-top:1rem;background:var(--g50);padding:1rem;border-radius:8px;">
-        👁 <strong>Anteprima Pubblica:</strong> vedi gli ingredienti e le quantità pensate per te. La parte tecnica completa (IFRA, costi dettaglio) rimane accessibile solo all'Area Riservata.
+        👁 <strong id="pub-preview-title">Anteprima Pubblica:</strong> <span id="pub-preview-text">vedi gli ingredienti e le quantità pensate per te. La parte tecnica completa (IFRA, costi dettaglio) rimane accessibile solo all'Area Riservata.</span>
       </div>
     </div>
     <div class="box">
-      <div class="box-h">Creazione completata</div>
-      <p style="font-size:.9rem;color:var(--g700);margin-bottom:1rem;">
+      <div class="box-h" id="box5-done-title">Creazione completata</div>
+      <p id="box5-done-text" style="font-size:.9rem;color:var(--g700);margin-bottom:1rem;">
         La tua formula è pronta. Puoi conservarla, inviarla al laboratorio per la realizzazione
         oppure, se sei un tecnico autorizzato, accedere all'Area Riservata per leggere ogni dettaglio tecnico.
       </p>
-      <button class="btn btn-green" style="width:100%;margin-bottom:.5rem;" onclick="sendToLab()">Invia la formula al laboratorio</button>
+      <button class="btn btn-green" id="btn-send-lab" style="width:100%;margin-bottom:.5rem;" onclick="sendToLab()">Invia la formula al laboratorio</button>
       <div id="send-status" style="font-size:.8rem;color:var(--g500);margin-top:.25rem;"></div>
     </div>
   </div>
 
   <!-- STEP 6: Area Riservata (Full) -->
   <div class="step" data-s="6">
-    <h2 class="step-h">Area Tecnica</h2>
+    <h2 class="step-h" id="step6-title">Area Tecnica</h2>
     <div class="box">
-      <div class="box-h">⚗️ Composizione & IFRA</div>
-      <p style="font-size:.8rem;color:var(--g500);margin-bottom:1rem;">
+      <div class="box-h" id="box6-comp-title">⚗️ Composizione & IFRA</div>
+      <p id="box6-comp-text" style="font-size:.8rem;color:var(--g500);margin-bottom:1rem;">
         Calcoli basati su molecola pura attiva (con correzione diluizioni). 
       </p>
       <div id="priv-list"></div>
     </div>
     
     <div class="box">
-      <div class="box-h">💶 Costi Produzione</div>
+      <div class="box-h" id="box6-costs-title">💶 Costi Produzione</div>
       <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;">
-        <span>Costo Concentrato</span><strong id="c-conc">€0.00</strong>
+        <span id="lbl-c-conc">Costo Concentrato</span><strong id="c-conc">€0.00</strong>
       </div>
       <div style="display:flex;justify-content:space-between;margin-bottom:.5rem;">
-        <span>Costo Alcol</span><strong id="c-alc">€0.00</strong>
+        <span id="lbl-c-alc">Costo Alcol</span><strong id="c-alc">€0.00</strong>
       </div>
       <div style="display:flex;justify-content:space-between;border-top:1px solid #eee;padding-top:.5rem;font-size:1.2rem;">
-        <strong>TOTALE</strong><strong style="color:var(--rd)" id="c-tot">€0.00</strong>
+        <strong id="lbl-c-tot">TOTALE</strong><strong style="color:var(--rd)" id="c-tot">€0.00</strong>
       </div>
     </div>
 
     <div class="box">
-      <div class="box-h">📄 Esporta</div>
-      <button class="btn btn-green" style="width:100%" onclick="printCert()">Scarica Certificato IFRA PDF</button>
+      <div class="box-h" id="box6-export-title">📄 Esporta</div>
+      <button class="btn btn-green" id="btn-export" style="width:100%" onclick="printCert()">Scarica Certificato IFRA PDF</button>
     </div>
   </div>
 
@@ -294,8 +305,8 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 <!-- LOADING OVERLAY -->
 <div class="loading-ov" id="loading">
   <div class="loading-box">
-    <div style="font-weight:700;margin-bottom:.5rem;">Sto generando la tua formula…</div>
-    <div style="color:var(--g500);font-size:.8rem;">Parfum Studio sta bilanciando ingredienti, IFRA e costi.</div>
+    <div id="loading-title" style="font-weight:700;margin-bottom:.5rem;">Sto generando la tua formula…</div>
+    <div id="loading-text" style="color:var(--g500);font-size:.8rem;">Parfum Studio sta bilanciando ingredienti, IFRA e costi.</div>
     <div class="load-bar"><div class="load-fill"></div></div>
   </div>
 </div>
@@ -309,12 +320,12 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 <!-- LOCKER MODAL -->
 <div class="modal-ov" id="locker">
   <div class="modal">
-    <div class="m-ti">Area Riservata</div>
-    <div class="m-txt">Accesso dedicato al laboratorio e ai tecnici. Inserisci la password per visualizzare dati tecnici, costi completi e certificato IFRA.</div>
+    <div class="m-ti" id="locker-title">Area Riservata</div>
+    <div class="m-txt" id="locker-text">Accesso dedicato al laboratorio e ai tecnici. Inserisci la password per visualizzare dati tecnici, costi completi e certificato IFRA.</div>
     <input type="password" class="inp" id="pwd" placeholder="Password..." style="margin-bottom:1rem;">
     <div class="btns-row">
-      <button class="btn btn-out" onclick="document.getElementById('locker').style.display='none'">Annulla</button>
-      <button class="btn" onclick="checkPass()">Entra</button>
+      <button class="btn btn-out" id="locker-cancel" onclick="document.getElementById('locker').style.display='none'">Annulla</button>
+      <button class="btn" id="locker-ok" onclick="checkPass()">Entra</button>
     </div>
   </div>
 </div>
@@ -325,6 +336,234 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 const ST={s:1,data:{fam:null,conc:null,sweet:50,fresh:50,depth:50,name:''}};
 let FORMULA=null;
 let FORMULA_COSTS=null;
+
+let LANG='it';
+const I18N={
+  it:{
+    landingSub:'Generatore di Formule & Calcolatore IFRA',
+    startBtn:'Inizia Creazione',
+    progRight:'CREAZIONE',
+    step1Title:'Famiglia Olfattiva',
+    step1Sub:'Scegli il mondo olfattivo da cui partire: tutto il resto verrà cucito intorno a questa scelta.',
+    fam:{
+      agrumato:{t:'Agrumato',d:'Fresco, energetico, solare.'},
+      floreale:{t:'Floreale',d:'Romantico, elegante, petali.'},
+      legnoso:{t:'Legnoso',d:'Caldo, secco, avvolgente.'},
+      orientale:{t:'Orientale',d:'Speziato, ambrato, sensuale.'},
+      marino:{t:'Marino',d:'Brezza, sale, ozono.'},
+      gourmand:{t:'Gourmand',d:'Dolce, vanigliato, commestibile.'}
+    },
+    step2Title:'Concentrazione',
+    step2Sub:'Decidi quanta scia e persistenza vuoi: dalla nuvola leggera all’impronta intensa sulla pelle.',
+    conc:{
+      edc:{t:'Eau de Cologne',d:'Leggero (5%) · 2h'},
+      edt:{t:'Eau de Toilette',d:'Medio (10%) · 4h'},
+      edp:{t:'Eau de Parfum',d:'Intenso (17%) · 8h'}
+    },
+    step3Title:'Carattere',
+    step3Sub:'Regola le sfumature: pochi gesti per dire se il profumo deve sorridere, rinfrescare o avvolgere.',
+    lblSweet:'Dolcezza',
+    lblFresh:'Freschezza',
+    lblDepth:'Profondità',
+    step4Title:'Progetto',
+    step4Sub:'Dai un nome al progetto e scegli il formato finale della boccetta.',
+    lblName:'Nome del Profumo',
+    lblVolume:'Volume Finale (ml)',
+    box5Title:'Formula Generata',
+    pubPreviewTitle:'Anteprima Pubblica:',
+    pubPreviewText:'Vedi gli ingredienti e le quantità pensate per te. La parte tecnica completa (IFRA, costi dettaglio) rimane accessibile solo all\'Area Riservata.',
+    box5DoneTitle:'Creazione completata',
+    box5DoneText:'La tua formula è pronta. Puoi conservarla, inviarla al laboratorio per la realizzazione oppure, se sei un tecnico autorizzato, accedere all\'Area Riservata per leggere ogni dettaglio tecnico.',
+    btnSendLab:'Invia la formula al laboratorio',
+    step6Title:'Area Tecnica',
+    box6CompTitle:'⚗️ Composizione & IFRA',
+    box6CompText:'Calcoli basati su molecola pura attiva (con correzione diluizioni).',
+    box6CostsTitle:'💶 Costi Produzione',
+    lblCConc:'Costo Concentrato',
+    lblCAlc:'Costo Alcol',
+    lblCTot:'TOTALE',
+    box6ExportTitle:'📄 Esporta',
+    btnExport:'Scarica Certificato IFRA PDF',
+    loadingTitle:'Sto generando la tua formula…',
+    loadingText:'Parfum Studio sta bilanciando ingredienti, IFRA e costi.',
+    lockerTitle:'Area Riservata',
+    lockerText:'Accesso dedicato al laboratorio e ai tecnici. Inserisci la password per visualizzare dati tecnici, costi completi e certificato IFRA.',
+    lockerCancel:'Annulla',
+    lockerOk:'Entra'
+  },
+  en:{
+    landingSub:'Formula Generator & IFRA Calculator',
+    startBtn:'Start creation',
+    progRight:'CREATION',
+    step1Title:'Olfactive Family',
+    step1Sub:'Choose the olfactive world you want to start from; everything else will be tailored around it.',
+    fam:{
+      agrumato:{t:'Citrus',d:'Fresh, energetic, sunlit.'},
+      floreale:{t:'Floral',d:'Romantic, elegant, petals.'},
+      legnoso:{t:'Woody',d:'Warm, dry, enveloping.'},
+      orientale:{t:'Oriental',d:'Spicy, ambery, sensual.'},
+      marino:{t:'Marine',d:'Breeze, salt, ozone.'},
+      gourmand:{t:'Gourmand',d:'Sweet, vanillic, edible.'}
+    },
+    step2Title:'Concentration',
+    step2Sub:'Decide how much trail and persistence you want, from a light cloud to an intense signature.',
+    conc:{
+      edc:{t:'Eau de Cologne',d:'Light (5%) · 2h'},
+      edt:{t:'Eau de Toilette',d:'Medium (10%) · 4h'},
+      edp:{t:'Eau de Parfum',d:'Intense (17%) · 8h'}
+    },
+    step3Title:'Character',
+    step3Sub:'Tune the nuances: just a few moves to decide if the perfume smiles, refreshes or embraces.',
+    lblSweet:'Sweetness',
+    lblFresh:'Freshness',
+    lblDepth:'Depth',
+    step4Title:'Project',
+    step4Sub:'Give your project a name and choose the final bottle size.',
+    lblName:'Fragrance name',
+    lblVolume:'Final volume (ml)',
+    box5Title:'Generated Formula',
+    pubPreviewTitle:'Public preview:',
+    pubPreviewText:'See the ingredients and quantities designed for you. Full technical details (IFRA, costs) are only in the Reserved Area.',
+    box5DoneTitle:'Creation completed',
+    box5DoneText:'Your formula is ready. You can keep it, send it to the lab for production or, if you are a technician, open the Reserved Area for full technical details.',
+    btnSendLab:'Send formula to lab',
+    step6Title:'Technical Area',
+    box6CompTitle:'⚗️ Composition & IFRA',
+    box6CompText:'Calculations based on pure active substance (with dilution correction).',
+    box6CostsTitle:'💶 Production Costs',
+    lblCConc:'Concentrate cost',
+    lblCAlc:'Alcohol cost',
+    lblCTot:'TOTAL',
+    box6ExportTitle:'📄 Export',
+    btnExport:'Download IFRA certificate PDF',
+    loadingTitle:'Generating your formula…',
+    loadingText:'Parfum Studio is balancing ingredients, IFRA and costs.',
+    lockerTitle:'Reserved Area',
+    lockerText:'Access for lab and technicians only. Enter the password to view technical data, full costs and IFRA certificate.',
+    lockerCancel:'Cancel',
+    lockerOk:'Enter'
+  },
+  fr:{
+    landingSub:'Générateur de formules & calculateur IFRA',
+    startBtn:'Commencer la création',
+    progRight:'CRÉATION',
+    step1Title:'Famille olfactive',
+    step1Sub:'Choisis l’univers olfactif de départ : tout le reste sera construit autour de ce choix.',
+    fam:{
+      agrumato:{t:'Hespéridé',d:'Frais, énergique, ensoleillé.'},
+      floreale:{t:'Floral',d:'Romantique, élégant, pétales.'},
+      legnoso:{t:'Boisé',d:'Chaud, sec, enveloppant.'},
+      orientale:{t:'Oriental',d:'Épicé, ambré, sensuel.'},
+      marino:{t:'Marin',d:'Brise, sel, ozone.'},
+      gourmand:{t:'Gourmand',d:'Sucré, vanillé, appétissant.'}
+    },
+    step2Title:'Concentration',
+    step2Sub:'Décide de la traînée et de la tenue, du voile léger à la signature intense.',
+    conc:{
+      edc:{t:'Eau de Cologne',d:'Légère (5 %) · 2h'},
+      edt:{t:'Eau de Toilette',d:'Moyenne (10 %) · 4h'},
+      edp:{t:'Eau de Parfum',d:'Intense (17 %) · 8h'}
+    },
+    step3Title:'Caractère',
+    step3Sub:'Règle les nuances : quelques gestes pour décider si le parfum doit sourire, rafraîchir ou envelopper.',
+    lblSweet:'Sucré',
+    lblFresh:'Fraîcheur',
+    lblDepth:'Profondeur',
+    step4Title:'Projet',
+    step4Sub:'Donne un nom au projet et choisis le format final du flacon.',
+    lblName:'Nom du parfum',
+    lblVolume:'Volume final (ml)',
+    box5Title:'Formule générée',
+    pubPreviewTitle:'Aperçu public :',
+    pubPreviewText:'Tu vois les ingrédients et quantités conçus pour toi. Les détails techniques complets (IFRA, coûts) sont réservés à la zone Technique.',
+    box5DoneTitle:'Création terminée',
+    box5DoneText:'Ta formule est prête. Tu peux la conserver, l’envoyer au laboratoire pour la fabrication ou, si tu es technicien, ouvrir la Zone réservée pour tous les détails techniques.',
+    btnSendLab:'Envoyer la formule au laboratoire',
+    step6Title:'Zone technique',
+    box6CompTitle:'⚗️ Composition & IFRA',
+    box6CompText:'Calculs basés sur la molécule pure active (avec correction des dilutions).',
+    box6CostsTitle:'💶 Coûts de production',
+    lblCConc:'Coût concentré',
+    lblCAlc:'Coût alcool',
+    lblCTot:'TOTAL',
+    box6ExportTitle:'📄 Exporter',
+    btnExport:'Télécharger le certificat IFRA PDF',
+    loadingTitle:'Génération de ta formule…',
+    loadingText:'Parfum Studio équilibre ingrédients, IFRA et coûts.',
+    lockerTitle:'Zone réservée',
+    lockerText:'Accès dédié au laboratoire et aux techniciens. Saisis le mot de passe pour afficher données techniques, coûts complets et certificat IFRA.',
+    lockerCancel:'Annuler',
+    lockerOk:'Entrer'
+  }
+};
+
+function applyLang(){
+  const S=I18N[LANG];
+  const qs=id=>document.getElementById(id);
+  if(qs('landing-sub')) qs('landing-sub').innerText=S.landingSub;
+  if(qs('start-btn')) qs('start-btn').innerText=S.startBtn;
+  if(qs('pl-right')) qs('pl-right').innerText=S.progRight;
+  if(qs('step1-title')) qs('step1-title').innerText=S.step1Title;
+  if(qs('step1-sub')) qs('step1-sub').innerText=S.step1Sub;
+  document.querySelectorAll('.card-opt[data-fam]').forEach(el=>{
+    const fam=el.getAttribute('data-fam');
+    const t=S.fam[fam];
+    if(!t) return;
+    const tit=el.querySelector('.co-tit');
+    const desc=el.querySelector('.co-desc');
+    if(tit) tit.innerText=t.t;
+    if(desc) desc.innerText=t.d;
+  });
+  if(qs('step2-title')) qs('step2-title').innerText=S.step2Title;
+  if(qs('step2-sub')) qs('step2-sub').innerText=S.step2Sub;
+  document.querySelectorAll('.card-opt[data-conc]').forEach(el=>{
+    const c=el.getAttribute('data-conc');
+    const t=S.conc[c];
+    if(!t) return;
+    const tit=el.querySelector('.co-tit');
+    const desc=el.querySelector('.co-desc');
+    if(tit) tit.innerText=t.t;
+    if(desc) desc.innerText=t.d;
+  });
+  if(qs('step3-title')) qs('step3-title').innerText=S.step3Title;
+  if(qs('step3-sub')) qs('step3-sub').innerText=S.step3Sub;
+  if(qs('lbl-sweet')) qs('lbl-sweet').innerText=S.lblSweet;
+  if(qs('lbl-fresh')) qs('lbl-fresh').innerText=S.lblFresh;
+  if(qs('lbl-depth')) qs('lbl-depth').innerText=S.lblDepth;
+  if(qs('step4-title')) qs('step4-title').innerText=S.step4Title;
+  if(qs('step4-sub')) qs('step4-sub').innerText=S.step4Sub;
+  if(qs('lbl-name')) qs('lbl-name').innerText=S.lblName;
+  if(qs('lbl-volume')) qs('lbl-volume').innerText=S.lblVolume;
+  if(qs('box5-title')) qs('box5-title').innerText=S.box5Title;
+  if(qs('pub-preview-title')) qs('pub-preview-title').innerText=S.pubPreviewTitle;
+  if(qs('pub-preview-text')) qs('pub-preview-text').innerText=S.pubPreviewText;
+  if(qs('box5-done-title')) qs('box5-done-title').innerText=S.box5DoneTitle;
+  if(qs('box5-done-text')) qs('box5-done-text').innerText=S.box5DoneText;
+  if(qs('btn-send-lab')) qs('btn-send-lab').innerText=S.btnSendLab;
+  if(qs('step6-title')) qs('step6-title').innerText=S.step6Title;
+  if(qs('box6-comp-title')) qs('box6-comp-title').innerText=S.box6CompTitle;
+  if(qs('box6-comp-text')) qs('box6-comp-text').innerText=S.box6CompText;
+  if(qs('box6-costs-title')) qs('box6-costs-title').innerText=S.box6CostsTitle;
+  if(qs('lbl-c-conc')) qs('lbl-c-conc').innerText=S.lblCConc;
+  if(qs('lbl-c-alc')) qs('lbl-c-alc').innerText=S.lblCAlc;
+  if(qs('lbl-c-tot')) qs('lbl-c-tot').innerText=S.lblCTot;
+  if(qs('box6-export-title')) qs('box6-export-title').innerText=S.box6ExportTitle;
+  if(qs('btn-export')) qs('btn-export').innerText=S.btnExport;
+  if(qs('loading-title')) qs('loading-title').innerText=S.loadingTitle;
+  if(qs('loading-text')) qs('loading-text').innerText=S.loadingText;
+  if(qs('locker-title')) qs('locker-title').innerText=S.lockerTitle;
+  if(qs('locker-text')) qs('locker-text').innerText=S.lockerText;
+  if(qs('locker-cancel')) qs('locker-cancel').innerText=S.lockerCancel;
+  if(qs('locker-ok')) qs('locker-ok').innerText=S.lockerOk;
+}
+
+function setLang(l){
+  LANG=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    b.classList.toggle('sel',b.getAttribute('data-lang')===l);
+  });
+  applyLang();
+}
 
 /* PWA INSTALL LOGIC */
 let deferredPrompt;
@@ -346,6 +585,8 @@ async function installPWA() {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js');
 }
+
+window.addEventListener('DOMContentLoaded', ()=>applyLang());
 
 /* APP LOGIC */
 function initApp(){
@@ -454,14 +695,15 @@ async function calcFormula(){
 
 function renderPub(){
   const d=document.getElementById('pub-list');
-  d.innerHTML=FORMULA.items.map(i=>`
-    <div class="row-ing">
+  d.innerHTML=FORMULA.items.map((i,idx)=>`
+    <div class="row-ing" data-idx="${idx}">
       <div class="ri-l">
-        <div class="ri-n">${i.n}</div>
+        <div class="ri-n" onclick="toggleIngDesc(${idx})">${i.n}</div>
         <div class="ri-meta">
           <span class="bdg ${i.note}">${i.note=='t'?'Testa':i.note=='c'?'Cuore':'Fondo'}</span>
           ${i.tara?'<span class="bdg warn">TARATO IFRA</span>':''}
         </div>
+        <div class="ri-desc">${i.desc||'Descrizione non disponibile.'}</div>
       </div>
       <div class="ri-r">
         <div class="ri-dr">${i.drops} gc</div>
@@ -474,6 +716,12 @@ function renderPub(){
   document.getElementById('ifra-alert').innerHTML=tarati>0 
     ? `<div class="ifra-warn-box">⚠️ Attenzione: <strong>${tarati} ingredienti</strong> sono stati ridotti automaticamente per rispettare i limiti IFRA di sicurezza.</div>`
     : '';
+}
+
+function toggleIngDesc(idx){
+  const row=document.querySelector(`.row-ing[data-idx="${idx}"]`);
+  if(!row) return;
+  row.classList.toggle('desc-open');
 }
 
 function openLocker(){
@@ -535,14 +783,15 @@ function renderPriv(){
   const d=document.getElementById('priv-list');
   let cConc=0;
   
-  d.innerHTML=FORMULA.items.map(i=>{
+  d.innerHTML=FORMULA.items.map((i,idx)=>{
     cConc+=i.cost;
     const dilTxt=i.dil<1?`${Math.round(i.dil*100)}% sol.`:'Puro';
     return `
-    <div class="row-ing">
+    <div class="row-ing" data-idx="priv-${idx}">
       <div class="ri-l">
-        <div class="ri-n">${i.n}</div>
+        <div class="ri-n" onclick="toggleIngDesc('priv-${idx}')">${i.n}</div>
         <div class="ri-meta">${dilTxt} · Pura nel fin: ${i.purePct.toFixed(2)}% (Max ${i.ifra||'ND'})</div>
+        <div class="ri-desc">${i.desc||'Descrizione non disponibile.'}</div>
       </div>
       <div class="ri-r">
         <div class="ri-dr">€${i.cost.toFixed(2)}</div>

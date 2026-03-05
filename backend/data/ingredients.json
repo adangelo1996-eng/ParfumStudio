@@ -11,7 +11,8 @@
     "volatilita": "alta",
     "intensita": 7,
     "tipo": "naturale",
-    "tags": ["citrus","fresh","sparkling"]
+    "tags": ["citrus","fresh","sparkling"],
+    "desc": "Agrumato brillante, fresco e leggermente amaro, tipico delle colonie classiche."
   },
   {
     "id": "limone_it",
@@ -25,7 +26,8 @@
     "volatilita": "alta",
     "intensita": 8,
     "tipo": "naturale",
-    "tags": ["citrus","fresh","zesty"]
+    "tags": ["citrus","fresh","zesty"],
+    "desc": "Limone solare e frizzante, dal carattere pulito e scintillante."
   },
   {
     "id": "mandarino",
@@ -39,7 +41,8 @@
     "volatilita": "alta",
     "intensita": 7,
     "tipo": "naturale",
-    "tags": ["citrus","sweet","juicy"]
+    "tags": ["citrus","sweet","juicy"],
+    "desc": "Mandarino dolce e succoso, dal tono morbido e confortante."
   },
   {
     "id": "linalolo",
@@ -53,7 +56,8 @@
     "volatilita": "media",
     "intensita": 6,
     "tipo": "sintetico",
-    "tags": ["floral","jasminic","fresh"]
+    "tags": ["floral","jasminic","fresh"],
+    "desc": "Floreale leggero e trasparente, con sfumature di gelsomino fresco."
   },
   {
     "id": "pepe_nero",
@@ -67,7 +71,8 @@
     "volatilita": "media",
     "intensita": 8,
     "tipo": "naturale",
-    "tags": ["spicy","warm"]
+    "tags": ["spicy","warm"],
+    "desc": "Speziato secco e leggermente pungente, ricorda chicchi di pepe macinati al momento."
   },
   {
     "id": "manzanate_1_tri",
@@ -81,7 +86,8 @@
     "volatilita": "alta",
     "intensita": 9,
     "tipo": "sintetico",
-    "tags": ["fruity","juicy","powerful"]
+    "tags": ["fruity","juicy","powerful"],
+    "desc": "Accordo fruttato intenso, croccante e succoso, quasi da caramella."
   },
   {
     "id": "hedione",
@@ -95,7 +101,8 @@
     "volatilita": "media",
     "intensita": 7,
     "tipo": "sintetico",
-    "tags": ["floral","jasmine","diffusive"]
+    "tags": ["floral","jasmine","diffusive"],
+    "desc": "Floreale luminoso e vellutato, amplifica il carattere di gelsomino e fiori bianchi."
   },
   {
     "id": "damascenone_1_tri",
@@ -109,7 +116,8 @@
     "volatilita": "bassa",
     "intensita": 10,
     "tipo": "sintetico",
-    "tags": ["rose","fruity","powerful"]
+    "tags": ["rose","fruity","powerful"],
+    "desc": "Rosa profondamente fruttata, molto intensa, con sfumature di prugna e ribes."
   },
   {
     "id": "iso_e_super",
@@ -123,7 +131,8 @@
     "volatilita": "bassa",
     "intensita": 8,
     "tipo": "sintetico",
-    "tags": ["woody","cedar","modern"]
+    "tags": ["woody","cedar","modern"],
+    "desc": "Legnoso morbido e moderno, tipo cedro pulito con un tocco vellutato."
   },
   {
     "id": "ambrox_10_ipm",
@@ -137,7 +146,8 @@
     "volatilita": "bassa",
     "intensita": 9,
     "tipo": "sintetico",
-    "tags": ["amber","ambré","warm"]
+    "tags": ["amber","ambré","warm"],
+    "desc": "Ambrato caldo e avvolgente, con sensazione di pelle pulita e resine morbide."
   },
   {
     "id": "vanillina_10_tri",
@@ -151,7 +161,8 @@
     "volatilita": "bassa",
     "intensita": 8,
     "tipo": "sintetico",
-    "tags": ["vanilla","sweet","gourmand"]
+    "tags": ["vanilla","sweet","gourmand"],
+    "desc": "Vaniglia dolce e cremosa, dal tono gourmand quasi zuccherino."
   },
   {
     "id": "cumarina_10_tri",
@@ -165,7 +176,8 @@
     "volatilita": "bassa",
     "intensita": 9,
     "tipo": "sintetico",
-    "tags": ["coumarin","almond","tonka"]
+    "tags": ["coumarin","almond","tonka"],
+    "desc": "Aroma di fava tonka: mandorlato, fieno secco e vanigliato insieme."
   },
   {
     "id": "muschio_galax_50",
@@ -179,7 +191,8 @@
     "volatilita": "bassa",
     "intensita": 7,
     "tipo": "sintetico",
-    "tags": ["musk","clean","soft"]
+    "tags": ["musk","clean","soft"],
+    "desc": "Muschio soffice e pulito, effetto \"pelle lavata\" molto morbido."
   },
   {
     "id": "patchouly",
@@ -193,7 +206,8 @@
     "volatilita": "bassa",
     "intensita": 8,
     "tipo": "naturale",
-    "tags": ["woody","earthy","dark"]
+    "tags": ["woody","earthy","dark"],
+    "desc": "Legnoso scuro, terroso e leggermente umido, tipico del patchouli."
   },
   {
     "id": "vetiver",
@@ -207,7 +221,8 @@
     "volatilita": "bassa",
     "intensita": 8,
     "tipo": "naturale",
-    "tags": ["woody","smoky","earthy"]
+    "tags": ["woody","smoky","earthy"],
+    "desc": "Radice legnosa, secca e affumicata, con un fondo terroso elegante."
   }
 ]
 
