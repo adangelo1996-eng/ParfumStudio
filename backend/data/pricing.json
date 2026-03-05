@@ -1,0 +1,86 @@
+{
+  "currency": "EUR",
+  "unit": "per_10ml",
+  "alcohol": {
+    "name": "Alcol buongusto",
+    "pricePerMl": 0.015
+  },
+  "ingredients": [
+    {
+      "id": "bergamotto_fcf",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 18
+    },
+    {
+      "id": "limone_it",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 12
+    },
+    {
+      "id": "mandarino",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 15
+    },
+    {
+      "id": "linalolo",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 10
+    },
+    {
+      "id": "pepe_nero",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 16
+    },
+    {
+      "id": "manzanate_1_tri",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 16
+    },
+    {
+      "id": "hedione",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 25
+    },
+    {
+      "id": "damascenone_1_tri",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 55
+    },
+    {
+      "id": "iso_e_super",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 18
+    },
+    {
+      "id": "ambrox_10_ipm",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 35
+    },
+    {
+      "id": "vanillina_10_tri",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 12
+    },
+    {
+      "id": "cumarina_10_tri",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 10
+    },
+    {
+      "id": "muschio_galax_50",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 16
+    },
+    {
+      "id": "patchouly",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 20
+    },
+    {
+      "id": "vetiver",
+      "listino": "Ateneo dell'Olfatto",
+      "prezzoPer10ml": 22
+    }
+  ]
+}
+

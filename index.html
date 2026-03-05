@@ -288,27 +288,10 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 
 <script>
 /* ════ LOGICA DATABASE E IFRA ════ */
-/* Dilution: 1.0 = puro, 0.1 = 10% sol. */
-const DB=[
-  {n:"Bergamotto FCF",fam:"agrumato",note:"t",dil:1.0,ifra:0.4,p:18,w:12},
-  {n:"Limone IT",fam:"agrumato",note:"t",dil:1.0,ifra:2.0,p:12,w:12},
-  {n:"Mandarino",fam:"agrumato",note:"t",dil:1.0,ifra:null,p:15,w:10},
-  {n:"Linalolo",fam:"floreale",note:"t",dil:1.0,ifra:5.0,p:10,w:10},
-  {n:"Pepe Nero",fam:"orientale",note:"t",dil:1.0,ifra:null,p:16,w:4},
-  {n:"Manzanate 1% TRI",fam:"agrumato",note:"t",dil:0.01,ifra:0.05,p:16,w:3},
-  {n:"Hedione",fam:"floreale",note:"c",dil:1.0,ifra:null,p:25,w:15},
-  {n:"Damascenone 1% TRI",fam:"floreale",note:"c",dil:0.01,ifra:0.02,p:55,w:2},
-  {n:"Iso E Super",fam:"legnoso",note:"f",dil:1.0,ifra:null,p:18,w:15},
-  {n:"Ambrox 10% IPM",fam:"orientale",note:"f",dil:0.1,ifra:null,p:35,w:8},
-  {n:"Vanillina 10% TRI",fam:"gourmand",note:"f",dil:0.1,ifra:null,p:12,w:6},
-  {n:"Cumarina 10% TRI",fam:"gourmand",note:"f",dil:0.1,ifra:1.0,p:10,w:8},
-  {n:"Muschio Galax. 50%",fam:"floreale",note:"f",dil:0.5,ifra:null,p:16,w:10},
-  {n:"Patchouly",fam:"legnoso",note:"f",dil:1.0,ifra:null,p:20,w:8},
-  {n:"Vetiver",fam:"legnoso",note:"f",dil:1.0,ifra:null,p:22,w:8}
-];
-
+/* I dati ingredienti e prezzi sono ora centralizzati nel backend. */
 const ST={s:1,data:{fam:null,conc:null,sweet:50,fresh:50,depth:50,name:''}};
 let FORMULA=null;
+let FORMULA_COSTS=null;
 
 /* PWA INSTALL LOGIC */
 let deferredPrompt;
@@ -355,12 +338,19 @@ function updSl(el,id,k){
   ST.data[k]=parseInt(el.value);
 }
 
-function mov(d){
+async function mov(d){
   const n=ST.s+d;
   if(d>0){
     if(ST.s==1 && !ST.data.fam) return alert("Seleziona famiglia");
     if(ST.s==2 && !ST.data.conc) return alert("Seleziona concentrazione");
-    if(ST.s==4) calcFormula();
+    if(ST.s==4){
+      try{
+        await calcFormula();
+      }catch(e){
+        alert(e.message||"Errore nella generazione della formula.");
+        return;
+      }
+    }
     if(ST.s==6) return; // Fine
   }
   if(n<1) return;
@@ -382,54 +372,38 @@ function mov(d){
   window.scrollTo(0,0);
 }
 
-/* CALCOLO FORMULA */
-function calcFormula(){
+/* CALCOLO FORMULA VIA BACKEND */
+async function calcFormula(){
   const vol=parseInt(document.getElementById('pVol').value)||50;
-  const concPct=ST.data.conc=='edc'?5:ST.data.conc=='edt'?10:17;
-  const concMl=vol*concPct/100;
-  const alcMl=vol-concMl;
-  
-  // Filtro Ingredienti
-  let pool=DB.filter(x=>x.fam==ST.data.fam || x.fam=='floreale' || x.fam=='legnoso'); // Semplificato
-  // 3 Testa, 3 Cuore, 3 Fondo
-  const selI=[
-    ...pool.filter(x=>x.note=='t').slice(0,3),
-    ...pool.filter(x=>x.note=='c').slice(0,3),
-    ...pool.filter(x=>x.note=='f').slice(0,3)
-  ];
-  
-  // Distribuzione Pesi
-  const totW=selI.reduce((a,b)=>a+b.w,0);
-  const mlPerW=concMl/totW;
-  
-  const F=[];
-  const dropsPerMl=20; // 1ml = 20 drops (0.05ml/drop)
-  
-  selI.forEach(ing=>{
-    let drops=Math.round(ing.w*mlPerW*dropsPerMl);
-    let tara=false;
-    
-    // TARA IFRA (con Diluizione)
-    // MaxPura% = (Gocce * 0.05 * Diluizione) / Vol * 100
-    // MaxGocce = (MaxPura% * Vol) / (100 * 0.05 * Diluizione)
-    if(ing.ifra){
-      const maxD=Math.floor((ing.ifra*vol)/(5*ing.dilution)); // 5 = 100*0.05
-      if(drops>maxD){
-        drops=maxD;
-        tara=true;
-      }
+  const payload={
+    famiglia:ST.data.fam,
+    concentrazione:ST.data.conc,
+    sweet:ST.data.sweet,
+    fresh:ST.data.fresh,
+    depth:ST.data.depth,
+    volumeMl:vol
+  };
+  const nextBtn=document.getElementById('nextBtn');
+  const oldTxt=nextBtn.innerText;
+  nextBtn.innerText="Sto formulando…";
+  nextBtn.disabled=true;
+  try{
+    const res=await fetch('http://localhost:4000/api/formula/generate',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const js=await res.json();
+    if(!res.ok || !js.ok){
+      throw new Error(js.error||"Errore dal server formula.");
     }
-    
-    // Calcoli Finali
-    const gr=drops*0.05; // Densità approx 1
-    const cost=(ing.p/10)*gr; // p è per 10ml
-    const purePct=(drops*0.05*ing.dilution)/vol*100;
-    
-    F.push({...ing, drops, gr, cost, tara, purePct});
-  });
-  
-  FORMULA={vol,concMl,alcMl,items:F};
-  renderPub();
+    FORMULA={vol:js.data.vol,concMl:js.data.concMl,alcMl:js.data.alcMl,items:js.data.items};
+    FORMULA_COSTS=js.data.costs||null;
+    renderPub();
+  }finally{
+    nextBtn.innerText=oldTxt;
+    nextBtn.disabled=false;
+  }
 }
 
 function renderPub(){
@@ -490,10 +464,11 @@ function renderPriv(){
     </div>
   `}).join('');
   
-  const cAlc=FORMULA.alcMl*0.015;
+  const cAlc=FORMULA_COSTS?FORMULA_COSTS.cAlc:FORMULA.alcMl*0.015;
+  const cTot=FORMULA_COSTS?FORMULA_COSTS.cTot:(cConc+cAlc);
   document.getElementById('c-conc').innerText=`€${cConc.toFixed(2)}`;
   document.getElementById('c-alc').innerText=`€${cAlc.toFixed(2)}`;
-  document.getElementById('c-tot').innerText=`€${(cConc+cAlc).toFixed(2)}`;
+  document.getElementById('c-tot').innerText=`€${cTot.toFixed(2)}`;
 }
 
 function printCert(){

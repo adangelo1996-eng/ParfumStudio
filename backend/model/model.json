@@ -1,0 +1,32 @@
+{
+  "description": "Modello ML leggero basato su pesi lineari per valutare l'equilibrio percepito delle formule.",
+  "features": [
+    "topFrac",
+    "heartFrac",
+    "baseFrac",
+    "sweetSlider",
+    "freshSlider",
+    "depthSlider",
+    "sweetFamFrac",
+    "freshFamFrac",
+    "deepFamFrac"
+  ],
+  "weights": {
+    "topFrac": 0.2,
+    "heartFrac": 0.4,
+    "baseFrac": 0.3,
+    "sweetSlider": 0.1,
+    "freshSlider": 0.1,
+    "depthSlider": 0.1,
+    "sweetFamFrac": 0.3,
+    "freshFamFrac": 0.3,
+    "deepFamFrac": 0.3
+  },
+  "bias": 0.0,
+  "targets": {
+    "topFrac": 0.3,
+    "heartFrac": 0.4,
+    "baseFrac": 0.3
+  }
+}
+

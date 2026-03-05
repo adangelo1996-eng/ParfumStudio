@@ -1,0 +1,153 @@
+[
+  {
+    "id": "bergamotto_fcf",
+    "n": "Bergamotto FCF",
+    "fam": "agrumato",
+    "note": "t",
+    "dil": 1.0,
+    "ifra": 0.4,
+    "p": 18,
+    "w": 12
+  },
+  {
+    "id": "limone_it",
+    "n": "Limone IT",
+    "fam": "agrumato",
+    "note": "t",
+    "dil": 1.0,
+    "ifra": 2.0,
+    "p": 12,
+    "w": 12
+  },
+  {
+    "id": "mandarino",
+    "n": "Mandarino",
+    "fam": "agrumato",
+    "note": "t",
+    "dil": 1.0,
+    "ifra": null,
+    "p": 15,
+    "w": 10
+  },
+  {
+    "id": "linalolo",
+    "n": "Linalolo",
+    "fam": "floreale",
+    "note": "t",
+    "dil": 1.0,
+    "ifra": 5.0,
+    "p": 10,
+    "w": 10
+  },
+  {
+    "id": "pepe_nero",
+    "n": "Pepe Nero",
+    "fam": "orientale",
+    "note": "t",
+    "dil": 1.0,
+    "ifra": null,
+    "p": 16,
+    "w": 4
+  },
+  {
+    "id": "manzanate_1_tri",
+    "n": "Manzanate 1% TRI",
+    "fam": "agrumato",
+    "note": "t",
+    "dil": 0.01,
+    "ifra": 0.05,
+    "p": 16,
+    "w": 3
+  },
+  {
+    "id": "hedione",
+    "n": "Hedione",
+    "fam": "floreale",
+    "note": "c",
+    "dil": 1.0,
+    "ifra": null,
+    "p": 25,
+    "w": 15
+  },
+  {
+    "id": "damascenone_1_tri",
+    "n": "Damascenone 1% TRI",
+    "fam": "floreale",
+    "note": "c",
+    "dil": 0.01,
+    "ifra": 0.02,
+    "p": 55,
+    "w": 2
+  },
+  {
+    "id": "iso_e_super",
+    "n": "Iso E Super",
+    "fam": "legnoso",
+    "note": "f",
+    "dil": 1.0,
+    "ifra": null,
+    "p": 18,
+    "w": 15
+  },
+  {
+    "id": "ambrox_10_ipm",
+    "n": "Ambrox 10% IPM",
+    "fam": "orientale",
+    "note": "f",
+    "dil": 0.1,
+    "ifra": null,
+    "p": 35,
+    "w": 8
+  },
+  {
+    "id": "vanillina_10_tri",
+    "n": "Vanillina 10% TRI",
+    "fam": "gourmand",
+    "note": "f",
+    "dil": 0.1,
+    "ifra": null,
+    "p": 12,
+    "w": 6
+  },
+  {
+    "id": "cumarina_10_tri",
+    "n": "Cumarina 10% TRI",
+    "fam": "gourmand",
+    "note": "f",
+    "dil": 0.1,
+    "ifra": 1.0,
+    "p": 10,
+    "w": 8
+  },
+  {
+    "id": "muschio_galax_50",
+    "n": "Muschio Galax. 50%",
+    "fam": "floreale",
+    "note": "f",
+    "dil": 0.5,
+    "ifra": null,
+    "p": 16,
+    "w": 10
+  },
+  {
+    "id": "patchouly",
+    "n": "Patchouly",
+    "fam": "legnoso",
+    "note": "f",
+    "dil": 1.0,
+    "ifra": null,
+    "p": 20,
+    "w": 8
+  },
+  {
+    "id": "vetiver",
+    "n": "Vetiver",
+    "fam": "legnoso",
+    "note": "f",
+    "dil": 1.0,
+    "ifra": null,
+    "p": 22,
+    "w": 8
+  }
+]
+
