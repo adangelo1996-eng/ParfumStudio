@@ -33,6 +33,7 @@ body{font-family:var(--fn);background:var(--wh);color:var(--bk);line-height:1.5;
 @keyframes fadeUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 @keyframes boom{0%{transform:scale(1)}55%{transform:scale(30);opacity:.5}100%{transform:scale(0);opacity:0}}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.05)}100%{transform:scale(1)}}
 
 /* ══ UI ELEMENTS ══ */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem 1.8rem;background:var(--bk);color:var(--wh);border:none;border-radius:50px;font-size:.95rem;font-weight:700;cursor:pointer;transition:transform .2s;font-family:var(--fn);box-shadow:0 4px 10px rgba(0,0,0,.15);}
@@ -72,9 +73,10 @@ body{font-family:var(--fn);background:var(--wh);color:var(--bk);line-height:1.5;
 .step-sub{color:var(--g500);margin-bottom:2rem;}
 
 .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem;}
-.card-opt{background:var(--wh);border:2px solid var(--g200);border-radius:var(--r);padding:1.5rem 1rem;text-align:center;transition:all .2s;cursor:pointer;position:relative;}
+.card-opt{background:var(--wh);border:2px solid var(--g200);border-radius:var(--r);padding:1.5rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s,border-color .2s,background .2s;cursor:pointer;position:relative;}
 .card-opt.sel{border-color:var(--bk);background:var(--g50);box-shadow:0 4px 12px rgba(0,0,0,.08);}
 .card-opt.sel::after{content:'';position:absolute;top:10px;right:10px;width:10px;height:10px;background:var(--rd);border-radius:50%;}
+.card-opt:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 8px 18px rgba(0,0,0,.12);}
 .co-ico{font-size:2rem;margin-bottom:.8rem;display:block;}
 .co-tit{font-weight:700;font-size:.9rem;margin-bottom:.4rem;}
 .co-desc{font-size:.75rem;color:var(--g500);line-height:1.4;}
@@ -86,6 +88,7 @@ body{font-family:var(--fn);background:var(--wh);color:var(--bk);line-height:1.5;
 
 .slider-group{margin-bottom:1.5rem;}
 .sl-h{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.9rem;font-weight:700;}
+.sl-bump{animation:bump .25s ease;}
 input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 
 .inp-group{margin-bottom:1.2rem;}
@@ -97,7 +100,7 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 .box{background:var(--wh);border:1px solid var(--g200);border-radius:var(--r);padding:1.5rem;margin-bottom:1.5rem;box-shadow:var(--sh);}
 .box-h{font-size:1.1rem;font-weight:700;margin-bottom:1rem;border-bottom:1px solid var(--g100);padding-bottom:.8rem;}
 
-.row-ing{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;border-bottom:1px solid var(--g100);font-size:.85rem;}
+.row-ing{display:flex;align-items:center;justify-content:space-between;padding:.8rem 0;border-bottom:1px solid var(--g100);font-size:.85rem;animation:fadeUp .25s ease forwards;}
 .row-ing:last-child{border-bottom:none;}
 .ri-l{display:flex;flex-direction:column;gap:2px;}
 .ri-n{font-weight:700;}
@@ -167,7 +170,7 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
   <!-- STEP 1: Famiglia -->
   <div class="step on" data-s="1">
     <h2 class="step-h">Famiglia Olfattiva</h2>
-    <p class="step-sub">Scegli l'anima della tua fragranza.</p>
+    <p class="step-sub">Scegli il mondo olfattivo da cui partire: tutto il resto verrà cucito intorno a questa scelta.</p>
     <div class="grid-cards">
       <div class="card-opt" onclick="pick('fam','agrumato',this)"><span class="co-ico">🍋</span><div class="co-tit">Agrumato</div><div class="co-desc">Fresco, energetico, solare.</div></div>
       <div class="card-opt" onclick="pick('fam','floreale',this)"><span class="co-ico">🌸</span><div class="co-tit">Floreale</div><div class="co-desc">Romantico, elegante, petali.</div></div>
@@ -181,7 +184,7 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
   <!-- STEP 2: Intensità -->
   <div class="step" data-s="2">
     <h2 class="step-h">Concentrazione</h2>
-    <p class="step-sub">Quanto deve essere intenso?</p>
+    <p class="step-sub">Decidi quanta scia e persistenza vuoi: dalla nuvola leggera all’impronta intensa sulla pelle.</p>
     <div class="grid-cards">
       <div class="card-opt" onclick="pick('conc','edc',this)"><span class="co-ico">☁️</span><div class="co-tit">Eau de Cologne</div><div class="co-desc">Leggero (5%) · 2h</div></div>
       <div class="card-opt" onclick="pick('conc','edt',this)"><span class="co-ico">💨</span><div class="co-tit">Eau de Toilette</div><div class="co-desc">Medio (10%) · 4h</div></div>
@@ -192,7 +195,7 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
   <!-- STEP 3: Stile -->
   <div class="step" data-s="3">
     <h2 class="step-h">Carattere</h2>
-    <p class="step-sub">Modella le sfumature olfattive.</p>
+    <p class="step-sub">Regola le sfumature: pochi gesti per dire se il profumo deve sorridere, rinfrescare o avvolgere.</p>
     <div class="box">
       <div class="slider-group">
         <div class="sl-h"><span>Dolcezza</span><span id="v-sw">50%</span></div>
@@ -212,7 +215,7 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
   <!-- STEP 4: Dettagli -->
   <div class="step" data-s="4">
     <h2 class="step-h">Progetto</h2>
-    <p class="step-sub">Definisci i parametri finali.</p>
+    <p class="step-sub">Dai un nome al progetto e scegli il formato finale della boccetta.</p>
     <div class="inp-group">
       <label>Nome del Profumo</label>
       <input type="text" class="inp" id="pName" placeholder="Es. Notte Estiva">
@@ -230,8 +233,17 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
       <div id="pub-list"></div>
       <div id="ifra-alert"></div>
       <div style="font-size:.8rem;color:var(--g500);margin-top:1rem;background:var(--g50);padding:1rem;border-radius:8px;">
-        👁 <strong>Anteprima Pubblica:</strong> Mostra solo ingredienti e grammature. Per visualizzare istruzioni, costi e scaricare il certificato IFRA PDF, accedi all'Area Riservata.
+        👁 <strong>Anteprima Pubblica:</strong> vedi gli ingredienti e le quantità pensate per te. La parte tecnica completa (IFRA, costi dettaglio) rimane accessibile solo all'Area Riservata.
       </div>
+    </div>
+    <div class="box">
+      <div class="box-h">Creazione completata</div>
+      <p style="font-size:.9rem;color:var(--g700);margin-bottom:1rem;">
+        La tua formula è pronta. Puoi conservarla, inviarla al laboratorio per la realizzazione
+        oppure, se sei un tecnico autorizzato, accedere all'Area Riservata per leggere ogni dettaglio tecnico.
+      </p>
+      <button class="btn btn-green" style="width:100%;margin-bottom:.5rem;" onclick="sendToLab()">Invia la formula al laboratorio</button>
+      <div id="send-status" style="font-size:.8rem;color:var(--g500);margin-top:.25rem;"></div>
     </div>
   </div>
 
@@ -277,7 +289,7 @@ input[type=range]{width:100%;accent-color:var(--rd);height:6px;}
 <div class="modal-ov" id="locker">
   <div class="modal">
     <div class="m-ti">Area Riservata</div>
-    <div class="m-txt">Inserisci la password per accedere ai dati tecnici e al certificato.</div>
+    <div class="m-txt">Accesso dedicato al laboratorio e ai tecnici. Inserisci la password per visualizzare dati tecnici, costi completi e certificato IFRA.</div>
     <input type="password" class="inp" id="pwd" placeholder="Password..." style="margin-bottom:1rem;">
     <div class="btns-row">
       <button class="btn btn-out" onclick="document.getElementById('locker').style.display='none'">Annulla</button>
@@ -334,7 +346,11 @@ function pick(cat,val,el){
   el.classList.add('sel');
 }
 function updSl(el,id,k){
-  document.getElementById(id).innerText=el.value+'%';
+  const lbl=document.getElementById(id);
+  lbl.innerText=el.value+'%';
+  lbl.classList.remove('sl-bump');
+  void lbl.offsetWidth;
+  lbl.classList.add('sl-bump');
   ST.data[k]=parseInt(el.value);
 }
 
@@ -343,6 +359,12 @@ async function mov(d){
   if(d>0){
     if(ST.s==1 && !ST.data.fam) return alert("Seleziona famiglia");
     if(ST.s==2 && !ST.data.conc) return alert("Seleziona concentrazione");
+    if(ST.s==5 && d>0){
+      // Dallo step pubblico non si può andare direttamente all'Area Tecnica:
+      // serve sempre la password tramite il lucchetto.
+      openLocker();
+      return;
+    }
     if(ST.s==4){
       try{
         await calcFormula();
@@ -436,12 +458,46 @@ function openLocker(){
 }
 
 function checkPass(){
-  if(document.getElementById('pwd').value=='FormularioProfumi'){ // Password fissa
+  if(document.getElementById('pwd').value=='Profumi25'){ // Password fissa area tecnica
     document.getElementById('locker').style.display='none';
     mov(1); // Vai a step 6
     renderPriv();
   } else {
     alert("Password Errata");
+  }
+}
+
+async function sendToLab(){
+  if(!FORMULA || !FORMULA.items || !FORMULA.items.length){
+    alert("Genera prima una formula.");
+    return;
+  }
+  const btns=document.querySelectorAll('button[onclick="sendToLab()"]');
+  const statusEl=document.getElementById('send-status');
+  const oldTxts=[];
+  btns.forEach(b=>{oldTxts.push(b.innerText);b.innerText="Invio in corso…";b.disabled=true;});
+  statusEl.innerText='';
+  const meta={
+    name:document.getElementById('pName').value || 'Profumo senza nome',
+    volumeMl:FORMULA.vol,
+    conc:ST.data.conc,
+    createdAt:new Date().toISOString()
+  };
+  try{
+    const res=await fetch('http://localhost:4000/api/formula/send-to-lab',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({formula:FORMULA,meta})
+    });
+    const js=await res.json();
+    if(!res.ok || !js.ok){
+      throw new Error(js.error||"Errore durante l'invio al laboratorio.");
+    }
+    statusEl.innerText="✔ Formula inviata al laboratorio. Riceverai conferma dal laboratorio.";
+  }catch(e){
+    statusEl.innerText=e.message||"Errore durante l'invio al laboratorio.";
+  }finally{
+    btns.forEach((b,idx)=>{b.innerText=oldTxts[idx];b.disabled=false;});
   }
 }
 

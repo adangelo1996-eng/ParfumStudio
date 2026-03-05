@@ -1,0 +1,41 @@
+[
+  {
+    "id": "lab_example_0001",
+    "name": "Floral Bouquet Lab Ref 1",
+    "family": "floreale",
+    "concentration": "edp",
+    "volumeMl": 100,
+    "metadata": {
+      "year": 2024,
+      "perfumer": "Nome Naso",
+      "style": "Opulent",
+      "genderTarget": "Unisex",
+      "source": "internal_library"
+    },
+    "evaluation": {
+      "longevity_hours": 8,
+      "sillage_rating": 8,
+      "overall_score": 8.5,
+      "comments": "Floreale opulento con buona scia e tenuta equilibrata."
+    },
+    "composition": [
+      {
+        "ingredient_name": "Bergamot oil",
+        "role": "top",
+        "olfactive_family": "top citrus",
+        "parts": 80,
+        "total_parts": 1000,
+        "weight_percent": 8
+      },
+      {
+        "ingredient_name": "Rose oil",
+        "role": "heart",
+        "olfactive_family": "heart floral",
+        "parts": 120,
+        "total_parts": 1000,
+        "weight_percent": 12
+      }
+    ]
+  }
+]
+

@@ -4,6 +4,7 @@ const path = require('path');
 const ingredientsPath = path.join(__dirname, '../../data/ingredients.json');
 const pricingPath = path.join(__dirname, '../../data/pricing.json');
 const modelPath = path.join(__dirname, '../../model/model.json');
+const { isFormulaValid } = require('./constraints');
 
 function loadJson(p) {
   return JSON.parse(fs.readFileSync(p, 'utf8'));
@@ -12,6 +13,17 @@ function loadJson(p) {
 const INGREDIENTS = loadJson(ingredientsPath);
 const PRICING = loadJson(pricingPath);
 const MODEL = loadJson(modelPath);
+
+const ENGINE_CONFIG = {
+  perNote: {
+    top: 3,
+    heart: 3,
+    base: 3
+  },
+  candidatesPerSlot: 6,
+  topK: 5,
+  maxCombos: 5000
+};
 
 function getPricingMap() {
   const map = new Map();
@@ -239,13 +251,14 @@ function generateFormula(input) {
   const heartPool = scored.filter(i => i.note === 'c');
   const basePool = scored.filter(i => i.note === 'f');
 
-  const topCount = 3;
-  const heartCount = 3;
-  const baseCount = 3;
+  const topCount = ENGINE_CONFIG.perNote.top;
+  const heartCount = ENGINE_CONFIG.perNote.heart;
+  const baseCount = ENGINE_CONFIG.perNote.base;
 
-  const topCandidates = topPool.slice(0, 4);
-  const heartCandidates = heartPool.slice(0, 4);
-  const baseCandidates = basePool.slice(0, 4);
+  const slotSize = ENGINE_CONFIG.candidatesPerSlot;
+  const topCandidates = topPool.slice(0, slotSize);
+  const heartCandidates = heartPool.slice(0, slotSize);
+  const baseCandidates = basePool.slice(0, slotSize);
 
   const topCombos = combinations(topCandidates, Math.min(topCount, topCandidates.length)) || [];
   const heartCombos =
@@ -258,11 +271,16 @@ function generateFormula(input) {
   }
 
   const targets = baseNoteTargets(prefs.depth);
-  let best = null;
+  const topList = [];
+  let explored = 0;
 
-  for (const tCombo of topCombos) {
+  outer: for (const tCombo of topCombos) {
     for (const hCombo of heartCombos) {
       for (const bCombo of baseCombos) {
+        explored++;
+        if (explored > ENGINE_CONFIG.maxCombos) {
+          break outer;
+        }
         const all = [...tCombo, ...hCombo, ...bCombo];
 
         const sweetNorm = prefs.sweet / 100;
@@ -309,18 +327,43 @@ function generateFormula(input) {
           }
         };
 
-        if (!best || candidate.scores.total > best.scores.total) {
-          best = candidate;
+        if (!isFormulaValid(candidate, prefs)) {
+          continue;
+        }
+
+        if (!topList.length) {
+          topList.push(candidate);
+        } else {
+          let inserted = false;
+          for (let i = 0; i < topList.length; i++) {
+            if (candidate.scores.total > topList[i].scores.total) {
+              topList.splice(i, 0, candidate);
+              inserted = true;
+              break;
+            }
+          }
+          if (!inserted && topList.length < ENGINE_CONFIG.topK) {
+            topList.push(candidate);
+          }
+          if (topList.length > ENGINE_CONFIG.topK) {
+            topList.length = ENGINE_CONFIG.topK;
+          }
         }
       }
     }
   }
 
-  if (!best) {
+  if (!topList.length) {
     throw new Error('Nessuna formula valida trovata.');
   }
 
-  return best;
+  const best = topList[0];
+  const alternatives = topList.slice(1);
+
+  return {
+    ...best,
+    alternatives
+  };
 }
 
 function getIngredients() {

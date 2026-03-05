@@ -12,21 +12,27 @@
     "deepFamFrac"
   ],
   "weights": {
-    "topFrac": 0.2,
-    "heartFrac": 0.4,
-    "baseFrac": 0.3,
+    "topFrac": 0.12301344954840492,
+    "heartFrac": 0.20301363815467782,
+    "baseFrac": 0.14885990416208708,
     "sweetSlider": 0.1,
     "freshSlider": 0.1,
     "depthSlider": 0.1,
-    "sweetFamFrac": 0.3,
-    "freshFamFrac": 0.3,
-    "deepFamFrac": 0.3
+    "sweetFamFrac": 0.07185084655467185,
+    "freshFamFrac": 0.09055530810136285,
+    "deepFamFrac": 0.06945524094448839
   },
-  "bias": 0.0,
+  "bias": 0.47480873189682316,
   "targets": {
     "topFrac": 0.3,
     "heartFrac": 0.4,
     "baseFrac": 0.3
+  },
+  "training_meta": {
+    "source": "perfume_formulas_ML_ready_complete.csv",
+    "updatedAt": "2026-03-05T20:06:43.475Z",
+    "maxLongevity": 12,
+    "maxSillage": 10,
+    "samples": 7702
   }
 }
-
