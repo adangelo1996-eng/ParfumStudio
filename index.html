@@ -389,7 +389,8 @@ const I18N={
     lockerTitle:'Area Riservata',
     lockerText:'Accesso dedicato al laboratorio e ai tecnici. Inserisci la password per visualizzare dati tecnici, costi completi e certificato IFRA.',
     lockerCancel:'Annulla',
-    lockerOk:'Entra'
+    lockerOk:'Entra',
+    noDesc:'Descrizione non disponibile.'
   },
   en:{
     landingSub:'Formula Generator & IFRA Calculator',
@@ -441,7 +442,8 @@ const I18N={
     lockerTitle:'Reserved Area',
     lockerText:'Access for lab and technicians only. Enter the password to view technical data, full costs and IFRA certificate.',
     lockerCancel:'Cancel',
-    lockerOk:'Enter'
+    lockerOk:'Enter',
+    noDesc:'Description not available.'
   },
   fr:{
     landingSub:'Générateur de formules & calculateur IFRA',
@@ -493,7 +495,8 @@ const I18N={
     lockerTitle:'Zone réservée',
     lockerText:'Accès dédié au laboratoire et aux techniciens. Saisis le mot de passe pour afficher données techniques, coûts complets et certificat IFRA.',
     lockerCancel:'Annuler',
-    lockerOk:'Entrer'
+    lockerOk:'Entrer',
+    noDesc:'Description non disponible.'
   }
 };
 
@@ -555,6 +558,10 @@ function applyLang(){
   if(qs('locker-text')) qs('locker-text').innerText=S.lockerText;
   if(qs('locker-cancel')) qs('locker-cancel').innerText=S.lockerCancel;
   if(qs('locker-ok')) qs('locker-ok').innerText=S.lockerOk;
+  if(typeof FORMULA!=='undefined'&&FORMULA&&FORMULA.items&&FORMULA.items.length){
+    if(ST.s===5) renderPub();
+    if(ST.s===6) renderPriv();
+  }
 }
 
 function setLang(l){
@@ -693,6 +700,13 @@ async function calcFormula(){
   }
 }
 
+function getIngredientDesc(i){
+  if(!i) return (I18N[LANG]&&I18N[LANG].noDesc)||'Descrizione non disponibile.';
+  if(LANG==='fr'&&i.desc_fr) return i.desc_fr;
+  if(LANG==='en'&&i.desc_en) return i.desc_en;
+  return i.desc||(I18N[LANG]&&I18N[LANG].noDesc)||'Descrizione non disponibile.';
+}
+
 function renderPub(){
   const d=document.getElementById('pub-list');
   d.innerHTML=FORMULA.items.map((i,idx)=>`
@@ -703,7 +717,7 @@ function renderPub(){
           <span class="bdg ${i.note}">${i.note=='t'?'Testa':i.note=='c'?'Cuore':'Fondo'}</span>
           ${i.tara?'<span class="bdg warn">TARATO IFRA</span>':''}
         </div>
-        <div class="ri-desc">${i.desc||'Descrizione non disponibile.'}</div>
+        <div class="ri-desc">${getIngredientDesc(i)}</div>
       </div>
       <div class="ri-r">
         <div class="ri-dr">${i.drops} gc</div>
@@ -791,7 +805,7 @@ function renderPriv(){
       <div class="ri-l">
         <div class="ri-n" onclick="toggleIngDesc('priv-${idx}')">${i.n}</div>
         <div class="ri-meta">${dilTxt} · Pura nel fin: ${i.purePct.toFixed(2)}% (Max ${i.ifra||'ND'})</div>
-        <div class="ri-desc">${i.desc||'Descrizione non disponibile.'}</div>
+        <div class="ri-desc">${getIngredientDesc(i)}</div>
       </div>
       <div class="ri-r">
         <div class="ri-dr">€${i.cost.toFixed(2)}</div>

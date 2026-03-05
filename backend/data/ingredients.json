@@ -12,7 +12,9 @@
     "intensita": 7,
     "tipo": "naturale",
     "tags": ["citrus","fresh","sparkling"],
-    "desc": "Agrumato brillante, fresco e leggermente amaro, tipico delle colonie classiche."
+    "desc": "Agrumato brillante, fresco e leggermente amaro, tipico delle colonie classiche.",
+    "desc_en": "Bright, fresh citrus with a slight bitter edge, typical of classic colognes.",
+    "desc_fr": "Agrume vif et frais, légèrement amer, typique des eaux de Cologne classiques."
   },
   {
     "id": "limone_it",
@@ -27,7 +29,9 @@
     "intensita": 8,
     "tipo": "naturale",
     "tags": ["citrus","fresh","zesty"],
-    "desc": "Limone solare e frizzante, dal carattere pulito e scintillante."
+    "desc": "Limone solare e frizzante, dal carattere pulito e scintillante.",
+    "desc_en": "Solar, zesty lemon with a clean, sparkling character.",
+    "desc_fr": "Citron solaire et pétillant, au caractère propre et lumineux."
   },
   {
     "id": "mandarino",
@@ -42,7 +46,9 @@
     "intensita": 7,
     "tipo": "naturale",
     "tags": ["citrus","sweet","juicy"],
-    "desc": "Mandarino dolce e succoso, dal tono morbido e confortante."
+    "desc": "Mandarino dolce e succoso, dal tono morbido e confortante.",
+    "desc_en": "Sweet, juicy mandarin with a soft, comforting tone.",
+    "desc_fr": "Mandariner doux et juteux, au ton doux et réconfortant."
   },
   {
     "id": "linalolo",
@@ -57,7 +63,9 @@
     "intensita": 6,
     "tipo": "sintetico",
     "tags": ["floral","jasminic","fresh"],
-    "desc": "Floreale leggero e trasparente, con sfumature di gelsomino fresco."
+    "desc": "Floreale leggero e trasparente, con sfumature di gelsomino fresco.",
+    "desc_en": "Light, transparent floral with fresh jasmine nuances.",
+    "desc_fr": "Floral léger et transparent, avec des nuances de jasmin frais."
   },
   {
     "id": "pepe_nero",
@@ -72,7 +80,9 @@
     "intensita": 8,
     "tipo": "naturale",
     "tags": ["spicy","warm"],
-    "desc": "Speziato secco e leggermente pungente, ricorda chicchi di pepe macinati al momento."
+    "desc": "Speziato secco e leggermente pungente, ricorda chicchi di pepe macinati al momento.",
+    "desc_en": "Dry, slightly pungent spice, reminiscent of freshly ground black pepper.",
+    "desc_fr": "Épice sèche et légèrement piquante, évoque le poivre noir moulu."
   },
   {
     "id": "manzanate_1_tri",
@@ -87,7 +97,9 @@
     "intensita": 9,
     "tipo": "sintetico",
     "tags": ["fruity","juicy","powerful"],
-    "desc": "Accordo fruttato intenso, croccante e succoso, quasi da caramella."
+    "desc": "Accordo fruttato intenso, croccante e succoso, quasi da caramella.",
+    "desc_en": "Intense fruity accord, crisp and juicy, almost candy-like.",
+    "desc_fr": "Accord fruité intense, croquant et juteux, presque bonbon."
   },
   {
     "id": "hedione",
@@ -102,7 +114,9 @@
     "intensita": 7,
     "tipo": "sintetico",
     "tags": ["floral","jasmine","diffusive"],
-    "desc": "Floreale luminoso e vellutato, amplifica il carattere di gelsomino e fiori bianchi."
+    "desc": "Floreale luminoso e vellutato, amplifica il carattere di gelsomino e fiori bianchi.",
+    "desc_en": "Luminous, velvety floral that amplifies jasmine and white flowers.",
+    "desc_fr": "Floral lumineux et velouté, amplifie le jasmin et les fleurs blanches."
   },
   {
     "id": "damascenone_1_tri",
@@ -117,7 +131,9 @@
     "intensita": 10,
     "tipo": "sintetico",
     "tags": ["rose","fruity","powerful"],
-    "desc": "Rosa profondamente fruttata, molto intensa, con sfumature di prugna e ribes."
+    "desc": "Rosa profondamente fruttata, molto intensa, con sfumature di prugna e ribes.",
+    "desc_en": "Deeply fruity rose, very intense, with plum and blackcurrant nuances.",
+    "desc_fr": "Rose profondément fruitée, très intense, avec des nuances prune et cassis."
   },
   {
     "id": "iso_e_super",
@@ -132,7 +148,9 @@
     "intensita": 8,
     "tipo": "sintetico",
     "tags": ["woody","cedar","modern"],
-    "desc": "Legnoso morbido e moderno, tipo cedro pulito con un tocco vellutato."
+    "desc": "Legnoso morbido e moderno, tipo cedro pulito con un tocco vellutato.",
+    "desc_en": "Soft, modern woody note, like clean cedar with a velvety touch.",
+    "desc_fr": "Boisé doux et moderne, type cèdre propre avec une touche veloutée."
   },
   {
     "id": "ambrox_10_ipm",
@@ -147,7 +165,9 @@
     "intensita": 9,
     "tipo": "sintetico",
     "tags": ["amber","ambré","warm"],
-    "desc": "Ambrato caldo e avvolgente, con sensazione di pelle pulita e resine morbide."
+    "desc": "Ambrato caldo e avvolgente, con sensazione di pelle pulita e resine morbide.",
+    "desc_en": "Warm, enveloping amber with a clean skin and soft resins feel.",
+    "desc_fr": "Ambré chaud et enveloppant, sensation de peau propre et résines douces."
   },
   {
     "id": "vanillina_10_tri",
@@ -162,7 +182,9 @@
     "intensita": 8,
     "tipo": "sintetico",
     "tags": ["vanilla","sweet","gourmand"],
-    "desc": "Vaniglia dolce e cremosa, dal tono gourmand quasi zuccherino."
+    "desc": "Vaniglia dolce e cremosa, dal tono gourmand quasi zuccherino.",
+    "desc_en": "Sweet, creamy vanilla with an almost sugary gourmand tone.",
+    "desc_fr": "Vanille douce et crémeuse, ton gourmand presque sucré."
   },
   {
     "id": "cumarina_10_tri",
@@ -177,7 +199,9 @@
     "intensita": 9,
     "tipo": "sintetico",
     "tags": ["coumarin","almond","tonka"],
-    "desc": "Aroma di fava tonka: mandorlato, fieno secco e vanigliato insieme."
+    "desc": "Aroma di fava tonka: mandorlato, fieno secco e vanigliato insieme.",
+    "desc_en": "Tonka bean aroma: almond, dry hay and vanillic combined.",
+    "desc_fr": "Arôme de fève tonka : amande, foin sec et vanillé ensemble."
   },
   {
     "id": "muschio_galax_50",
@@ -192,7 +216,9 @@
     "intensita": 7,
     "tipo": "sintetico",
     "tags": ["musk","clean","soft"],
-    "desc": "Muschio soffice e pulito, effetto \"pelle lavata\" molto morbido."
+    "desc": "Muschio soffice e pulito, effetto \"pelle lavata\" molto morbido.",
+    "desc_en": "Soft, clean musk with a gentle \"clean skin\" effect.",
+    "desc_fr": "Musc doux et propre, effet \"peau lavée\" très doux."
   },
   {
     "id": "patchouly",
@@ -207,7 +233,9 @@
     "intensita": 8,
     "tipo": "naturale",
     "tags": ["woody","earthy","dark"],
-    "desc": "Legnoso scuro, terroso e leggermente umido, tipico del patchouli."
+    "desc": "Legnoso scuro, terroso e leggermente umido, tipico del patchouli.",
+    "desc_en": "Dark, earthy woody note, slightly damp, typical of patchouli.",
+    "desc_fr": "Boisé sombre, terreux et légèrement humide, typique du patchouli."
   },
   {
     "id": "vetiver",
@@ -222,7 +250,9 @@
     "intensita": 8,
     "tipo": "naturale",
     "tags": ["woody","smoky","earthy"],
-    "desc": "Radice legnosa, secca e affumicata, con un fondo terroso elegante."
+    "desc": "Radice legnosa, secca e affumicata, con un fondo terroso elegante.",
+    "desc_en": "Woody root, dry and smoky, with an elegant earthy base.",
+    "desc_fr": "Racine boisée, sèche et fumée, avec un fond terreux élégant."
   }
 ]
 
